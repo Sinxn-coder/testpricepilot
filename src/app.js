@@ -28,6 +28,9 @@ app.use(loggerMiddleware);
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("/health", (req, res) => {
+  if (req.accepts("html")) {
+    return res.sendFile(path.join(__dirname, "../public/health.html"));
+  }
   res.status(200).json({ status: "ok" });
 });
 
