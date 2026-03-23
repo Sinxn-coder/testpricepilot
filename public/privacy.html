@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | PricePilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="legal.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <a href="/" class="logo-wrap">
+      <i data-lucide="compass" style="color: var(--accent); width: 28px; height: 28px;"></i>
+      <span>PricePilot</span>
+    </a>
+
+    <nav class="nav-group">
+      <span class="nav-label">Legal Center</span>
+      <a href="/privacy" class="nav-item active">
+        <i data-lucide="shield"></i>
+        <span>Privacy Policy</span>
+      </a>
+      <a href="/terms" class="nav-item">
+        <i data-lucide="file-text"></i>
+        <span>Terms of Service</span>
+      </a>
+    </nav>
+
+    <a href="/" class="exit-btn">
+      <i data-lucide="arrow-left"></i>
+      Exit Legal Center
+    </a>
+  </aside>
+
+  <main class="main-content">
+    <div class="legal-header">
+      <div class="breadcrumbs">Legal Center / Privacy Policy</div>
+      <h1>Privacy Policy</h1>
+      <div class="last-updated">Updated March 23, 2026</div>
+    </div>
+
+    <section>
+      <p>At PricePilot, we prioritize the security and confidentiality of your pricing and customer data. This policy explains how we process information when you utilize our API services to optimize and track product prices across international markets.</p>
+    </section>
+
+    <section id="collect">
+      <h2><i data-lucide="database"></i> 1. Information We Collect</h2>
+      <p>To provide accurate tax calculations and conversion tracking, we collect the following datasets:</p>
+      <ul>
+        <li><strong>Account Identifiers:</strong> Your API keys (secured with SHA-256) and associated email addresses.</li>
+        <li><strong>Transactional Metadata:</strong> Base prices, source traffic identifiers, and user country codes for tax processing.</li>
+        <li><strong>Performance Metrics:</strong> Anonymized conversion events to help visualize pricing effectiveness in your dashboard.</li>
+      </ul>
+    </section>
+
+    <section id="usage">
+      <h2><i data-lucide="zap"></i> 2. How Information is Used</h2>
+      <p>The primary purpose of data processing in PricePilot is the technical execution of our pricing algorithms:</p>
+      <div class="highlight-box">
+        <p style="margin-bottom: 0; color: #fff; font-weight: 600;">We never share your specific product pricing strategies or margin data with other customers. Your data remains isolated within your account environment.</p>
+      </div>
+      <ul>
+        <li><strong>Dynamic Taxation:</strong> Mapping real-time VAT/GST rates to your transaction requests.</li>
+        <li><strong>Price Optimization:</strong> Applying psychological rounding algorithms tailored to your target currency.</li>
+        <li><strong>Security:</strong> Monitoring API traffic to prevent unauthorized access and maintain service uptime.</li>
+      </ul>
+    </section>
+
+    <section id="security">
+      <h2><i data-lucide="lock"></i> 3. Security Framework</h2>
+      <p>PricePilot is built on a "Security First" architecture, ensuring that your data is protected at every layer:</p>
+      <ul>
+        <li><strong>Encryption:</strong> All API requests are transmitted via TLS 1.3 encrypted tunnels.</li>
+        <li><strong>Key Isolation:</strong> API keys are hashed and stored separately from usage logs.</li>
+        <li><strong>Minimal Retention:</strong> We do not store full transaction details longer than necessary for auditing purposes.</li>
+      </ul>
+    </section>
+
+    <section id="rights">
+      <h2><i data-lucide="user-check"></i> 4. Controller & Data Rights</h2>
+      <p>Under GDPR and CCPA, you retain full control over your account data. You may request an export of your usage logs or the permanent deletion of your API keys via our support channels.</p>
+    </section>
+  </main>
+
+  <script>
+    lucide.createIcons();
+    
+    // Smart Exit Logic
+    const exitBtn = document.querySelector('.exit-btn');
+    const entryPage = sessionStorage.getItem('legalEntryPage');
+    const currentReferrer = document.referrer;
+    
+    // If we're coming from outside the legal center, store that page
+    if (currentReferrer && !currentReferrer.includes('/privacy') && !currentReferrer.includes('/terms')) {
+      sessionStorage.setItem('legalEntryPage', currentReferrer);
+    }
+    
+    // Set exit link to stored entry page or home
+    if (exitBtn) {
+      exitBtn.href = sessionStorage.getItem('legalEntryPage') || '/';
+    }
+  </script>
+</body>
+</html>

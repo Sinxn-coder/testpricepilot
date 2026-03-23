@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PricePilot | Optimize Your SaaS Pricing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- --- Header --- -->
+  <header id="header">
+    <div class="container header-container">
+      <a href="/" class="logo-wrap">
+        <i data-lucide="compass" style="color: var(--accent);"></i> PricePilot
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="#how-it-works" class="nav-link">How it Works</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="/preview" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.85rem;">API Preview</a>
+      </nav>
+
+      <button class="menu-btn" id="menu-btn">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- --- Mobile Navigation --- -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#how-it-works" class="mobile-link">How it Works</a>
+    <a href="#features" class="mobile-link">Features</a>
+    <a href="/preview" class="mobile-link">API Preview</a>
+    <a href="mailto:hello@pricepilot.io" class="mobile-link">Support</a>
+  </div>
+
+  <!-- --- Hero Section --- -->
+  <section class="hero reveal">
+    <div class="container">
+      <h1 class="gradient-text">Global Pricing,<br>Optimized in Milliseconds.</h1>
+      <p>Automatically handle VAT/GST and apply psychological pricing rules to boost your SaaS conversion rates while protecting your margins.</p>
+      <div class="hero-btns">
+        <a href="/preview" class="btn btn-primary">Start Building <i data-lucide="arrow-right" style="width: 16px; margin-left: 8px;"></i></a>
+        <a href="#how-it-works" class="btn btn-outline">See How it Works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- How it Works --- -->
+  <section id="how-it-works" class="reveal">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 12px;">The PricePilot Workflow</h2>
+      <p style="text-align: center; color: var(--text-muted); max-width: 500px; margin: 0 auto 48px;">Three simple steps to transform your checkout experience.</p>
+      
+      <div class="steps-grid">
+        <div class="card">
+          <span class="step-number">STEP 01</span>
+          <h3>Connect API</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Integrate our lightweight API into your checkout flow with just a few lines of code.</p>
+        </div>
+        <div class="card">
+          <span class="step-number">STEP 02</span>
+          <h3>Dynamic Tax</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">We automatically calculate the correct VAT/GST based on the customer's geo-location.</p>
+        </div>
+        <div class="card">
+          <span class="step-number">STEP 03</span>
+          <h3>Psychology Rounding</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Prices are adjusted to conversion-friendly values like .99 or .95 without breaching your min-margin.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Live Example --- -->
+  <section style="background: var(--surface2);" class="reveal">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 48px;">Better Pricing, Automatically.</h2>
+      
+      <div class="demo-card">
+        <div class="demo-side">
+          <span class="price-label">Original Price (After Tax)</span>
+          <div class="price-value" style="color: var(--text-muted); text-decoration: line-through; font-size: 1.5rem;">$10.83</div>
+          <div class="price-value" style="margin-top: 4px;">$11.12</div>
+          <p style="margin-top: 24px; font-size: 0.9rem; color: var(--text-muted);">Standard rounding creates awkward pricing that lowers trust.</p>
+        </div>
+        <div class="demo-side" style="background: var(--surface2); border-left: 1px solid var(--border);">
+          <span class="price-label">PricePilot Optimized <i data-lucide="sparkles" style="width: 14px; color: var(--green);"></i></span>
+          <div class="price-value price-optimized">$10.99</div>
+          <p style="margin-top: 24px; font-size: 0.9rem; color: var(--text-muted);">Psychological pricing feels familiar and improves conversion by up to 12%.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Key Features --- -->
+  <section id="features" class="reveal">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 48px;">Engineered for Performance</h2>
+      
+      <div class="features-grid">
+        <div class="card">
+          <div class="feature-icon"><i data-lucide="zap"></i></div>
+          <h3>Ultra Fast</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Global edge caching ensures sub-50ms response times worldwide.</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon"><i data-lucide="globe"></i></div>
+          <h3>Global Tax</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Support for 15+ major markets with automated VAT/GST updates.</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon"><i data-lucide="shield-check"></i></div>
+          <h3>Margin Guard</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Our engine never rounds down if it breaches your minimum profit margin.</p>
+        </div>
+        <div class="card">
+          <div class="feature-icon"><i data-lucide="bar-chart-3"></i></div>
+          <h3>Analytics</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Track every conversion and see how optimized pricing impacts your revenue.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Developer Hub --- -->
+  <section style="background: var(--surface2);" class="reveal">
+    <div class="container dev-hub-grid">
+      <div>
+        <h2 style="margin-bottom: 24px;">Built by Developers, for Developers.</h2>
+        <p style="color: var(--text-muted); margin-bottom: 32px;">Integrate PricePilot into your stack in minutes. Use our simple REST API or native SDKs to get started.</p>
+        <ul style="list-style: none; color: var(--text);">
+          <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+            <i data-lucide="check-circle" style="color: var(--green); width: 18px;"></i> Simple JSON API
+          </li>
+          <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+            <i data-lucide="check-circle" style="color: var(--green); width: 18px;"></i> Secure Bearer Auth
+          </li>
+          <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+            <i data-lucide="check-circle" style="color: var(--green); width: 18px;"></i> Comprehensive Documentation
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div class="code-block rotated">
+<pre>
+<span class="code-comment">// Fetch optimized price for India</span>
+<span class="code-keyword">const</span> res = <span class="code-keyword">await</span> fetch(<span class="code-string">'/calculate-price'</span>, {
+  method: <span class="code-string">'POST'</span>,
+  headers: { <span class="code-string">'Authorization'</span>: <span class="code-string">'Bearer api_key'</span> },
+  body: JSON.stringify({
+    base_price: <span class="code-num">10</span>,
+    country: <span class="code-string">'IN'</span>,
+    min_margin: <span class="code-num">10</span>
+  })
+});
+
+<span class="code-keyword">const</span> { optimized_final_price } = <span class="code-keyword">await</span> res.json();
+<span class="code-comment">// Output: 10.99</span>
+</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Pricing Section --- -->
+  <section id="pricing" class="reveal" style="background: var(--surface);">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 12px;">Simple, Transparent Pricing</h2>
+      <p style="text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 64px;">Boost your ROI from day one. Scale as you grow with our flexible plans.</p>
+      
+      <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+        <!-- Free -->
+        <div class="card" style="border: 1px solid var(--border); background: var(--surface2);">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px;">Individual</div>
+          <h3 style="font-size: 2rem; margin-bottom: 12px;">Free</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 32px;">For side projects and small-scale testing.</p>
+          <ul style="list-style: none; margin-bottom: 32px;">
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> 100 requests / month</li>
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> Basic Tax Lookup</li>
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> Community Support</li>
+          </ul>
+          <a href="/preview" class="btn btn-outline" style="width: 100%; justify-content: center;">Get Started Free</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="card" style="border: 2px solid var(--accent); background: var(--surface); transform: scale(1.05); box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2); position: relative;">
+          <div style="position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 4px 16px; border-radius: 100px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">Most Popular</div>
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; margin-bottom: 16px;">Professional</div>
+          <h3 style="font-size: 2rem; margin-bottom: 12px;">$49<span style="font-size: 1rem; color: var(--text-muted);">/mo</span></h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 32px;">The complete engine for growing SaaS platforms.</p>
+          <ul style="list-style: none; margin-bottom: 32px;">
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> 50,000 requests / month</li>
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> Psychological Pricing Engine</li>
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> Analytics Dashboard</li>
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> Email Support</li>
+          </ul>
+          <a href="/preview" class="btn btn-primary" style="width: 100%; justify-content: center;">Go Pro Now</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="card" style="border: 1px solid var(--border); background: var(--surface2);">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 16px;">Enterprise</div>
+          <h3 style="font-size: 2rem; margin-bottom: 12px;">Custom</h3>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 32px;">Tailored solutions for global enterprises.</p>
+          <ul style="list-style: none; margin-bottom: 32px;">
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> Unlimited Requests</li>
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> Custom Tax Logic</li>
+            <li style="margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: center; gap: 10px;"><i data-lucide="check" style="color: var(--green); width: 16px;"></i> 99.9% SLA Guarantee</li>
+          </ul>
+          <a href="mailto:hello@pricepilot.io" class="btn btn-outline" style="width: 100%; justify-content: center;">Contact Sales</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <div class="container">
+      <div class="footer-nav">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="mailto:hello@pricepilot.io">Support</a>
+        <a href="/preview">API Reference</a>
+      </div>
+      <p class="copyright">&copy; 2026 PricePilot API. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="landing.js"></script>
+
+</body>
+</html>

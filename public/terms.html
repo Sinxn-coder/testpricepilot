@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service | PricePilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="legal.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <a href="/" class="logo-wrap">
+      <i data-lucide="compass" style="color: var(--accent); width: 28px; height: 28px;"></i>
+      <span>PricePilot</span>
+    </a>
+
+    <nav class="nav-group">
+      <span class="nav-label">Legal Center</span>
+      <a href="/privacy" class="nav-item">
+        <i data-lucide="shield"></i>
+        <span>Privacy Policy</span>
+      </a>
+      <a href="/terms" class="nav-item active">
+        <i data-lucide="file-text"></i>
+        <span>Terms of Service</span>
+      </a>
+    </nav>
+
+    <a href="/" class="exit-btn">
+      <i data-lucide="arrow-left"></i>
+      Exit Legal Center
+    </a>
+  </aside>
+
+  <main class="main-content">
+    <div class="legal-header">
+      <div class="breadcrumbs">Legal Center / Terms of Service</div>
+      <h1>Terms of Service</h1>
+      <div class="last-updated">Updated March 23, 2026</div>
+    </div>
+
+    <section>
+      <p>Welcome to PricePilot. By integrating our API into your platforms, you agree to the following terms governing the usage, limitations, and responsibilities associated with our pricing optimization engine.</p>
+    </section>
+
+    <section id="usage">
+      <h2><i data-lucide="key"></i> 1. API Usage & Licensing</h2>
+      <p>We grant you a revocable, non-exclusive license to use the PricePilot API for the purpose of optimizing product pricing and tracking sales data. Your usage is subject to the following principles:</p>
+      <ul>
+        <li><strong>Authorized Access:</strong> You are responsible for maintaining the confidentiality of your API keys. Any activity performed using your keys is attributed to your account.</li>
+        <li><strong>Commercial Purpose:</strong> The Service is intended for legitimate business operations. Automated scraping or destructive load testing is strictly prohibited.</li>
+        <li><strong>Service Limits:</strong> Usage is capped based on your selected tier. Requests exceeding these limits may be throttled to ensure system stability.</li>
+      </ul>
+    </section>
+
+    <section id="pricing">
+      <h2><i data-lucide="trending-up"></i> 2. Optimization Responsibility</h2>
+      <p>PricePilot provides advanced algorithms for tax mapping and psychological rounding. However, the final commercial decision remains with the merchant:</p>
+      <div class="highlight-box">
+        <p style="margin-bottom: 0; color: #fff; font-weight: 600;">While we aim for 99.9% accuracy in tax calculations, PricePilot is an advisory tool. You should verify that optimized prices meet your specific local legal and tax requirements before publishing.</p>
+      </div>
+    </section>
+
+    <section id="liability">
+      <h2><i data-lucide="alert-triangle"></i> 3. Limitation of Liability</h2>
+      <p>PricePilot is provided on an "as-is" basis. We are not liable for any revenue loss, margin erosion, or tax penalization resulting from the algorithmic recommendations of the API.</p>
+      <ul>
+        <li><strong>Uptime:</strong> We strive for 99.9% uptime but do not guarantee uninterrupted access during maintenance windows.</li>
+        <li><strong>Data Integrity:</strong> We are not responsible for pricing errors caused by incorrect input parameters (e.g., wrong country codes or base currencies).</li>
+      </ul>
+    </section>
+
+    <section id="termination">
+      <h2><i data-lucide="door-closed"></i> 4. Termination of Service</h2>
+      <p>We reserve the right to suspend API access for accounts that violate our usage policies or engage in fraudulent activities. You may terminate your association with PricePilot by deleting your API keys at any time.</p>
+    </section>
+  </main>
+
+  <script>
+    lucide.createIcons();
+    
+    // Smart Exit Logic
+    const exitBtn = document.querySelector('.exit-btn');
+    const entryPage = sessionStorage.getItem('legalEntryPage');
+    const currentReferrer = document.referrer;
+    
+    // If we're coming from outside the legal center, store that page
+    if (currentReferrer && !currentReferrer.includes('/privacy') && !currentReferrer.includes('/terms')) {
+      sessionStorage.setItem('legalEntryPage', currentReferrer);
+    }
+    
+    // Set exit link to stored entry page or home
+    if (exitBtn) {
+      exitBtn.href = sessionStorage.getItem('legalEntryPage') || '/';
+    }
+  </script>
+</body>
+</html>

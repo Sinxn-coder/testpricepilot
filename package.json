@@ -1,0 +1,24 @@
+{
+  "name": "pricepilot-api",
+  "version": "1.0.0",
+  "description": "PricePilot MVP - pricing optimization API",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "gen:key": "node -e \"const { randomBytes } = require('crypto'); console.log('pp_live_' + randomBytes(24).toString('hex'));\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
