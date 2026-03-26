@@ -24,6 +24,7 @@ create table if not exists public.usage_logs (
 alter table public.usage_logs enable row level security;
 
 -- 3. Policy: Users can only view their own usage logs
+drop policy if exists "Users can view own usage logs" on public.usage_logs;
 create policy "Users can view own usage logs" 
   on public.usage_logs 
   for select 

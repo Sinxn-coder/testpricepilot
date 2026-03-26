@@ -34,6 +34,7 @@ begin
 end;
 $$ language plpgsql;
 
+drop trigger if exists set_updated_at on public.users;
 create trigger set_updated_at
 before update on public.users
 for each row
@@ -46,6 +47,7 @@ alter table public.users enable row level security;
 -- 5. Basic Policy: Users can read their own data
 -- Note: auth.uid() = id only works if you're using Supabase Auth alongside this table.
 -- If you use custom API keys, you may need a separate policy.
+drop policy if exists "Users can view own profile" on public.users;
 create policy "Users can view own profile" 
   on public.users 
   for select 

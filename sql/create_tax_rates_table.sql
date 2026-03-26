@@ -10,16 +10,18 @@ create table if not exists public.tax_rates (
 );
 
 -- 2. Add trigger for updated_at
+drop trigger if exists set_tax_rates_updated_at on public.tax_rates;
 create trigger set_tax_rates_updated_at
-before update on public.tax_rates
-for each row
-execute function public.handle_updated_at();
+  before update on public.tax_rates
+  for each row
+  execute function public.handle_updated_at();
 
 -- 3. Enable RLS
 alter table public.tax_rates enable row level security;
 
 -- 4. Public access (read-only)
 -- Tax rates are usually public data for the API to consume.
+drop policy if exists "Allow public read access" on public.tax_rates;
 create policy "Allow public read access" 
   on public.tax_rates 
   for select 

@@ -27,6 +27,7 @@ create table if not exists public.pricing_logs (
 alter table public.pricing_logs enable row level security;
 
 -- 3. Policy: Users can only view their own pricing logs
+drop policy if exists "Users can view own pricing logs" on public.pricing_logs;
 create policy "Users can view own pricing logs" 
   on public.pricing_logs 
   for select 
