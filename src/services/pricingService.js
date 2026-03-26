@@ -42,25 +42,46 @@ function getSourceMultiplier(source) {
   return 1;
 }
 
-function applyFinalRounding(amount, country) {
-  const normalizedCountry = String(country || "").toUpperCase();
+function roundToPsych(value, style = 0.99) {
+  const ceil = Math.ceil(value);
+  return roundTo2(Math.max(style, ceil - (1 - style)));
+}
 
+function applyFinalRounding(amount, country, plan = "free") {
+  const normalizedCountry = String(country || "").toUpperCase();
+  const normalizedPlan = String(plan || "").toLowerCase();
+
+  // Free Plan: Forced .99 only
+  if (normalizedPlan === "free") {
+    return roundToPsych(amount, 0.99);
+  }
+
+  // Starter Plan: .99, .95, .90
+  if (normalizedPlan === "starter") {
+    const floor = Math.floor(amount);
+    const options = [0.99, 0.95, 0.90];
+    const style = options[floor % 3]; // Simple deterministic variety
+    return roundTo2(floor + style);
+  }
+
+  // Growth & Pro: Full Engine (Country specific + Smart logic)
   if (normalizedCountry === "IN") {
     return roundTo2(roundForIndia(amount));
   }
   if (normalizedCountry === "US") {
     return roundTo2(roundForUs(amount));
   }
-  return roundToPsych99(amount);
+  
+  return roundToPsych(amount, 0.99);
 }
 
-function optimizePrice({ basePrice, country, source }) {
+function optimizePrice({ basePrice, country, source, plan }) {
   const countryMultiplier = getCountryMultiplier(country);
   const sourceMultiplier = getSourceMultiplier(source);
 
   const afterCountry = basePrice * countryMultiplier;
   const afterSource = afterCountry * sourceMultiplier;
-  const finalPrice = applyFinalRounding(afterSource, country);
+  const finalPrice = applyFinalRounding(afterSource, country, plan);
 
   return {
     finalPrice,

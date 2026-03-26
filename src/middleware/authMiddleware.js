@@ -15,15 +15,15 @@ async function authMiddleware(req, res, next) {
 
     const { data: user, error } = await supabase
       .from("users")
-      .select("id, email, plan, api_key")
-      .eq("api_key", hashedToken)
+      .select("id, email, plan, api_key_hash")
+      .eq("api_key_hash", hashedToken)
       .maybeSingle();
 
     if (error) {
       return next(error);
     }
 
-    if (!user || !safeEqual(user.api_key, hashedToken)) {
+    if (!user || !safeEqual(user.api_key_hash, hashedToken)) {
       return res.status(401).json({ error: "Invalid API key" });
     }
 

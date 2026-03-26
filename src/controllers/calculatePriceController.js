@@ -7,7 +7,8 @@
  */
 
 const { getSupabaseClient } = require("../config/supabase");
-const { getTaxRate, applyTax, applyPsychologicalPricing } = require("../services/taxService");
+const { getTaxRate, applyTax } = require("../services/taxService");
+const { optimizePrice } = require("../services/pricingService");
 const { buildCacheKey, getCachedResult, setCachedResult } = require("../services/cacheService");
 const { validateCalculatePricePayload } = require("../utils/validation");
 
@@ -44,8 +45,13 @@ async function calculatePriceHandler(req, res, next) {
     // 5. Apply tax to base price
     const { taxAmount, taxedPrice } = applyTax(base_price, taxRate);
 
-    // 6. Apply psychological pricing (respects min_margin)
-    const optimizedPrice = applyPsychologicalPricing(taxedPrice, base_price, min_margin);
+    // 6. Apply psychological pricing & tier logic
+    const { finalPrice: optimizedPrice } = optimizePrice({
+      basePrice: taxedPrice,
+      country: countryCode,
+      source: "api_v1",
+      plan: req.authUser?.plan || "free"
+    });
 
     // 7. Build response
     const responseBody = {

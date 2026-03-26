@@ -10,7 +10,7 @@ create table if not exists public.users (
   email text unique not null,
   api_key_hash text unique not null,
   api_key_preview text,
-  plan text not null default 'free' check (plan in ('free', 'pro', 'enterprise')),
+  plan text not null default 'free' check (plan in ('free', 'starter', 'growth', 'pro', 'enterprise')),
   
   -- Profile Metadata
   full_name text,
