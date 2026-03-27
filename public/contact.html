@@ -19,13 +19,14 @@
       grid-template-columns: 1fr 1.5fr;
       gap: 60px;
       margin-bottom: 100px;
+      align-items: stretch;
     }
     .contact-info-card {
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 40px;
       border-radius: var(--radius);
-      height: fit-content;
+      height: 100%;
     }
     .info-item {
       display: flex;
@@ -232,10 +233,27 @@
       lucide.createIcons();
     });
 
-    // Form Handle (Mock)
+    // Form Handle (Structured Email)
     document.getElementById('contactForm').addEventListener('submit', (e) => {
       e.preventDefault();
-      alert('Thanks for reaching out! Our team will contact you shortly.');
+      
+      const firstName = e.target.querySelector('input[placeholder="John"]').value;
+      const lastName = e.target.querySelector('input[placeholder="Doe"]').value;
+      const email = e.target.querySelector('input[type="email"]').value;
+      const subject = e.target.querySelector('select').value;
+      const message = e.target.querySelector('textarea').value;
+
+      const body = `PricePilot Contact Request\n\n` +
+                   `Sender: ${firstName} ${lastName}\n` +
+                   `Email: ${email}\n` +
+                   `Subject: ${subject}\n\n` +
+                   `Message:\n${message}`;
+
+      const mailtoUrl = `mailto:infoopricepilot@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      window.location.href = mailtoUrl;
+      
+      alert('Opening your email client to send the message...');
     });
   </script>
 </body>
