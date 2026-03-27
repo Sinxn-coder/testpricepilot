@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | PricePilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .about-hero {
+      padding: 180px 0 100px;
+      text-align: center;
+      position: relative;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-top: 80px;
+    }
+    .value-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px;
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+    .value-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-5px);
+    }
+    @media (max-width: 992px) {
+      .story-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- --- Header --- -->
+  <header id="header" class="scrolled">
+    <div class="container header-container">
+      <a href="/" class="logo-wrap">
+        <i data-lucide="compass" style="color: var(--accent);"></i> PricePilot
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="/#how-it-works" class="nav-link">How it Works</a>
+        <a href="/#features" class="nav-link">Features</a>
+        <a href="/preview" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.85rem;">API Preview</a>
+      </nav>
+
+      <button class="menu-btn" id="menu-btn">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- --- Mobile Navigation --- -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="/#how-it-works" class="mobile-link">How it Works</a>
+    <a href="/#features" class="mobile-link">Features</a>
+    <a href="/preview" class="mobile-link">API Preview</a>
+    <a href="mailto:hello@pricepilot.io" class="mobile-link">Support</a>
+  </div>
+
+  <!-- --- About Hero --- -->
+  <section class="about-hero reveal visible">
+    <div class="container">
+      <h1 class="gradient-text">Beyond the Decimal Point.</h1>
+      <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">Our mission is to help SaaS companies scale globally by automating the hidden friction of international pricing and tax compliance.</p>
+    </div>
+  </section>
+
+  <!-- --- Our Story --- -->
+  <section style="background: var(--surface2);" class="reveal visible">
+    <div class="container">
+      <div class="story-grid">
+        <div>
+          <h2 style="margin-bottom: 24px;">The Problem</h2>
+          <p style="color: var(--text-muted); margin-bottom: 20px;">For most developers, global pricing is an afterthought. You set a base price, maybe add a static tax percentage, and hope for the best. But international markets are complex. VAT and GST rules change constantly, and awkward rounded prices (like $11.12) lower customer trust and hurt conversion rates.</p>
+          <p style="color: var(--text-muted);">We saw developers wasting weeks building internal tax engines and rounding logic that were hard to maintain and prone to errors. We knew there had to be a better way.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--accent); background: var(--surface);">
+          <h3 style="margin-bottom: 16px;">"PricePilot was born out of a simple realization: Pricing shouldn't just be an input field. It should be an automated service that protects your margins and delights your users."</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- Our Solution --- -->
+  <section class="reveal visible">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 64px;">
+        <h2>Built for Builders</h2>
+        <p style="color: var(--text-muted);">We value performance, precision, and the developer experience above all else.</p>
+      </div>
+
+      <div class="pricing-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+        <div class="value-card">
+          <div class="feature-icon"><i data-lucide="zap"></i></div>
+          <h3>Developer-First</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">We build APIs we actually want to use. Documentation you can read in 2 minutes, and integration that takes less than 10.</p>
+        </div>
+        <div class="value-card">
+          <div class="feature-icon"><i data-lucide="cpu"></i></div>
+          <h3>High Performance</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Our engine is optimized for speed. Price calculations and tax lookups happen in milliseconds, not seconds.</p>
+        </div>
+        <div class="value-card">
+          <div class="feature-icon"><i data-lucide="shield"></i></div>
+          <h3>Margin Protection</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">We never sacrifice your profit. Our smart rounding logic ensures you always stay above your minimum margin threshold.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- CTA --- -->
+  <section style="background: var(--surface2); text-align: center;" class="reveal visible">
+    <div class="container">
+      <h2 style="margin-bottom: 24px;">Ready to Optimize?</h2>
+      <p style="color: var(--text-muted); margin-bottom: 40px;">Join hundreds of developers who have optimized their global revenue with PricePilot.</p>
+      <a href="/preview" class="btn btn-primary">Try the API Preview</a>
+    </div>
+  </section>
+
+  <!-- --- Footer --- -->
+  <footer>
+    <div class="container">
+      <div class="footer-nav">
+        <a href="/about" style="color: var(--accent); font-weight: 600;">About Us</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="mailto:hello@pricepilot.io">Support</a>
+        <a href="/preview">API Reference</a>
+      </div>
+      <p class="copyright">&copy; 2026 PricePilot API. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Lucide Icons
+    lucide.createIcons();
+
+    // Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileNav = document.getElementById('mobile-nav');
+    
+    menuBtn.addEventListener('click', () => {
+      mobileNav.classList.toggle('open');
+      const icon = menuBtn.querySelector('i');
+      if (mobileNav.classList.contains('open')) {
+        icon.setAttribute('data-lucide', 'x');
+      } else {
+        icon.setAttribute('data-lucide', 'menu');
+      }
+      lucide.createIcons();
+    });
+  </script>
+
+</body>
+</html>
