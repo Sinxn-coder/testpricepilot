@@ -18,7 +18,7 @@ app.use(
         "script-src": ["'self'", "https://unpkg.com", "'unsafe-inline'"],
         "script-src-elem": ["'self'", "https://unpkg.com", "'unsafe-inline'"],
         "img-src": ["'self'", "data:", "https://*"],
-        "connect-src": ["'self'"],
+        "connect-src": ["'self'", "https://formspree.io", "https://unpkg.com", "https://*.supabase.co"],
       },
     },
   })
