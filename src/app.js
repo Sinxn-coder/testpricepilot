@@ -15,10 +15,10 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        "script-src": ["'self'", "https://unpkg.com", "'unsafe-inline'"],
-        "script-src-elem": ["'self'", "https://unpkg.com", "'unsafe-inline'"],
+        "script-src": ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
+        "script-src-elem": ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
         "img-src": ["'self'", "data:", "https://*"],
-        "connect-src": ["'self'", "https://formspree.io", "https://unpkg.com", "https://*.supabase.co"],
+        "connect-src": ["'self'", "https://formspree.io", "https://unpkg.com", "https://*.supabase.co", "https://cdn.jsdelivr.net"],
       },
     },
   })
