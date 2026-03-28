@@ -53,6 +53,11 @@ document.querySelectorAll('.nav-item[data-target]').forEach(item => {
     const titleSpan = item.querySelector('span');
     if (titleSpan) document.getElementById('page-title').textContent = titleSpan.textContent;
 
+    // Trigger specific logic for merged hubs
+    if (targetId === 'panel-analytics-hub') {
+      fetchAnalytics();
+    }
+
     // Close sidebar on mobile after clicking
     toggleSidebar(false);
   });
@@ -174,7 +179,6 @@ if (optimizeBtn) {
     const r = await callApi('POST', '/optimize-price', payload);
     const jsonEl = document.getElementById('optimizeJson');
     if (jsonEl) jsonEl.innerHTML = highlightJson(r.data);
-    setStatus(document.getElementById('opt-status'), r.ok, r.status);
     const resultsWrap = document.getElementById('opt-results-wrap');
     if (resultsWrap) resultsWrap.classList.remove('hidden');
   });
@@ -192,10 +196,14 @@ if (trackBtn) {
     };
     const r = await callApi('POST', '/track-conversion', payload);
     const jsonEl = document.getElementById('trackJson');
-    if (jsonEl) jsonEl.innerHTML = highlightJson(r.data);
+    if (jsonEl) {
+       jsonEl.innerHTML = highlightJson(r.data);
+       jsonEl.classList.remove('hidden');
+    }
     setStatus(document.getElementById('track-status'), r.ok, r.status);
-    const resultsWrap = document.getElementById('track-results-wrap');
-    if (resultsWrap) resultsWrap.classList.remove('hidden');
+    
+    // Refresh stats if on the hub context
+    fetchAnalytics();
   });
 }
 
@@ -233,66 +241,21 @@ if (ratesBtn) {
 
 // --- Analytics Logic ---
 let analyticsChart = null;
-const navAnalytics = document.getElementById('nav-analytics');
 
-function updateChart(data) {
-  const ctx = document.getElementById('analyticsChart').getContext('2d');
-  
-  if (analyticsChart) {
-    analyticsChart.destroy();
-  }
-
-  const labels = data.map(d => d.label);
-  const requests = data.map(d => d.requests);
-
-  analyticsChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'API Requests',
-        data: requests,
-        borderColor: '#6c63ff',
-        backgroundColor: 'rgba(108, 99, 255, 0.1)',
-        borderWidth: 3,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 4,
-        pointBackgroundColor: '#6c63ff'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
-          ticks: { color: '#8e9bb3', font: { size: 10 } }
-        },
-        x: {
-          grid: { display: false },
-          ticks: { color: '#8e9bb3', font: { size: 10 } }
-        }
-      }
-    }
-  });
-}
-
-if (navAnalytics) {
-  navAnalytics.addEventListener('click', async () => {
+async function fetchAnalytics() {
     const r = await callApi('GET', '/analytics');
     if (!r.ok) return console.error('Failed to fetch analytics:', r.data.error);
 
     const { summary, recent_activity, time_series } = r.data;
 
     // Update stats cards
-    document.getElementById('stat-requests').textContent = summary.total_requests.toLocaleString();
-    document.getElementById('stat-conv').textContent = summary.conversion_rate;
-    document.getElementById('stat-lift').textContent = summary.revenue_lift;
+    const reqEl = document.getElementById('stat-requests');
+    const convEl = document.getElementById('stat-conv');
+    const liftEl = document.getElementById('stat-lift');
+    
+    if (reqEl) reqEl.textContent = summary.total_requests.toLocaleString();
+    if (convEl) convEl.textContent = summary.conversion_rate;
+    if (liftEl) liftEl.textContent = summary.revenue_lift;
 
     // Update Chart
     if (time_series) updateChart(time_series);
@@ -321,7 +284,6 @@ if (navAnalytics) {
         });
       }
     }
-  });
 }
 
 // --- Signup Logic ---

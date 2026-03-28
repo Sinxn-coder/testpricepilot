@@ -391,26 +391,17 @@
     </a>
 
     <nav class="nav-group">
-      <span class="nav-label">API Tools</span>
-      <div class="nav-item active" data-target="panel-calc">
-        <i data-lucide="calculator"></i>
-        <span>Calculate Price</span>
+      <div class="nav-item active" data-target="panel-pricing">
+        <i data-lucide="cpu"></i>
+        <span>Pricing Engine</span>
       </div>
-      <div class="nav-item" data-target="panel-optimize">
-        <i data-lucide="bar-chart-2"></i>
-        <span>Optimize Price</span>
+      <div class="nav-item" data-target="panel-analytics-hub">
+        <i data-lucide="bar-chart-3"></i>
+        <span>Analytics Hub</span>
       </div>
-      <div class="nav-item" data-target="panel-track">
-        <i data-lucide="target"></i>
-        <span>Track Conversion</span>
-      </div>
-      <div class="nav-item" data-target="panel-rates">
+      <div class="nav-item" data-target="panel-market">
         <i data-lucide="globe"></i>
-        <span>Tax Rates</span>
-      </div>
-      <div class="nav-item" data-target="panel-analytics" id="nav-analytics">
-        <i data-lucide="pie-chart"></i>
-        <span>Analytics</span>
+        <span>Global Tax Hub</span>
       </div>
     </nav>
 
@@ -442,7 +433,7 @@
         <button class="key-btn" id="key-toggle">
           <i data-lucide="key"></i>
         </button>
-        <div id="page-title" style="font-weight: 600; font-size: 1.1rem; line-height: 1;">Calculate Price</div>
+        <div id="page-title" style="font-weight: 600; font-size: 1.1rem; line-height: 1;">Pricing Engine</div>
       </div>
       
       <div class="api-key-wrap">
@@ -454,8 +445,8 @@
 
     <div class="content">
 
-      <!-- PANEL: CALCULATE -->
-      <div id="panel-calc" class="panel">
+      <!-- PANEL: PRICING ENGINE (CALC + OPTIMIZE) -->
+      <div id="panel-pricing" class="panel">
         <div class="card">
           <div class="card-title"><i data-lucide="calculator" style="color: var(--accent);"></i> /calculate-price</div>
           <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Advanced tax-aware pricing with psychological rounding and margin protection.</p>
@@ -516,42 +507,36 @@
             <pre class="json-viewer" id="calcJson">// Response will appear here</pre>
           </div>
         </div>
-      </div>
 
-      <!-- PANEL: OPTIMIZE (LEGACY) -->
-      <div id="panel-optimize" class="panel hidden">
-        <div class="card">
-          <div class="card-title"><i data-lucide="trending-up" style="color: var(--accent);"></i> /optimize-price</div>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Legacy multiplier-based optimization based on traffic source and country.</p>
-          
-          <div class="form-grid">
-            <div class="field">
-              <label>Base Price</label>
-              <input id="o-basePrice" type="number" step="0.01" value="12.5">
+        <!-- Legacy Optimizer (Collapsed) -->
+        <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 40px;">
+          <div class="card" style="opacity: 0.8; border-style: dashed;">
+            <div class="card-title"><i data-lucide="trending-up" style="color: var(--text-muted);"></i> Legacy Optimizer (Multiplier API)</div>
+            <div class="form-grid">
+              <div class="field">
+                <label>Base Price</label>
+                <input id="o-basePrice" type="number" step="0.01" value="12.5">
+              </div>
+              <div class="field">
+                <label>Country</label>
+                <input id="o-country" type="text" value="US">
+              </div>
+              <div class="field">
+                <label>Traffic Source</label>
+                <select id="o-source">
+                  <option value="facebook">Facebook (×0.95)</option>
+                  <option value="google">Google (×1.01)</option>
+                  <option value="direct">Direct (×1.00)</option>
+                </select>
+              </div>
             </div>
-            <div class="field">
-              <label>Country</label>
-              <input id="o-country" type="text" value="US">
-            </div>
-            <div class="field">
-              <label>Traffic Source</label>
-              <select id="o-source">
-                <option value="facebook">Facebook (×0.95)</option>
-                <option value="google">Google (×1.01)</option>
-                <option value="direct">Direct (×1.00)</option>
-              </select>
+            <div style="margin-top: 24px;">
+              <button class="btn outline" id="optimizeBtn"><i data-lucide="zap"></i> Run Legacy Query</button>
             </div>
           </div>
-          <div style="margin-top: 24px;">
-            <button class="btn" id="optimizeBtn"><i data-lucide="zap"></i> Run Query</button>
+          <div class="card hidden" id="opt-results-wrap">
+            <pre class="json-viewer" id="optimizeJson"></pre>
           </div>
-        </div>
-        <div class="card hidden" id="opt-results-wrap">
-          <div class="card-title" style="display: flex; justify-content: space-between;">
-            Response
-            <span id="opt-status"></span>
-          </div>
-          <pre class="json-viewer" id="optimizeJson"></pre>
         </div>
       </div>
 
