@@ -10,6 +10,7 @@ const apiDesktop = document.getElementById("apiKey");
 const apiMobile = document.getElementById("api-key-mobile");
 const pageTitle = document.getElementById("page-title");
 const pageSubtitle = document.getElementById("page-subtitle");
+const calcResponseColumn = document.getElementById("calc-response-column");
 
 function refreshIcons() {
   lucide.createIcons();
@@ -42,6 +43,17 @@ function setActivePanel(targetId, navItem) {
     fetchAnalytics();
   }
 
+  const hashMap = {
+    "panel-pricing": "pricing",
+    "panel-analytics-hub": "analytics",
+    "panel-market": "tax",
+    "panel-settings": "settings"
+  };
+  const nextHash = hashMap[targetId];
+  if (nextHash) {
+    history.replaceState(null, "", `#${nextHash}`);
+  }
+
   toggleSidebar(false);
   refreshIcons();
 }
@@ -56,6 +68,10 @@ function setEndpointTab(tabName) {
   document.querySelectorAll(".endpoint-view").forEach((view) => {
     view.classList.toggle("hidden", view.id !== `tab-${tabName}`);
   });
+
+  if (calcResponseColumn) {
+    calcResponseColumn.classList.toggle("hidden", tabName !== "calculate");
+  }
 }
 
 function syncAndToggle(inputId, toggleId) {
@@ -246,14 +262,14 @@ function updateChart(data) {
         {
           label: "API Requests",
           data: data.map((point) => point.requests),
-          borderColor: "#4f8cff",
-          backgroundColor: "rgba(79, 140, 255, 0.14)",
+          borderColor: "#6c63ff",
+          backgroundColor: "rgba(108, 99, 255, 0.14)",
           borderWidth: 3,
           fill: true,
           tension: 0.35,
           pointRadius: 4,
           pointHoverRadius: 5,
-          pointBackgroundColor: "#4f8cff"
+          pointBackgroundColor: "#6c63ff"
         }
       ]
     },
@@ -403,5 +419,25 @@ if (copyApiKeyBtn) {
   });
 }
 
+function initializePanelFromHash() {
+  const hash = window.location.hash.replace("#", "");
+  const targetMap = {
+    pricing: "panel-pricing",
+    analytics: "panel-analytics-hub",
+    tax: "panel-market",
+    settings: "panel-settings"
+  };
+  const targetId = targetMap[hash];
+  if (!targetId) return;
+
+  const navItem = document.querySelector(`.nav-item[data-target="${targetId}"]`);
+  if (navItem) {
+    setActivePanel(targetId, navItem);
+  }
+}
+
+window.addEventListener("hashchange", initializePanelFromHash);
+
 setEndpointTab("calculate");
+initializePanelFromHash();
 refreshIcons();
