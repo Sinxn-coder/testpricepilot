@@ -6,103 +6,169 @@
   <title>Privacy Policy | PricePilot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="legal.css">
+  <style>
+    /* Dashboard-Unified Styles (Copied from preview.html for consistency) */
+    :root {
+      --bg: #07090f;
+      --sidebar: #0d111b;
+      --surface: #121726;
+      --surface2: #1a2035;
+      --border: #252c48;
+      --border2: #2e375a;
+      --accent: #6c63ff;
+      --text: #e2e8f0;
+      --text-muted: #8e9bb3;
+      --radius: 12px;
+      --transition: all 0.25s ease;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow: hidden; }
+
+    /* --- Interactive Sidebar --- */
+    .sidebar { width: 70px; height: 100vh; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; left: 0; top: 0; z-index: 100; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
+    .sidebar:hover { width: 280px; }
+    .main { flex: 1; display: flex; flex-direction: column; margin-left: 70px; min-height: 100vh; transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; height: 100vh; }
+    .sidebar:hover + .main { margin-left: 280px; }
+
+    .sidebar-logo { display: flex; align-items: center; gap: 12px; padding: 32px 24px 8px; margin-bottom: 32px; font-weight: 700; font-size: 1.25rem; color: var(--text); text-decoration: none; }
+    .sidebar-logo span { opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; }
+    .sidebar:hover .sidebar-logo span { opacity: 1; }
+
+    .nav-group { margin-bottom: 32px; flex: 1; }
+    .nav-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; padding: 0 24px; margin-bottom: 12px; display: block; opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; }
+    .sidebar:hover .nav-label { opacity: 1; }
+
+    .nav-item { display: flex; align-items: center; gap: 20px; padding: 12px 24px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: var(--transition); cursor: pointer; white-space: nowrap; }
+    .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .nav-item.active { color: var(--accent); background: rgba(108,99,255,0.08); border-right: 3px solid var(--accent); }
+    .nav-item i { width: 18px; flex-shrink: 0; }
+    .nav-item span { opacity: 0; transition: opacity 0.2s ease; }
+    .sidebar:hover .nav-item span { opacity: 1; }
+
+    .content { padding: 48px; max-width: 900px; margin: 0 auto; }
+    .legal-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
+    h1 { font-size: 2.5rem; margin-bottom: 8px; }
+    .updated { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 40px; }
+    h2 { font-size: 1.25rem; margin: 32px 0 16px; display: flex; align-items: center; gap: 12px; color: var(--accent); }
+    p { margin-bottom: 20px; line-height: 1.7; color: var(--text-muted); }
+    ul { list-style: none; margin-bottom: 24px; }
+    li { margin-bottom: 12px; display: flex; gap: 12px; font-size: 0.95rem; }
+    li::before { content: "•"; color: var(--accent); font-weight: bold; }
+    .highlight { background: rgba(108, 99, 255, 0.05); border-left: 3px solid var(--accent); padding: 20px; border-radius: 4px; margin: 24px 0; }
+    .highlight p { margin-bottom: 0; color: #fff; font-weight: 500; }
+  </style>
 </head>
 <body>
 
-  <aside class="sidebar">
-    <a href="/" class="logo-wrap">
-      <i data-lucide="compass" style="color: var(--accent); width: 28px; height: 28px;"></i>
+  <aside class="sidebar" id="sidebar">
+    <a href="/" class="sidebar-logo">
+      <i data-lucide="compass" style="color: var(--accent);"></i>
       <span>PricePilot</span>
     </a>
 
     <nav class="nav-group">
-      <span class="nav-label">Legal Center</span>
-      <a href="/privacy.html" class="nav-item active">
-        <i data-lucide="shield"></i>
-        <span>Privacy Policy</span>
+      <a href="/preview.html" class="nav-item">
+        <i data-lucide="cpu"></i>
+        <span>Pricing Engine</span>
       </a>
-      <a href="/terms.html" class="nav-item">
-        <i data-lucide="file-text"></i>
-        <span>Terms of Service</span>
+      <a href="/preview.html#analytics" class="nav-item">
+        <i data-lucide="bar-chart-3"></i>
+        <span>Analytics Hub</span>
       </a>
+      <a href="/preview.html#tax" class="nav-item">
+        <i data-lucide="globe"></i>
+        <span>Global Tax Hub</span>
+      </a>
+      <a href="/preview.html#settings" class="nav-item">
+        <i data-lucide="settings"></i>
+        <span>Settings & API</span>
+      </a>
+      
+      <div style="margin-top: 32px;">
+        <span class="nav-label">Documentation</span>
+        <a href="/about.html" class="nav-item">
+          <i data-lucide="info"></i>
+          <span>About Us</span>
+        </a>
+        <a href="/contact.html" class="nav-item">
+          <i data-lucide="mail"></i>
+          <span>Contact Us</span>
+        </a>
+        <a href="/privacy.html" class="nav-item active">
+          <i data-lucide="shield"></i>
+          <span>Privacy Policy</span>
+        </a>
+        <a href="/terms.html" class="nav-item">
+          <i data-lucide="file-text"></i>
+          <span>Terms of Service</span>
+        </a>
+      </div>
     </nav>
 
-    <a href="/" class="exit-btn">
-      <i data-lucide="arrow-left"></i>
-      Exit Legal Center
-    </a>
+    <div style="padding: 0 24px; margin-top: auto; padding-bottom: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border); overflow: hidden;">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; flex-shrink: 0;">D</div>
+        <div style="flex: 1; min-width: 0; opacity: 0; transition: opacity 0.2s ease;" class="acc-info">
+          <div style="font-size: 0.8rem; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Developer</div>
+          <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
+        </div>
+      </div>
+    </div>
   </aside>
 
-  <main class="main-content">
-    <div class="legal-header">
-      <div class="breadcrumbs">Legal Center / Privacy Policy</div>
-      <h1>Privacy Policy</h1>
-      <div class="last-updated">Updated March 23, 2026</div>
-    </div>
+  <main class="main">
+    <div class="content">
+      <div class="legal-card">
+        <h1>Privacy Policy</h1>
+        <div class="updated">Last Updated: March 23, 2026</div>
 
-    <section>
-      <p>At PricePilot, we prioritize the security and confidentiality of your pricing and customer data. This policy explains how we process information when you utilize our API services to optimize and track product prices across international markets.</p>
-    </section>
+        <p>At PricePilot, we prioritize the security and confidentiality of your pricing and customer data. This policy explains how we process information when you utilize our API services to optimize and track product prices across international markets.</p>
 
-    <section id="collect">
-      <h2><i data-lucide="database"></i> 1. Information We Collect</h2>
-      <p>To provide accurate tax calculations and conversion tracking, we collect the following datasets:</p>
-      <ul>
-        <li><strong>Account Identifiers:</strong> Your API keys (secured with SHA-256) and associated email addresses.</li>
-        <li><strong>Transactional Metadata:</strong> Base prices, source traffic identifiers, and user country codes for tax processing.</li>
-        <li><strong>Performance Metrics:</strong> Anonymized conversion events to help visualize pricing effectiveness in your dashboard.</li>
-      </ul>
-    </section>
+        <h2><i data-lucide="database"></i> 1. Information We Collect</h2>
+        <p>To provide accurate tax calculations and conversion tracking, we collect the following datasets:</p>
+        <ul>
+          <li><strong>Account Identifiers:</strong> Your API keys (secured with SHA-256) and associated email addresses.</li>
+          <li><strong>Transactional Metadata:</strong> Base prices, source traffic identifiers, and user country codes for tax processing.</li>
+          <li><strong>Performance Metrics:</strong> Anonymized conversion events to help visualize pricing effectiveness in your dashboard.</li>
+        </ul>
 
-    <section id="usage">
-      <h2><i data-lucide="zap"></i> 2. How Information is Used</h2>
-      <p>The primary purpose of data processing in PricePilot is the technical execution of our pricing algorithms:</p>
-      <div class="highlight-box">
-        <p style="margin-bottom: 0; color: #fff; font-weight: 600;">We never share your specific product pricing strategies or margin data with other customers. Your data remains isolated within your account environment.</p>
+        <h2><i data-lucide="zap"></i> 2. How Information is Used</h2>
+        <p>The primary purpose of data processing in PricePilot is the technical execution of our pricing algorithms:</p>
+        <div class="highlight">
+          <p>We never share your specific product pricing strategies or margin data with other customers. Your data remains isolated within your account environment.</p>
+        </div>
+        <ul>
+          <li><strong>Dynamic Taxation:</strong> Mapping real-time VAT/GST rates to your transaction requests.</li>
+          <li><strong>Price Optimization:</strong> Applying psychological rounding algorithms tailored to your target currency.</li>
+          <li><strong>Security:</strong> Monitoring API traffic to prevent unauthorized access and maintain service uptime.</li>
+        </ul>
+
+        <h2><i data-lucide="lock"></i> 3. Security Framework</h2>
+        <p>PricePilot is built on a "Security First" architecture, ensuring that your data is protected at every layer:</p>
+        <ul>
+          <li><strong>Encryption:</strong> All API requests are transmitted via TLS 1.3 encrypted tunnels.</li>
+          <li><strong>Key Isolation:</strong> API keys are hashed and stored separately from usage logs.</li>
+          <li><strong>Minimal Retention:</strong> We do not store full transaction details longer than necessary for auditing purposes.</li>
+        </ul>
+
+        <h2><i data-lucide="user-check"></i> 4. Controller & Data Rights</h2>
+        <p>Under GDPR and CCPA, you retain full control over your account data. You may request an export of your usage logs or the permanent deletion of your API keys via our support channels.</p>
       </div>
-      <ul>
-        <li><strong>Dynamic Taxation:</strong> Mapping real-time VAT/GST rates to your transaction requests.</li>
-        <li><strong>Price Optimization:</strong> Applying psychological rounding algorithms tailored to your target currency.</li>
-        <li><strong>Security:</strong> Monitoring API traffic to prevent unauthorized access and maintain service uptime.</li>
-      </ul>
-    </section>
-
-    <section id="security">
-      <h2><i data-lucide="lock"></i> 3. Security Framework</h2>
-      <p>PricePilot is built on a "Security First" architecture, ensuring that your data is protected at every layer:</p>
-      <ul>
-        <li><strong>Encryption:</strong> All API requests are transmitted via TLS 1.3 encrypted tunnels.</li>
-        <li><strong>Key Isolation:</strong> API keys are hashed and stored separately from usage logs.</li>
-        <li><strong>Minimal Retention:</strong> We do not store full transaction details longer than necessary for auditing purposes.</li>
-      </ul>
-    </section>
-
-    <section id="rights">
-      <h2><i data-lucide="user-check"></i> 4. Controller & Data Rights</h2>
-      <p>Under GDPR and CCPA, you retain full control over your account data. You may request an export of your usage logs or the permanent deletion of your API keys via our support channels.</p>
-    </section>
+    </div>
   </main>
 
   <script>
     lucide.createIcons();
     
-    // Smart Exit Logic
-    const exitBtn = document.querySelector('.exit-btn');
-    const entryPage = sessionStorage.getItem('legalEntryPage');
-    const currentReferrer = document.referrer;
+    // Add hover listener for account info sync (CSS handles most, but JS can help with complex transitions if needed)
+    const sidebar = document.getElementById('sidebar');
+    const accInfo = document.querySelector('.acc-info');
     
-    // If we're coming from outside the legal center, store that page
-    if (currentReferrer && !currentReferrer.includes('/privacy') && !currentReferrer.includes('/terms')) {
-      sessionStorage.setItem('legalEntryPage', currentReferrer);
-    }
-    
-    // Set exit link to stored entry page or home
-    if (exitBtn) {
-      exitBtn.href = sessionStorage.getItem('legalEntryPage') || '/';
-    }
+    sidebar.addEventListener('mouseenter', () => accInfo.style.opacity = '1');
+    sidebar.addEventListener('mouseleave', () => accInfo.style.opacity = '0');
   </script>
 </body>
 </html>

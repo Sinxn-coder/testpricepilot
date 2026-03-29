@@ -42,7 +42,7 @@
 
     /* --- Sidebar --- */
     .sidebar {
-      width: 280px;
+      width: 70px;
       height: 100vh;
       background: var(--sidebar);
       border-right: 1px solid var(--border);
@@ -52,7 +52,12 @@
       left: 0;
       top: 0;
       z-index: 100;
-      transition: var(--transition);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .sidebar:hover {
+      width: 280px;
     }
 
     /* --- Main Content --- */
@@ -60,9 +65,13 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      margin-left: 280px;
+      margin-left: 70px;
       min-height: 100vh;
-      transition: var(--transition);
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar:hover + .main {
+      margin-left: 280px;
     }
 
     /* --- Mobile Overrides --- */
@@ -103,12 +112,19 @@
       padding: 0 24px;
       margin-bottom: 12px;
       display: block;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .sidebar:hover .nav-label {
+      opacity: 1;
     }
 
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 20px;
       padding: 12px 24px;
       color: var(--text-muted);
       text-decoration: none;
@@ -116,6 +132,25 @@
       font-weight: 500;
       transition: var(--transition);
       cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav-item span {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .sidebar:hover .nav-item span {
+      opacity: 1;
+    }
+
+    .sidebar-logo span {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .sidebar:hover .sidebar-logo span {
+      opacity: 1;
     }
 
     .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
@@ -422,17 +457,24 @@
     </nav>
 
     <!-- Bottom: Your Account Info -->
-    <div style="padding: 0 24px; margin-top: auto; padding-bottom: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
-      <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; letter-spacing: 0.05em;">Your Account</div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border);">
-        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff;">D</div>
-        <div style="flex: 1; min-width: 0;">
+    <div style="padding: 0 24px; margin-top: auto; padding-bottom: 80px; border-top: 1px solid var(--border); padding-top: 24px;">
+      <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; letter-spacing: 0.05em; opacity: 0; transition: opacity 0.2s ease;" class="acc-label">Your Account</div>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border); overflow: hidden;">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; flex-shrink: 0;">D</div>
+        <div style="flex: 1; min-width: 0; opacity: 0; transition: opacity 0.2s ease;" class="acc-info">
           <div style="font-size: 0.8rem; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Developer</div>
           <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
         </div>
       </div>
     </div>
   </aside>
+
+  <style>
+    .sidebar:hover .acc-label,
+    .sidebar:hover .acc-info {
+      opacity: 1 !important;
+    }
+  </style>
 
   <!-- --- Main Body --- -->
   <main class="main">
@@ -548,6 +590,37 @@
           <div class="card hidden" id="opt-results-wrap">
             <pre class="json-viewer" id="optimizeJson"></pre>
           </div>
+        </div>
+      </div>
+
+      <!-- PANEL: MARKET DATA -->
+      <div id="panel-market" class="panel hidden">
+        <div class="card">
+          <div class="card-title"><i data-lucide="globe" style="color: var(--accent);"></i> Global Tax Hub</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Real-time VAT and GST library for automatic legal compliance.</p>
+          
+          <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+            <button class="btn" id="ratesBtn"><i data-lucide="refresh-cw"></i> Fetch Latest Rates</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Region</th>
+                  <th>Legal Tax Rate</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody id="ratesBody">
+                <tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 32px;">Click 'Fetch' to load market data.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card hidden" id="rates-results-wrap">
+          <div class="card-title">Raw Tax Response <span id="rates-status"></span></div>
+          <pre class="json-viewer" id="ratesJson"></pre>
         </div>
       </div>
 
