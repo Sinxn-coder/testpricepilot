@@ -383,17 +383,26 @@
 
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-  <!-- --- Sidebar --- -->
+   <!-- --- Sidebar --- -->
   <aside class="sidebar" id="sidebar">
     <a href="/" class="sidebar-logo">
       <i data-lucide="compass" style="color: var(--accent);"></i>
       <span>PricePilot</span>
     </a>
 
+    <!-- Top: 4 Primary Hubs -->
     <nav class="nav-group">
       <div class="nav-item active" data-target="panel-pricing">
         <i data-lucide="cpu"></i>
         <span>Pricing Engine</span>
+      </div>
+      <div class="nav-item" data-target="panel-analytics-hub">
+        <i data-lucide="bar-chart-3"></i>
+        <span>Analytics Hub</span>
+      </div>
+      <div class="nav-item" data-target="panel-market">
+        <i data-lucide="globe"></i>
+        <span>Global Tax Hub</span>
       </div>
       <div class="nav-item" data-target="panel-settings">
         <i data-lucide="settings"></i>
@@ -401,7 +410,19 @@
       </div>
     </nav>
 
-    <div style="padding: 0 24px; margin-top: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
+    <!-- Middle: Documentation -->
+    <nav class="nav-group" style="padding-top: 12px; border-top: 1px solid var(--border);">
+      <span class="nav-label">Documentation</span>
+      <a href="/about.html" class="nav-item"><i data-lucide="info"></i><span>About Us</span></a>
+      <a href="/contact.html" class="nav-item"><i data-lucide="mail"></i><span>Contact Us</span></a>
+      <a href="/privacy.html" class="nav-item"><i data-lucide="shield"></i><span>Privacy Policy</span></a>
+      <a href="/terms.html" class="nav-item"><i data-lucide="file-text"></i><span>Terms of Service</span></a>
+      <a href="#" class="nav-item"><i data-lucide="book-open"></i><span>API Reference</span></a>
+      <a href="/health" class="nav-item"><i data-lucide="activity"></i><span>Health Check</span></a>
+    </nav>
+
+    <!-- Bottom: Your Account Info -->
+    <div style="padding: 0 24px; margin-top: auto; padding-bottom: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
       <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; letter-spacing: 0.05em;">Your Account</div>
       <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border);">
         <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff;">D</div>
@@ -411,16 +432,6 @@
         </div>
       </div>
     </div>
-
-    <nav class="nav-group" style="margin-top: auto;">
-      <span class="nav-label">Documentation</span>
-      <a href="/about.html" class="nav-item"><i data-lucide="info"></i><span>About Us</span></a>
-      <a href="/contact.html" class="nav-item"><i data-lucide="mail"></i><span>Contact Us</span></a>
-      <a href="/privacy.html" class="nav-item"><i data-lucide="shield"></i><span>Privacy Policy</span></a>
-      <a href="/terms.html" class="nav-item"><i data-lucide="file-text"></i><span>Terms of Service</span></a>
-      <a href="#" class="nav-item"><i data-lucide="book-open"></i><span>API Reference</span></a>
-      <a href="/health" class="nav-item"><i data-lucide="activity"></i><span>Health Check</span></a>
-    </nav>
   </aside>
 
   <!-- --- Main Body --- -->
