@@ -42,10 +42,14 @@ async function calculatePriceHandler(req, res, next) {
     // 4. Look up tax rate for the given country
     const taxRate = await getTaxRate(countryCode, supabase);
 
-    // 5. Apply tax to base price
-    const { taxAmount, taxedPrice } = applyTax(base_price, taxRate);
+    // 5. Apply PROFIT MARGIN to base price first
+    const marginAmount = Number((base_price * (min_margin / 100)).toFixed(2));
+    const preTaxPrice = Number((base_price + marginAmount).toFixed(2));
 
-    // 6. Apply psychological pricing & tier logic
+    // 6. Apply TAX to the price-after-margin
+    const { taxAmount, taxedPrice } = applyTax(preTaxPrice, taxRate);
+
+    // 7. Apply psychological pricing & tier logic
     const { finalPrice: optimizedPrice } = optimizePrice({
       basePrice: taxedPrice,
       country: countryCode,
@@ -53,15 +57,19 @@ async function calculatePriceHandler(req, res, next) {
       plan: req.authUser?.plan || "free"
     });
 
-    // 7. Build response
+    // 8. Build response
     const responseBody = {
       base_price,
+      margin_pct: min_margin,
+      margin_amount: marginAmount,
+      pre_tax_price: preTaxPrice,
       tax_rate_pct: taxRate,
       tax_amount: taxAmount,
       original_final_price: taxedPrice,
       optimized_final_price: optimizedPrice,
       currency: currencyCode
     };
+
 
     // 8. Cache result
     setCachedResult(cacheKey, responseBody);
