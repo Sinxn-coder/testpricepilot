@@ -41,10 +41,12 @@ async function signupHandler(req, res, next) {
       .insert({
         email,
         full_name: full_name || null,
-        api_key: hashedKey,
+        api_key_hash: hashedKey,
         plan: "free"
       })
       .select("id, email, full_name, plan")
+
+
       .single();
 
     if (insertError) {

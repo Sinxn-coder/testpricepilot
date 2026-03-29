@@ -288,18 +288,30 @@ button {
 
 .api-key-wrap input {
   flex: 1;
-  background: transparent;
-  border: none;
-  color: var(--text);
+  background: transparent !important;
+  border: none !important;
+  color: var(--text) !important;
   font-family: var(--font-mono);
   font-size: 0.82rem;
   outline: none;
   min-width: 0;
 }
 
+/* Fix for Chrome's autofill background and default input styles */
+.api-key-wrap input:-webkit-autofill,
+.api-key-wrap input:-webkit-autofill:hover, 
+.api-key-wrap input:-webkit-autofill:focus, 
+.api-key-wrap input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px #0d111b inset !important;
+  -webkit-text-fill-color: var(--text) !important;
+  caret-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .api-key-wrap input::placeholder {
   color: var(--text-muted);
 }
+
 .top-bar-left {
   display: flex;
   align-items: center;
