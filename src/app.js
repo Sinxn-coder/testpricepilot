@@ -1,5 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
+const cors = require("cors");
 const path = require("path");
 
 const pricingRoutes = require("./routes/pricingRoutes");
@@ -10,6 +11,22 @@ const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
 
 const app = express();
 
+// --- Connectivity & Security Configuration ---
+
+// Enable CORS for frontend on GitHub Pages
+const allowedOrigin = "https://sinxn-coder.github.io";
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow local development and specific GitHub Pages domain
+    if (!origin || origin.startsWith(allowedOrigin) || origin.includes("localhost") || origin.includes("127.0.0.1")) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
+
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -18,11 +35,12 @@ app.use(
         "script-src": ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
         "script-src-elem": ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
         "img-src": ["'self'", "data:", "https://*"],
-        "connect-src": ["'self'", "https://formspree.io", "https://unpkg.com", "https://*.supabase.co", "https://cdn.jsdelivr.net"],
+        "connect-src": ["'self'", "https://formspree.io", "https://unpkg.com", "https://*.supabase.co", "https://*.onrender.com", "https://cdn.jsdelivr.net"],
       },
     },
   })
 );
+
 app.use(express.json({ limit: "100kb" }));
 app.use(loggerMiddleware);
 app.use(express.static(path.join(__dirname, "../public")));

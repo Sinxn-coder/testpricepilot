@@ -8,7 +8,15 @@ const keyOverlay = document.getElementById("key-overlay");
 const closeKey = document.getElementById("close-key");
 const apiDesktop = document.getElementById("apiKey");
 const apiMobile = document.getElementById("api-key-mobile");
+
+// --- API CONFIGURATION ---
+// IMPORTANT: Replace this with your actual Render URL (e.g., https://your-app.onrender.com)
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? ''
+  : 'https://testpricepilot.onrender.com'; // TODO: User should replace this if different
+
 const pageTitle = document.getElementById("page-title");
+
 const pageSubtitle = document.getElementById("page-subtitle");
 const calcResponseColumn = document.getElementById("calc-response-column");
 const calcSnippetEl = document.getElementById("calc-request-snippet");
@@ -145,7 +153,7 @@ async function callApi(method, path, body) {
   if (body) opts.body = JSON.stringify(body);
 
   try {
-    const res = await fetch(path, opts);
+    const res = await fetch(`${API_BASE_URL}${path}`, opts);
     const data = await res.json().catch(() => ({ error: "Invalid server response" }));
     return { ok: res.ok, status: res.status, data };
   } catch (err) {
@@ -156,9 +164,9 @@ async function callApi(method, path, body) {
 // --- Playground Logic ---
 
 function getSnippet(lang, method, path, body) {
-  const baseUrl = window.location.origin;
-  const fullUrl = `${baseUrl}${path}`;
+  const fullUrl = `${API_BASE_URL || window.location.origin}${path}`;
   const jsonBody = JSON.stringify(body, null, 2);
+
 
   if (lang === "curl") {
     return `<span class="sh-keyword">curl</span> -X <span class="sh-string">${method}</span> <span class="sh-string">"${fullUrl}"</span> \\
@@ -285,13 +293,14 @@ async function callApiNoAuth(method, path, body) {
   if (body) opts.body = JSON.stringify(body);
 
   try {
-    const res = await fetch(path, opts);
+    const res = await fetch(`${API_BASE_URL}${path}`, opts);
     const data = await res.json().catch(() => ({ error: "Invalid server response" }));
     return { ok: res.ok, data };
   } catch (err) {
     return { ok: false, data: { error: err.message } };
   }
 }
+
 
 function highlightJson(json) {
   return JSON.stringify(json, null, 2)
@@ -320,7 +329,7 @@ if (calcBtn) {
     const response = await callApi("POST", "/calculate-price", payload);
     const jsonEl = document.getElementById("calcJson");
     if (jsonEl) jsonEl.innerHTML = highlightJson(response.data);
-    
+
     const statusWrap = document.getElementById("calc-status-indicator");
     const statusText = document.getElementById("calc-status");
     if (statusWrap && statusText) {
