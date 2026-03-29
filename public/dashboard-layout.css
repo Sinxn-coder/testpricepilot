@@ -239,20 +239,24 @@ button {
   flex: 1;
   min-height: 100vh;
   margin-left: var(--sidebar-w-folded);
-  overflow: visible;
+  transition: margin-left 220ms ease;
+  min-width: 0;
+}
+
+.sidebar:hover ~ .main {
+  margin-left: var(--sidebar-w-expanded);
 }
 
 .top-bar {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 80;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  min-height: 84px;
-  padding: 18px 40px;
-  background: rgba(10, 12, 18, 0.9);
+  padding: 0 32px;
+  background: var(--sidebar);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
 }
@@ -260,9 +264,49 @@ button {
 .top-bar-left {
   display: flex;
   align-items: center;
+  gap: 16px;
+}
+
+.api-key-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0 12px;
+  height: 40px;
+  width: min(320px, 40vw);
+  transition: all 0.2s;
+}
+
+.api-key-wrap:focus-within {
+  border-color: rgba(108, 99, 255, 0.4);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+}
+
+.api-key-wrap input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  outline: none;
+  min-width: 0;
+}
+
+.api-key-wrap input::placeholder {
+  color: var(--text-muted);
+}
+.top-bar-left {
+  display: flex;
+  align-items: center;
   gap: 14px;
   min-width: 0;
 }
+
 
 .menu-toggle,
 .key-btn,
@@ -1141,11 +1185,15 @@ tbody tr:last-child td {
 .key-display code {
   flex: 1;
   min-width: 0;
-  color: #bdd4ff;
+  color: #fff;
   font-family: var(--font-mono);
-  font-size: 0.84rem;
+  font-size: 1rem;
+  font-weight: 700;
   word-break: break-all;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 15px rgba(108, 99, 255, 0.4);
 }
+
 
 .key-overlay {
   position: fixed;

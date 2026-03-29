@@ -98,10 +98,13 @@ function syncAndToggle(inputId, toggleId) {
   toggle.addEventListener("click", () => {
     const showing = input.type === "text";
     input.type = showing ? "password" : "text";
-    toggle.setAttribute("data-lucide", showing ? "eye" : "eye-off");
+    
+    // Clear and replace icon for Lucide refreshing
+    toggle.innerHTML = `<i data-lucide="${showing ? 'eye' : 'eye-off'}"></i>`;
     refreshIcons();
   });
 }
+
 
 if (menuToggle) menuToggle.addEventListener("click", () => toggleSidebar(true));
 if (overlay) overlay.addEventListener("click", () => toggleSidebar(false));
@@ -546,11 +549,23 @@ if (signupBtn) {
 
     document.getElementById("signup-form-body")?.classList.add("hidden");
     document.getElementById("signup-result-body")?.classList.remove("hidden");
-    document.getElementById("new-api-key").textContent = response.data.api_key;
+    
+    const keyDisplay = document.getElementById("new-api-key");
+    if (keyDisplay) {
+      keyDisplay.textContent = response.data.api_key;
+      keyDisplay.style.color = "#fff"; // Ensure visibility
+    }
 
-    if (apiDesktop) apiDesktop.value = response.data.api_key;
-    if (apiMobile) apiMobile.value = response.data.api_key;
+    if (apiDesktop) {
+      apiDesktop.value = response.data.api_key;
+      apiDesktop.type = "text"; // Show the key immediately in header too
+    }
+    if (apiMobile) {
+      apiMobile.value = response.data.api_key;
+      apiMobile.type = "text";
+    }
     refreshIcons();
+
   });
 }
 
