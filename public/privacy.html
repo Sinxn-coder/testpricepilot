@@ -8,47 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="dashboard-layout.css">
   <style>
-    /* Dashboard-Unified Styles (Copied from preview.html for consistency) */
-    :root {
-      --bg: #07090f;
-      --sidebar: #0d111b;
-      --surface: #121726;
-      --surface2: #1a2035;
-      --border: #252c48;
-      --border2: #2e375a;
-      --accent: #6c63ff;
-      --text: #e2e8f0;
-      --text-muted: #8e9bb3;
-      --radius: 12px;
-      --transition: all 0.25s ease;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow: hidden; }
-
-    /* --- Interactive Sidebar --- */
-    .sidebar { width: 70px; height: 100vh; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; left: 0; top: 0; z-index: 100; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden; }
-    .sidebar:hover { width: 280px; }
-    .main { flex: 1; display: flex; flex-direction: column; margin-left: 70px; min-height: 100vh; transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; height: 100vh; }
-    .sidebar:hover + .main { margin-left: 280px; }
-
-    .sidebar-logo { display: flex; align-items: center; gap: 12px; padding: 32px 24px 8px; margin-bottom: 32px; font-weight: 700; font-size: 1.25rem; color: var(--text); text-decoration: none; }
-    .sidebar-logo span { opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; }
-    .sidebar:hover .sidebar-logo span { opacity: 1; }
-
-    .nav-group { margin-bottom: 32px; flex: 1; }
-    .nav-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; padding: 0 24px; margin-bottom: 12px; display: block; opacity: 0; transition: opacity 0.2s ease; white-space: nowrap; }
-    .sidebar:hover .nav-label { opacity: 1; }
-
-    .nav-item { display: flex; align-items: center; gap: 20px; padding: 12px 24px; color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: var(--transition); cursor: pointer; white-space: nowrap; }
-    .nav-item:hover { color: var(--text); background: rgba(255,255,255,0.03); }
-    .nav-item.active { color: var(--accent); background: rgba(108,99,255,0.08); border-right: 3px solid var(--accent); }
-    .nav-item i { width: 18px; flex-shrink: 0; }
-    .nav-item span { opacity: 0; transition: opacity 0.2s ease; }
-    .sidebar:hover .nav-item span { opacity: 1; }
-
-    .content { padding: 48px; max-width: 900px; margin: 0 auto; }
     .legal-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
     h1 { font-size: 2.5rem; margin-bottom: 8px; }
     .updated { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 40px; }
@@ -62,6 +23,8 @@
   </style>
 </head>
 <body>
+
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <aside class="sidebar" id="sidebar">
     <a href="/" class="sidebar-logo">
@@ -86,33 +49,34 @@
         <i data-lucide="settings"></i>
         <span>Settings & API</span>
       </a>
-      
-      <div style="margin-top: 32px;">
-        <span class="nav-label">Documentation</span>
-        <a href="/about.html" class="nav-item">
-          <i data-lucide="info"></i>
-          <span>About Us</span>
-        </a>
-        <a href="/contact.html" class="nav-item">
-          <i data-lucide="mail"></i>
-          <span>Contact Us</span>
-        </a>
-        <a href="/privacy.html" class="nav-item active">
-          <i data-lucide="shield"></i>
-          <span>Privacy Policy</span>
-        </a>
-        <a href="/terms.html" class="nav-item">
-          <i data-lucide="file-text"></i>
-          <span>Terms of Service</span>
-        </a>
-      </div>
     </nav>
 
-    <div style="padding: 0 24px; margin-top: auto; padding-bottom: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
-      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border); overflow: hidden;">
-        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; flex-shrink: 0;">D</div>
-        <div style="flex: 1; min-width: 0; opacity: 0; transition: opacity 0.2s ease;" class="acc-info">
-          <div style="font-size: 0.8rem; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Developer</div>
+    <nav class="nav-group" style="padding-top: 12px; border-top: 1px solid var(--border);">
+      <span class="nav-label">Documentation</span>
+      <a href="/about.html" class="nav-item">
+        <i data-lucide="info"></i>
+        <span>About Us</span>
+      </a>
+      <a href="/contact.html" class="nav-item">
+        <i data-lucide="mail"></i>
+        <span>Contact Us</span>
+      </a>
+      <a href="/privacy.html" class="nav-item active">
+        <i data-lucide="shield"></i>
+        <span>Privacy Policy</span>
+      </a>
+      <a href="/terms.html" class="nav-item">
+        <i data-lucide="file-text"></i>
+        <span>Terms of Service</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <span class="nav-label">Your Account</span>
+      <div class="acc-card">
+        <div class="avatar">D</div>
+        <div class="acc-info">
+          <div style="font-size: 0.8rem; font-weight: 600; color: #fff;">Developer</div>
           <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
         </div>
       </div>
@@ -120,9 +84,16 @@
   </aside>
 
   <main class="main">
+    <header class="top-bar">
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <button class="menu-toggle" id="menu-toggle"><i data-lucide="menu"></i></button>
+        <div id="page-title" style="font-weight: 600; font-size: 1.1rem;">Privacy Policy</div>
+      </div>
+    </header>
+
     <div class="content">
       <div class="legal-card">
-        <h1>Privacy Policy</h1>
+        <h1 style="background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Privacy Policy</h1>
         <div class="updated">Last Updated: March 23, 2026</div>
 
         <p>At PricePilot, we prioritize the security and confidentiality of your pricing and customer data. This policy explains how we process information when you utilize our API services to optimize and track product prices across international markets.</p>
@@ -157,18 +128,36 @@
         <h2><i data-lucide="user-check"></i> 4. Controller & Data Rights</h2>
         <p>Under GDPR and CCPA, you retain full control over your account data. You may request an export of your usage logs or the permanent deletion of your API keys via our support channels.</p>
       </div>
+
+      <footer style="margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+        &copy; 2026 PricePilot API. All rights reserved.
+      </footer>
     </div>
   </main>
 
   <script>
     lucide.createIcons();
     
-    // Add hover listener for account info sync (CSS handles most, but JS can help with complex transitions if needed)
+    // Simple Sidebar Mobile Toggle
+    const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
-    const accInfo = document.querySelector('.acc-info');
+    const overlay = document.getElementById('sidebar-overlay');
     
-    sidebar.addEventListener('mouseenter', () => accInfo.style.opacity = '1');
-    sidebar.addEventListener('mouseleave', () => accInfo.style.opacity = '0');
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
+      });
+    }
+    
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+      });
+    }
   </script>
+</body>
+</html>
 </body>
 </html>
