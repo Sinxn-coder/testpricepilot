@@ -12,50 +12,48 @@
   <link rel="stylesheet" href="dashboard-layout.css">
 </head>
 <body>
-
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-   <!-- --- Sidebar --- -->
   <aside class="sidebar" id="sidebar">
-    <a href="/" class="sidebar-logo">
+    <a href="index.html" class="sidebar-logo">
       <i data-lucide="compass" style="color: var(--accent);"></i>
       <span>PricePilot</span>
     </a>
 
     <nav class="nav-group">
-      <a href="javascript:void(0)" onclick="switchPanel('hub')" class="nav-item active" id="nav-hub">
+      <a href="#" class="nav-item active" data-target="panel-pricing" data-title="Pricing Engine" data-subtitle="Run live API tests and inspect responses.">
         <i data-lucide="cpu"></i>
         <span>Pricing Engine</span>
       </a>
-      <a href="javascript:void(0)" onclick="switchPanel('analytics')" class="nav-item" id="nav-analytics">
+      <a href="#" class="nav-item" data-target="panel-analytics-hub" data-title="Analytics Hub" data-subtitle="Track usage, conversions, and test events.">
         <i data-lucide="bar-chart-3"></i>
         <span>Analytics Hub</span>
       </a>
-      <a href="javascript:void(0)" onclick="switchPanel('tax')" class="nav-item" id="nav-tax">
+      <a href="#" class="nav-item" data-target="panel-market" data-title="Global Tax Hub" data-subtitle="Review tax coverage and raw country rate data.">
         <i data-lucide="globe"></i>
         <span>Global Tax Hub</span>
       </a>
-      <a href="javascript:void(0)" onclick="switchPanel('settings')" class="nav-item" id="nav-settings">
+      <a href="#" class="nav-item" data-target="panel-settings" data-title="Settings and API" data-subtitle="Manage access, keys, and delivery guidance.">
         <i data-lucide="settings"></i>
-        <span>Settings & API</span>
+        <span>Settings and API</span>
       </a>
     </nav>
 
-    <nav class="nav-group" style="padding-top: 12px; border-top: 1px solid var(--border);">
+    <nav class="nav-group">
       <span class="nav-label">Documentation</span>
-      <a href="/about.html" class="nav-item">
+      <a href="about.html" class="nav-item">
         <i data-lucide="info"></i>
         <span>About Us</span>
       </a>
-      <a href="/contact.html" class="nav-item">
+      <a href="contact.html" class="nav-item">
         <i data-lucide="mail"></i>
         <span>Contact Us</span>
       </a>
-      <a href="/privacy.html" class="nav-item">
+      <a href="privacy.html" class="nav-item">
         <i data-lucide="shield"></i>
         <span>Privacy Policy</span>
       </a>
-      <a href="/terms.html" class="nav-item">
+      <a href="terms.html" class="nav-item">
         <i data-lucide="file-text"></i>
         <span>Terms of Service</span>
       </a>
@@ -66,26 +64,28 @@
       <div class="acc-card">
         <div class="avatar">D</div>
         <div class="acc-info">
-          <div style="font-size: 0.8rem; font-weight: 600; color: #fff;">Developer</div>
-          <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
+          <div class="acc-name">Developer</div>
+          <div class="acc-plan">Free plan</div>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- --- Main Body --- -->
   <main class="main">
     <header class="top-bar">
       <div class="top-bar-left">
-        <button class="menu-toggle" id="menu-toggle">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
           <i data-lucide="menu"></i>
         </button>
-        <button class="key-btn" id="key-toggle">
+        <button class="key-btn" id="key-toggle" aria-label="Open API key panel">
           <i data-lucide="key"></i>
         </button>
-        <div id="page-title" style="font-weight: 600; font-size: 1.1rem; line-height: 1;">Pricing Engine</div>
+        <div class="page-heading">
+          <h1 id="page-title">Pricing Engine</h1>
+          <p id="page-subtitle">Run live API tests and inspect responses.</p>
+        </div>
       </div>
-      
+
       <div class="api-key-wrap">
         <i data-lucide="key" style="width: 14px; color: var(--accent);"></i>
         <input id="apiKey" type="password" placeholder="api_key_..." autocomplete="off">
@@ -94,113 +94,223 @@
     </header>
 
     <div class="content">
+      <section id="panel-pricing" class="panel">
+        <div class="panel-hero">
+          <div class="hero-card">
+            <span class="eyebrow"><i data-lucide="sparkles" style="width: 14px;"></i> API Preview</span>
+            <h2>Clean developer preview for testing pricing endpoints.</h2>
+            <p>The pricing workspace now keeps navigation, endpoint tabs, forms, and JSON output in a single readable flow so you can test requests without layout collisions.</p>
+            <div class="hero-meta">
+              <div class="metric-chip">
+                <strong>2 endpoints</strong>
+                <span>Primary calculator and legacy optimizer</span>
+              </div>
+              <div class="metric-chip">
+                <strong>Live JSON</strong>
+                <span>Structured response area with status feedback</span>
+              </div>
+              <div class="metric-chip">
+                <strong>Responsive</strong>
+                <span>Sidebar, tabs, and cards now collapse cleanly</span>
+              </div>
+            </div>
+          </div>
 
-      <!-- PANEL: PRICING ENGINE (CALC + OPTIMIZE) -->
-      <div id="panel-pricing" class="panel">
+          <div class="hero-card hero-side">
+            <h3>What changed in this preview</h3>
+            <ul>
+              <li><i data-lucide="check"></i><span>Sidebar items now target the correct panels instead of calling missing handlers.</span></li>
+              <li><i data-lucide="check"></i><span>The API area is split into tabs so forms and output do not compete for space.</span></li>
+              <li><i data-lucide="check"></i><span>Cards, tables, and top bar spacing now follow one consistent layout system.</span></li>
+            </ul>
+          </div>
+        </div>
+
         <div class="card">
-          <div class="card-title"><i data-lucide="calculator" style="color: var(--accent);"></i> /calculate-price</div>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Advanced tax-aware pricing with psychological rounding and margin protection.</p>
-          
-          <div class="form-grid">
-            <div class="field">
-              <label>Base Price</label>
-              <input id="c-basePrice" type="number" step="0.01" value="10">
+          <div class="panel-header">
+            <div>
+              <h3>Endpoint workspace</h3>
+              <p>Switch between the recommended calculator flow and the legacy optimizer without losing the clean result layout.</p>
             </div>
-            <div class="field">
-              <label>Country</label>
-              <select id="c-country">
-                <option value="US">US — United States (8%)</option>
-                <option value="IN" selected>IN — India (18%)</option>
-                <option value="GB">GB — United Kingdom (20%)</option>
-                <option value="DE">DE — Germany (19%)</option>
-                <option value="CA">CA — Canada (13%)</option>
-                <option value="AU">AU — Australia (10%)</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Currency</label>
-              <input id="c-currency" type="text" value="USD">
-            </div>
-            <div class="field">
-              <label>Min Margin (%)</label>
-              <input id="c-margin" type="number" step="1" value="10">
+            <div class="tabs" role="tablist" aria-label="API endpoint tabs">
+              <button class="tab-btn active" type="button" data-tab="calculate" aria-selected="true">
+                <i data-lucide="calculator" style="width: 16px;"></i>
+                <span>/calculate-price</span>
+              </button>
+              <button class="tab-btn" type="button" data-tab="legacy" aria-selected="false">
+                <i data-lucide="history" style="width: 16px;"></i>
+                <span>/optimize-price</span>
+              </button>
             </div>
           </div>
-          <div style="margin-top: 24px;">
-            <button class="btn" id="calcBtn"><i data-lucide="zap"></i> Run Query</button>
+
+          <div class="endpoint-view" id="tab-calculate">
+            <div class="endpoint-shell">
+              <div class="stack">
+                <div class="subtle-block">
+                  <div class="card-title"><i data-lucide="calculator" style="color: var(--accent);"></i>Tax-aware calculation</div>
+                  <p>Applies VAT or GST, protects minimum margin, and returns a clean psychologically rounded final price.</p>
+                </div>
+
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="c-basePrice">Base Price</label>
+                    <input id="c-basePrice" type="number" step="0.01" value="10">
+                  </div>
+                  <div class="field">
+                    <label for="c-country">Country</label>
+                    <select id="c-country">
+                      <option value="US">US - United States (8%)</option>
+                      <option value="IN" selected>IN - India (18%)</option>
+                      <option value="GB">GB - United Kingdom (20%)</option>
+                      <option value="DE">DE - Germany (19%)</option>
+                      <option value="CA">CA - Canada (13%)</option>
+                      <option value="AU">AU - Australia (10%)</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="c-currency">Currency</label>
+                    <input id="c-currency" type="text" value="USD">
+                  </div>
+                  <div class="field">
+                    <label for="c-margin">Min Margin (%)</label>
+                    <input id="c-margin" type="number" step="1" value="10">
+                  </div>
+                </div>
+
+                <div class="action-row start">
+                  <button class="btn" id="calcBtn">
+                    <i data-lucide="zap"></i>
+                    <span>Run Query</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="stack">
+                <div class="subtle-block">
+                  <div class="card-title-row">
+                    <div class="card-title">Response preview</div>
+                    <span id="calc-status"></span>
+                  </div>
+                  <p>The raw API response stays pinned beside the form so output is easy to inspect while tuning inputs.</p>
+                </div>
+                <pre class="json-viewer" id="calcJson">// Response will appear here</pre>
+              </div>
+            </div>
+
+            <div class="result-split hidden" id="calc-results-wrap">
+              <div class="card">
+                <div class="card-title">Analysis Summary</div>
+                <div class="visual-grid">
+                  <div class="vis-card">
+                    <span class="vis-label">Tax Amount</span>
+                    <span class="vis-value accent" id="rc-tax">-</span>
+                  </div>
+                  <div class="vis-card">
+                    <span class="vis-label">Taxed Price</span>
+                    <span class="vis-value" id="rc-taxed">-</span>
+                  </div>
+                  <div class="vis-card highlight">
+                    <span class="vis-label">Optimized Price</span>
+                    <span class="vis-value success" id="rc-optimized">-</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-title">Why this output matters</div>
+                <div class="hero-side" style="padding: 0;">
+                  <ul>
+                    <li><i data-lucide="dollar-sign"></i><span>Base price, tax, and optimized price stay visually separated for faster QA.</span></li>
+                    <li><i data-lucide="shield-check"></i><span>Margin-sensitive pricing is easier to validate before sending traffic to production.</span></li>
+                    <li><i data-lucide="search"></i><span>The JSON response remains available above for exact contract inspection.</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="endpoint-view hidden" id="tab-legacy">
+            <div class="endpoint-shell">
+              <div class="stack">
+                <div class="subtle-block">
+                  <div class="card-title"><i data-lucide="trending-up" style="color: var(--text-muted);"></i>Legacy optimizer</div>
+                  <p>Older multiplier-based pricing flow kept for compatibility testing and comparison.</p>
+                </div>
+
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="o-basePrice">Base Price</label>
+                    <input id="o-basePrice" type="number" step="0.01" value="12.5">
+                  </div>
+                  <div class="field">
+                    <label for="o-country">Country</label>
+                    <input id="o-country" type="text" value="US">
+                  </div>
+                  <div class="field">
+                    <label for="o-source">Traffic Source</label>
+                    <select id="o-source">
+                      <option value="facebook">Facebook (x0.95)</option>
+                      <option value="google">Google (x1.01)</option>
+                      <option value="direct">Direct (x1.00)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="action-row start">
+                  <button class="btn outline" id="optimizeBtn">
+                    <i data-lucide="zap"></i>
+                    <span>Run Legacy Query</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="stack">
+                <div class="subtle-block">
+                  <div class="card-title">Legacy response</div>
+                  <p>Use this panel to compare the old multiplier logic with the primary tax-aware endpoint.</p>
+                </div>
+                <div class="card hidden" id="opt-results-wrap" style="padding: 0; margin: 0;">
+                  <pre class="json-viewer" id="optimizeJson"></pre>
+                </div>
+                <pre class="json-viewer" id="optimizeJsonPlaceholder">// Legacy response will appear here</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="panel-market" class="panel hidden">
+        <div class="panel-hero">
+          <div class="hero-card">
+            <span class="eyebrow"><i data-lucide="globe-2" style="width: 14px;"></i> Tax Coverage</span>
+            <h2>Global tax data in a readable operational table.</h2>
+            <p>The tax hub now uses the same spacing and card system as the rest of the dashboard, so the fetch action, raw response, and country table stay aligned.</p>
+          </div>
+
+          <div class="hero-card hero-side">
+            <h3>Tax hub notes</h3>
+            <ul>
+              <li><i data-lucide="database"></i><span>Fetches the current tax dataset from your API.</span></li>
+              <li><i data-lucide="table"></i><span>Shows countries, rates, and update dates in one table shell.</span></li>
+              <li><i data-lucide="braces"></i><span>Keeps the raw response visible for contract validation.</span></li>
+            </ul>
           </div>
         </div>
 
-        <div class="result-split hidden" id="calc-results-wrap">
-          <div>
-            <div class="card-title">Analysis Summary</div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-              <div class="vis-card">
-                <span class="vis-label">Tax Amount</span>
-                <span class="vis-value" id="rc-tax" style="color: var(--yellow);">—</span>
-              </div>
-              <div class="vis-card">
-                <span class="vis-label">Taxed Price</span>
-                <span class="vis-value" id="rc-taxed">—</span>
-              </div>
-              <div class="vis-card" style="grid-column: span 2; background: var(--surface2); border-color: var(--accent);">
-                <span class="vis-label">Optimized Price ✨</span>
-                <span class="vis-value" id="rc-optimized" style="color: var(--green); font-size: 2rem;">—</span>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div class="card-title" style="display: flex; justify-content: space-between;">
-              Raw JSON Response
-              <span id="calc-status"></span>
-            </div>
-            <pre class="json-viewer" id="calcJson">// Response will appear here</pre>
-          </div>
-        </div>
-
-        <!-- Legacy Optimizer (Collapsed) -->
-        <div style="margin-top: 40px; border-top: 1px solid var(--border); padding-top: 40px;">
-          <div class="card" style="opacity: 0.8; border-style: dashed;">
-            <div class="card-title"><i data-lucide="trending-up" style="color: var(--text-muted);"></i> Legacy Optimizer (Multiplier API)</div>
-            <div class="form-grid">
-              <div class="field">
-                <label>Base Price</label>
-                <input id="o-basePrice" type="number" step="0.01" value="12.5">
-              </div>
-              <div class="field">
-                <label>Country</label>
-                <input id="o-country" type="text" value="US">
-              </div>
-              <div class="field">
-                <label>Traffic Source</label>
-                <select id="o-source">
-                  <option value="facebook">Facebook (×0.95)</option>
-                  <option value="google">Google (×1.01)</option>
-                  <option value="direct">Direct (×1.00)</option>
-                </select>
-              </div>
-            </div>
-            <div style="margin-top: 24px;">
-              <button class="btn outline" id="optimizeBtn"><i data-lucide="zap"></i> Run Legacy Query</button>
-            </div>
-          </div>
-          <div class="card hidden" id="opt-results-wrap">
-            <pre class="json-viewer" id="optimizeJson"></pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- PANEL: MARKET DATA -->
-      <div id="panel-market" class="panel hidden">
         <div class="card">
-          <div class="card-title"><i data-lucide="globe" style="color: var(--accent);"></i> Global Tax Hub</div>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Real-time VAT and GST library for automatic legal compliance.</p>
-          
-          <div style="display: flex; gap: 12px; margin-bottom: 24px;">
-            <button class="btn" id="ratesBtn"><i data-lucide="refresh-cw"></i> Fetch Latest Rates</button>
+          <div class="panel-header">
+            <div>
+              <h3>Global Tax Hub</h3>
+              <p>Review supported regions and verify the raw payload returned by the tax-rate endpoint.</p>
+            </div>
+            <button class="btn" id="ratesBtn">
+              <i data-lucide="refresh-cw"></i>
+              <span>Fetch Latest Rates</span>
+            </button>
           </div>
 
-          <div class="table-wrap">
+          <div class="table-wrap" style="margin-top: 24px;">
             <table>
               <thead>
                 <tr>
@@ -210,93 +320,110 @@
                 </tr>
               </thead>
               <tbody id="ratesBody">
-                <tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 32px;">Click 'Fetch' to load market data.</td></tr>
+                <tr><td colspan="3" class="empty-row">Click "Fetch Latest Rates" to load market data.</td></tr>
               </tbody>
             </table>
           </div>
         </div>
+
         <div class="card hidden" id="rates-results-wrap">
-          <div class="card-title">Raw Tax Response <span id="rates-status"></span></div>
+          <div class="card-title-row">
+            <div class="card-title">Raw Tax Response</div>
+            <span id="rates-status"></span>
+          </div>
           <pre class="json-viewer" id="ratesJson"></pre>
         </div>
-      </div>
+      </section>
 
-      <!-- PANEL: ANALYTICS HUB -->
-      <div id="panel-analytics-hub" class="panel hidden">
-        <!-- Stats Summary -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px;">
-          <div class="card" style="margin-bottom: 0; padding: 24px; background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, transparent 100%);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Request Volume</span>
-              <div style="background: rgba(99,102,241,0.2); padding: 8px; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                <i data-lucide="activity" style="width: 16px; color: var(--accent);"></i>
-              </div>
-            </div>
-            <div id="stat-requests" style="font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 4px;">—</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Total API hits tracked</div>
-          </div>
-          
-          <div class="card" style="margin-bottom: 0; padding: 24px; background: linear-gradient(135deg, rgba(34,211,165,0.1) 0%, transparent 100%);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Optimization ROI</span>
-              <div style="background: rgba(34,211,165,0.2); padding: 8px; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                <i data-lucide="trending-up" style="width: 16px; color: var(--green);"></i>
-              </div>
-            </div>
-            <div id="stat-lift" style="font-size: 2rem; font-weight: 700; color: var(--green); margin-bottom: 4px;">—</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Revenue increase vs. standard rounding</div>
+      <section id="panel-analytics-hub" class="panel hidden">
+        <div class="panel-hero">
+          <div class="hero-card">
+            <span class="eyebrow"><i data-lucide="activity" style="width: 14px;"></i> Analytics</span>
+            <h2>Usage, conversions, and event testing in one dashboard.</h2>
+            <p>The analytics area now separates KPI cards, charting, event logging, and activity history into cleaner blocks so the page reads like a real dashboard instead of a long stack.</p>
           </div>
 
-          <div class="card" style="margin-bottom: 0; padding: 24px; background: linear-gradient(135deg, rgba(251,191,36,0.1) 0%, transparent 100%);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-              <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Conversion Rate</span>
-              <div style="background: rgba(251,191,36,0.2); padding: 8px; border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">
-                <i data-lucide="mouse-pointer-2" style="width: 16px; color: var(--yellow);"></i>
-              </div>
-            </div>
-            <div id="stat-conv" style="font-size: 2rem; font-weight: 700; color: var(--yellow); margin-bottom: 4px;">—</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Success rate of price optimization</div>
+          <div class="hero-card hero-side">
+            <h3>Analytics workflow</h3>
+            <ul>
+              <li><i data-lucide="bar-chart-2"></i><span>Top metrics summarize request volume, conversion rate, and lift.</span></li>
+              <li><i data-lucide="bar-chart-3"></i><span>Trend chart stays isolated so it has room to breathe on large screens.</span></li>
+              <li><i data-lucide="target"></i><span>Manual conversion logging remains available for quick backend checks.</span></li>
+            </ul>
           </div>
         </div>
 
-        <div class="card" style="padding: 24px;">
-          <div class="card-title"><i data-lucide="bar-chart-3" style="color: var(--accent);"></i> Usage Trend <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 400; margin-left: 8px;">(Last 7 Days)</span></div>
-          <div style="height: 300px; width: 100%; margin-top: 24px;">
-            <canvas id="analyticsChart"></canvas>
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <div class="stat-head">
+              <span>Request Volume</span>
+              <div class="stat-icon"><i data-lucide="activity" style="color: var(--accent);"></i></div>
+            </div>
+            <div id="stat-requests" class="stat-value">-</div>
+            <div class="stat-copy">Total API hits tracked</div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-head">
+              <span>Optimization ROI</span>
+              <div class="stat-icon"><i data-lucide="trending-up" style="color: var(--green);"></i></div>
+            </div>
+            <div id="stat-lift" class="stat-value green">-</div>
+            <div class="stat-copy">Revenue increase vs standard rounding</div>
+          </div>
+
+          <div class="card stat-card">
+            <div class="stat-head">
+              <span>Conversion Rate</span>
+              <div class="stat-icon"><i data-lucide="mouse-pointer-2" style="color: var(--yellow);"></i></div>
+            </div>
+            <div id="stat-conv" class="stat-value yellow">-</div>
+            <div class="stat-copy">Success rate of price optimization</div>
           </div>
         </div>
 
-        <!-- Track Conversion Form (Embedded in Analytics) -->
-        <div class="card" style="background: var(--surface2); border: 1px dashed var(--border);">
-          <div class="card-title"><i data-lucide="target" style="color: var(--accent);"></i> Manual Event Logger</div>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Simulate a conversion event to test your tracking logic.</p>
-          <div class="form-grid">
-            <div class="field">
-              <label>Price Shown</label>
-              <input id="t-price" type="number" step="0.01" value="10.99">
-            </div>
-            <div class="field">
-              <label>Converted</label>
-              <select id="t-converted">
-                <option value="true">Yes — Sale occurred</option>
-                <option value="false">No — Drop off</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Country</label>
-              <input id="t-country" type="text" value="IN">
+        <div class="analytics-layout">
+          <div class="card">
+            <div class="card-title">Usage Trend</div>
+            <div class="chart-shell">
+              <canvas id="analyticsChart"></canvas>
             </div>
           </div>
-          <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
-            <button class="btn" id="trackBtn"><i data-lucide="save"></i> Track Sale</button>
-            <span id="track-status"></span>
+
+          <div class="card">
+            <div class="card-title"><i data-lucide="target" style="color: var(--accent);"></i>Manual Event Logger</div>
+            <p style="color: var(--text-muted); font-size: 0.86rem; margin-top: 8px;">Simulate a conversion event to test your tracking logic.</p>
+            <div class="form-grid" style="margin-top: 22px; grid-template-columns: 1fr;">
+              <div class="field">
+                <label for="t-price">Price Shown</label>
+                <input id="t-price" type="number" step="0.01" value="10.99">
+              </div>
+              <div class="field">
+                <label for="t-converted">Converted</label>
+                <select id="t-converted">
+                  <option value="true">Yes - sale occurred</option>
+                  <option value="false">No - drop off</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="t-country">Country</label>
+                <input id="t-country" type="text" value="IN">
+              </div>
+            </div>
+            <div class="action-row start">
+              <button class="btn" id="trackBtn">
+                <i data-lucide="save"></i>
+                <span>Track Sale</span>
+              </button>
+              <span id="track-status"></span>
+            </div>
+            <pre class="json-viewer hidden" id="trackJson" style="min-height: 220px; margin-top: 18px;"></pre>
           </div>
-          <pre class="json-viewer hidden" id="trackJson" style="margin-top: 20px;"></pre>
         </div>
 
         <div class="card">
           <div class="card-title">Detailed Activity Log</div>
-          <div class="table-wrap">
+          <div class="table-wrap" style="margin-top: 20px;">
             <table>
               <thead>
                 <tr>
@@ -308,87 +435,84 @@
                 </tr>
               </thead>
               <tbody id="analyticsBody">
-                <tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 32px;">No activity logged yet.</td></tr>
+                <tr><td colspan="5" class="empty-row">No activity logged yet.</td></tr>
               </tbody>
             </table>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- PANEL: SETTINGS & API -->
-      <div id="panel-settings" class="panel hidden">
-        <div class="card" style="border: 2px solid var(--accent); background: linear-gradient(135deg, rgba(108, 99, 255, 0.05) 0%, transparent 100%);">
-          <div class="card-title"><i data-lucide="key" style="color: var(--accent);"></i> API Access Management</div>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Manage your production credentials and subscription tiers.</p>
-          
-          <div id="signup-form-body">
-            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
-              <h4 style="margin-bottom: 8px;">Request Production Access</h4>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">Enter your email to receive a unique API key and start optimizing your pricing.</p>
-              
-              <div class="field" style="margin-bottom: 20px;">
-                <label>Developer Email Address</label>
-                <input type="email" id="signup-email" placeholder="you@company.com" style="background: #000;">
+      <section id="panel-settings" class="panel hidden">
+        <div class="settings-grid">
+          <div class="card callout-card">
+            <div class="card-title"><i data-lucide="key" style="color: var(--accent);"></i>API Access Management</div>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">Manage production credentials, generate a developer key, and keep access details in a cleaner two-column view.</p>
+
+            <div id="signup-form-body" style="margin-top: 24px;">
+              <div class="signup-panel">
+                <h3 style="font-size: 1rem;">Request Production Access</h3>
+                <p style="font-size: 0.86rem; color: var(--text-muted); margin-top: 8px;">Enter your email to receive a unique API key and start optimizing pricing.</p>
+                <div class="field" style="margin-top: 20px;">
+                  <label for="signup-email">Developer Email Address</label>
+                  <input type="email" id="signup-email" placeholder="you@company.com">
+                </div>
+                <div class="action-row start">
+                  <button class="btn btn-primary" id="signup-btn">
+                    <i data-lucide="zap"></i>
+                    <span>Generate New API Key</span>
+                  </button>
+                </div>
               </div>
-              
-              <button class="btn btn-primary" id="signup-btn" style="width: 100%; justify-content: center; height: 48px;">
-                <i data-lucide="zap"></i>
-                <span>Generate New API Key</span>
-              </button>
+            </div>
+
+            <div id="signup-result-body" class="hidden" style="margin-top: 24px;">
+              <div class="success-panel">
+                <div class="success-icon">
+                  <i data-lucide="check"></i>
+                </div>
+                <h3 style="text-align: center; color: var(--green);">Credential Generated Successfully</h3>
+                <p style="font-size: 0.86rem; color: var(--text-muted); margin-top: 8px; text-align: center;">Your production key is ready. Store it safely because it will not be shown again.</p>
+                <div class="key-display">
+                  <code id="new-api-key"></code>
+                  <button class="icon-btn" type="button" id="copy-api-key" aria-label="Copy API key">
+                    <i data-lucide="copy" style="width: 16px;"></i>
+                  </button>
+                </div>
+                <div class="action-row start">
+                  <button class="btn outline" id="finish-signup">Done</button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div id="signup-result-body" class="hidden">
-            <div style="background: rgba(34,211,165,0.1); border: 1px solid var(--green); border-radius: 12px; padding: 24px; text-align: center;">
-              <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
-                <i data-lucide="check" style="color: #000;"></i>
-              </div>
-              <h4 style="color: var(--green); margin-bottom: 8px;">Credential Generated Successfully</h4>
-              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">Your production key is ready. Store it safely as it won't be shown again.</p>
-              
-              <div style="display: flex; align-items: center; gap: 12px; background: #000; padding: 16px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 24px;">
-                <code id="new-api-key" style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); flex: 1; word-break: break-all; letter-spacing: 1px;"></code>
-                <button class="btn btn-outline" style="padding: 8px; min-width: auto;" onclick="navigator.clipboard.writeText(document.getElementById('new-api-key').textContent); alert('Copied!')">
-                  <i data-lucide="copy" style="width: 14px;"></i>
-                </button>
-              </div>
-              
-              <button class="btn outline" id="finish-signup" style="width: 100%; justify-content: center;">Done</button>
-            </div>
+          <div class="card">
+            <div class="card-title">Security Best Practices</div>
+            <ul class="security-list" style="margin-top: 18px;">
+              <li><i data-lucide="shield"></i><span>Never embed your production API key in client-side code.</span></li>
+              <li><i data-lucide="shield-check"></i><span>Call the PricePilot API from your backend server so secrets stay private.</span></li>
+              <li><i data-lucide="refresh-cw"></i><span>Rotate keys immediately if you suspect exposure or misuse.</span></li>
+              <li><i data-lucide="lock"></i><span>Use environment variables and deployment secrets rather than committing credentials.</span></li>
+            </ul>
           </div>
         </div>
-
-        <div class="card">
-          <div class="card-title">Security Best Practices</div>
-          <ul style="list-style: none; font-size: 0.85rem; color: var(--text-muted);">
-            <li style="margin-bottom: 12px; display: flex; gap: 12px;"><i data-lucide="shield" style="width: 16px; flex-shrink: 0; color: var(--accent);"></i> Never share your API key in client-side code (browsers/apps).</li>
-            <li style="margin-bottom: 12px; display: flex; gap: 12px;"><i data-lucide="shield" style="width: 16px; flex-shrink: 0; color: var(--accent);"></i> Always call the PricePilot API from your backend server.</li>
-            <li style="margin-bottom: 12px; display: flex; gap: 12px;"><i data-lucide="shield" style="width: 16px; flex-shrink: 0; color: var(--accent);"></i> Regularly rotate your keys if you suspect a leak.</li>
-          </ul>
-        </div>
-      </div>
-        </div>
-      </div>
-
+      </section>
     </div>
   </main>
 
-  <!-- --- Mobile Key Overlay --- -->
   <div class="key-overlay" id="key-overlay">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <h3 style="font-size: 1rem; color: #fff;">Set API Key</h3>
-      <button id="close-key" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer;">
-        <i data-lucide="x" style="width: 20px;"></i>
+    <div class="overlay-head">
+      <h3>Set API Key</h3>
+      <button id="close-key" class="icon-btn" type="button" aria-label="Close API key panel">
+        <i data-lucide="x" style="width: 18px;"></i>
       </button>
     </div>
-    <div class="api-key-wrap" style="display: flex; max-width: 100%;">
+    <div class="api-key-wrap" style="display: flex; width: 100%;">
       <i data-lucide="key" style="width: 14px; color: var(--accent);"></i>
       <input type="password" id="api-key-mobile" placeholder="api_key_..." value="api_key_default_sample_123">
       <i data-lucide="eye" style="width: 14px; cursor: pointer;" id="toggle-key-mobile"></i>
     </div>
-    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">Your key is stored locally and used for all requests.</p>
+    <p class="overlay-copy">Your key is stored locally and reused for requests in this preview.</p>
   </div>
-
 
   <script src="dashboard.js"></script>
 </body>
