@@ -95,7 +95,7 @@
 
     <div class="content">
       <section id="panel-pricing" class="panel tool-panel">
-        <div class="tool-shell">
+        <div class="playground-wrapper">
           <div class="tool-toolbar">
             <div class="tool-tabs tabs" role="tablist" aria-label="API endpoint tabs">
               <button class="tab-btn active" type="button" data-tab="calculate" aria-selected="true">
@@ -106,135 +106,169 @@
               </button>
             </div>
             <div class="tool-chip-row">
-              <span class="tool-chip">Bearer auth</span>
-              <span class="tool-chip">Live JSON</span>
+              <span class="tool-chip"><i data-lucide="lock" style="width:12px; margin-right:6px"></i> Bearer Auth</span>
+              <span class="tool-chip"><i data-lucide="code-2" style="width:12px; margin-right:6px"></i> JSON</span>
             </div>
           </div>
 
+          <!-- Calculate Price Endpoint -->
           <div class="endpoint-view" id="tab-calculate">
-            <div class="tool-grid">
-              <div class="tool-form-card">
-                <div class="tool-head">
-                  <div class="endpoint-line">
-                    <span class="method-chip">POST</span>
-                    <code>/calculate-price</code>
+            <div class="playground-main">
+              <!-- Parameters Card -->
+              <div class="params-card">
+                <div class="card-header">
+                  <h3><i data-lucide="sliders"></i> REQUEST PARAMETERS</h3>
+                </div>
+                <div class="card-body">
+                  <div class="params-grid">
+                    <div class="field">
+                      <label for="c-basePrice">Base Price</label>
+                      <input id="c-basePrice" type="number" step="0.01" value="10.00">
+                    </div>
+                    <div class="field">
+                      <label for="c-currency">Currency</label>
+                      <input id="c-currency" type="text" value="USD">
+                    </div>
+                    <div class="field" style="grid-column: span 2;">
+                      <label for="c-country">Target Country</label>
+                      <select id="c-country">
+                        <option value="US">United States (8% Tax)</option>
+                        <option value="IN" selected>India (18% Tax)</option>
+                        <option value="GB">United Kingdom (20% Tax)</option>
+                        <option value="DE">Germany (19% Tax)</option>
+                        <option value="CA">Canada (13% Tax)</option>
+                        <option value="AU">Australia (10% Tax)</option>
+                      </select>
+                    </div>
+                    <div class="field" style="grid-column: span 2;">
+                      <label for="c-margin">Minimum Margin (%)</label>
+                      <input id="c-margin" type="number" step="1" value="15">
+                    </div>
                   </div>
                 </div>
-
-                <div class="form-grid">
-                  <div class="field">
-                    <label for="c-basePrice">Base Price</label>
-                    <input id="c-basePrice" type="number" step="0.01" value="10">
-                  </div>
-                  <div class="field">
-                    <label for="c-country">Country</label>
-                    <select id="c-country">
-                      <option value="US">US - United States (8%)</option>
-                      <option value="IN" selected>IN - India (18%)</option>
-                      <option value="GB">GB - United Kingdom (20%)</option>
-                      <option value="DE">DE - Germany (19%)</option>
-                      <option value="CA">CA - Canada (13%)</option>
-                      <option value="AU">AU - Australia (10%)</option>
-                    </select>
-                  </div>
-                  <div class="field">
-                    <label for="c-currency">Currency</label>
-                    <input id="c-currency" type="text" value="USD">
-                  </div>
-                  <div class="field">
-                    <label for="c-margin">Min Margin (%)</label>
-                    <input id="c-margin" type="number" step="1" value="10">
-                  </div>
-                </div>
-
-                <div class="action-row start">
-                  <button class="btn" id="calcBtn">
-                    <i data-lucide="zap"></i>
-                    <span>Run</span>
+                <div class="run-btn-wrapper">
+                  <button class="play-button" id="calcBtn">
+                    <i data-lucide="play"></i>
+                    <span>Execute Request</span>
                   </button>
                 </div>
               </div>
 
-              <div class="tool-response-card" id="calc-response-column">
-                <div class="tool-head tool-head-row">
-                  <h3>Response</h3>
-                  <span id="calc-status"></span>
+              <!-- Code Snippet Card -->
+              <div class="code-card">
+                <div class="code-window">
+                  <div class="code-tabs" id="calc-code-tabs">
+                    <div class="code-tab active" data-lang="curl">cURL</div>
+                    <div class="code-tab" data-lang="js">JavaScript</div>
+                    <div class="code-tab" data-lang="python">Python</div>
+                  </div>
+                  <div class="code-content">
+                    <span class="code-lang-tag" id="calc-lang-tag">cURL</span>
+                    <pre class="code-pre"><code id="calc-request-snippet"></code></pre>
+                    <button class="copy-snippet" id="copy-calc-snippet" title="Copy to clipboard">
+                      <i data-lucide="copy" style="width:14px"></i>
+                    </button>
+                  </div>
                 </div>
-                <pre class="json-viewer" id="calcJson">// Response will appear here</pre>
               </div>
             </div>
 
-            <div class="tool-bottom hidden" id="calc-results-wrap">
-              <div class="tool-summary-card">
-                <div class="summary-grid">
-                  <div class="summary-item">
-                    <span class="vis-label">Tax Amount</span>
-                    <strong class="vis-value accent" id="rc-tax">-</strong>
-                  </div>
-                  <div class="summary-item">
-                    <span class="vis-label">Taxed Price</span>
-                    <strong class="vis-value" id="rc-taxed">-</strong>
-                  </div>
-                  <div class="summary-item highlight">
-                    <span class="vis-label">Optimized Price</span>
-                    <strong class="vis-value success" id="rc-optimized">-</strong>
-                  </div>
+            <!-- Response Section -->
+            <div class="response-card hidden" id="calc-results-wrap" style="margin-top: 24px;">
+              <div class="response-header">
+                <div class="status-indicator" id="calc-status-indicator">
+                  <div class="status-dot"></div>
+                  <span id="calc-status">READY</span>
+                </div>
+                <div class="response-actions">
+                  <span style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);">application/json</span>
                 </div>
               </div>
-
-              <div class="tool-note-card">
-                <pre class="snippet-block"><code>curl -X POST /calculate-price \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json"</code></pre>
+              <div class="card-body">
+                <pre class="json-viewer" id="calcJson">// Response will appear here after execution</pre>
+              </div>
+              <div class="response-footer">
+                <div class="metric-item">
+                  <span class="metric-label">Tax Applied</span>
+                  <span class="metric-value highlight" id="rc-tax">-</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Gross Price</span>
+                  <span class="metric-value" id="rc-taxed">-</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Optimal Price</span>
+                  <span class="metric-value success" id="rc-optimized">-</span>
+                </div>
               </div>
             </div>
           </div>
 
+          <!-- Optimize Price (Legacy) Endpoint -->
           <div class="endpoint-view hidden" id="tab-legacy">
-            <div class="tool-grid tool-grid-single">
-              <div class="tool-form-card">
-                <div class="tool-head">
-                  <div class="endpoint-line">
-                    <span class="method-chip">POST</span>
-                    <code>/optimize-price</code>
+            <div class="playground-main">
+              <!-- Parameters Card -->
+              <div class="params-card">
+                <div class="card-header">
+                  <h3><i data-lucide="zap"></i> LEGACY PARAMETERS</h3>
+                </div>
+                <div class="card-body">
+                  <div class="params-grid">
+                    <div class="field">
+                      <label for="o-basePrice">Base Price</label>
+                      <input id="o-basePrice" type="number" step="0.01" value="12.50">
+                    </div>
+                    <div class="field">
+                      <label for="o-country">Country</label>
+                      <input id="o-country" type="text" value="US">
+                    </div>
+                    <div class="field" style="grid-column: span 2;">
+                      <label for="o-source">Traffic Source</label>
+                      <select id="o-source">
+                        <option value="facebook">Facebook Ads (Social)</option>
+                        <option value="google">Google Search (SEM)</option>
+                        <option value="direct" selected>Direct Traffic</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-
-                <div class="form-grid">
-                  <div class="field">
-                    <label for="o-basePrice">Base Price</label>
-                    <input id="o-basePrice" type="number" step="0.01" value="12.5">
-                  </div>
-                  <div class="field">
-                    <label for="o-country">Country</label>
-                    <input id="o-country" type="text" value="US">
-                  </div>
-                  <div class="field">
-                    <label for="o-source">Traffic Source</label>
-                    <select id="o-source">
-                      <option value="facebook">Facebook (x0.95)</option>
-                      <option value="google">Google (x1.01)</option>
-                      <option value="direct">Direct (x1.00)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="action-row start">
-                  <button class="btn outline" id="optimizeBtn">
-                    <i data-lucide="zap"></i>
-                    <span>Run</span>
+                <div class="run-btn-wrapper">
+                  <button class="play-button" id="optimizeBtn">
+                    <i data-lucide="play"></i>
+                    <span>Run Optimization</span>
                   </button>
                 </div>
               </div>
 
-              <div class="tool-response-card">
-                <div class="tool-head">
-                  <h3>Legacy Response</h3>
+              <!-- Code Snippet Card -->
+              <div class="code-card">
+                <div class="code-window">
+                  <div class="code-tabs" id="opt-code-tabs">
+                    <div class="code-tab active" data-lang="curl">cURL</div>
+                    <div class="code-tab" data-lang="js">JavaScript</div>
+                    <div class="code-tab" data-lang="python">Python</div>
+                  </div>
+                  <div class="code-content">
+                    <span class="code-lang-tag" id="opt-lang-tag">cURL</span>
+                    <pre class="code-pre"><code id="opt-request-snippet"></code></pre>
+                    <button class="copy-snippet" id="copy-opt-snippet" title="Copy to clipboard">
+                      <i data-lucide="copy" style="width:14px"></i>
+                    </button>
+                  </div>
                 </div>
-                <div class="card hidden legacy-wrap" id="opt-results-wrap">
-                  <pre class="json-viewer" id="optimizeJson"></pre>
+              </div>
+            </div>
+
+            <!-- Legacy Response -->
+            <div class="response-card hidden" id="opt-results-wrap" style="margin-top: 24px;">
+              <div class="response-header">
+                <div class="status-indicator status-success">
+                  <div class="status-dot"></div>
+                  <span>OK</span>
                 </div>
-                <pre class="json-viewer" id="optimizeJsonPlaceholder">// Legacy response will appear here</pre>
+              </div>
+              <div class="card-body">
+                <pre class="json-viewer" id="optimizeJson"></pre>
               </div>
             </div>
           </div>

@@ -11,6 +11,14 @@ const apiMobile = document.getElementById("api-key-mobile");
 const pageTitle = document.getElementById("page-title");
 const pageSubtitle = document.getElementById("page-subtitle");
 const calcResponseColumn = document.getElementById("calc-response-column");
+const calcSnippetEl = document.getElementById("calc-request-snippet");
+const optSnippetEl = document.getElementById("opt-request-snippet");
+const calcLangTag = document.getElementById("calc-lang-tag");
+const optLangTag = document.getElementById("opt-lang-tag");
+
+let currentCalcLang = "curl";
+let currentOptLang = "curl";
+
 
 function refreshIcons() {
   lucide.createIcons();
@@ -145,6 +153,133 @@ async function callApi(method, path, body) {
   }
 }
 
+// --- Playground Logic ---
+
+function getSnippet(lang, method, path, body) {
+  const baseUrl = window.location.origin;
+  const fullUrl = `${baseUrl}${path}`;
+  const jsonBody = JSON.stringify(body, null, 2);
+
+  if (lang === "curl") {
+    return `<span class="sh-keyword">curl</span> -X <span class="sh-string">${method}</span> <span class="sh-string">"${fullUrl}"</span> \\
+  -H <span class="sh-string">"Authorization: Bearer YOUR_API_KEY"</span> \\
+  -H <span class="sh-string">"Content-Type: application/json"</span> \\
+  -d <span class="sh-string">'${JSON.stringify(body)}'</span>`;
+  }
+
+  if (lang === "js") {
+    return `<span class="sh-keyword">const</span> <span class="sh-param">response</span> = <span class="sh-keyword">await</span> <span class="sh-function">fetch</span>(<span class="sh-string">"${fullUrl}"</span>, {
+  <span class="sh-param">method</span>: <span class="sh-string">"${method}"</span>,
+  <span class="sh-param">headers</span>: {
+    <span class="sh-string">"Authorization"</span>: <span class="sh-string">"Bearer YOUR_API_KEY"</span>,
+    <span class="sh-string">"Content-Type"</span>: <span class="sh-string">"application/json"</span>
+  },
+  <span class="sh-param">body</span>: <span class="sh-function">JSON.stringify</span>(${jsonBody})
+});
+
+<span class="sh-keyword">const</span> <span class="sh-param">data</span> = <span class="sh-keyword">await</span> <span class="sh-param">response</span>.<span class="sh-function">json</span>();`;
+  }
+
+  if (lang === "python") {
+    return `<span class="sh-keyword">import</span> requests
+
+<span class="sh-param">url</span> = <span class="sh-string">"${fullUrl}"</span>
+<span class="sh-param">headers</span> = {
+    <span class="sh-string">"Authorization"</span>: <span class="sh-string">"Bearer YOUR_API_KEY"</span>,
+    <span class="sh-string">"Content-Type"</span>: <span class="sh-string">"application/json"</span>
+}
+<span class="sh-param">data</span> = ${JSON.stringify(body, null, 4).replace(/true/g, "True").replace(/false/g, "False")}
+
+<span class="sh-param">response</span> = requests.<span class="sh-function">post</span>(<span class="sh-param">url</span>, <span class="sh-param">headers</span>=headers, <span class="sh-param">json</span>=<span class="sh-param">data</span>)
+<span class="sh-param">print</span>(<span class="sh-param">response</span>.<span class="sh-function">json</span>())`;
+  }
+  return "";
+}
+
+function updatePlaygroundSnippets() {
+  // Calculate endpoint
+  const calcBody = {
+    base_price: Number(document.getElementById("c-basePrice")?.value || 0),
+    country: document.getElementById("c-country")?.value || "US",
+    currency: document.getElementById("c-currency")?.value || "USD",
+    min_margin: Number(document.getElementById("c-margin")?.value || 0)
+  };
+  if (calcSnippetEl) {
+    calcSnippetEl.innerHTML = getSnippet(currentCalcLang, "POST", "/calculate-price", calcBody);
+    if (calcLangTag) calcLangTag.textContent = currentCalcLang;
+  }
+
+  // Optimize endpoint
+  const optBody = {
+    base_price: Number(document.getElementById("o-basePrice")?.value || 0),
+    country: document.getElementById("o-country")?.value || "US",
+    currency: "USD",
+    source: document.getElementById("o-source")?.value || "direct"
+  };
+  if (optSnippetEl) {
+    optSnippetEl.innerHTML = getSnippet(currentOptLang, "POST", "/optimize-price", optBody);
+    if (optLangTag) optLangTag.textContent = currentOptLang;
+  }
+}
+
+function setupPlayground() {
+  const inputs = document.querySelectorAll(".params-card input, .params-card select");
+  inputs.forEach(input => {
+    input.addEventListener("input", updatePlaygroundSnippets);
+  });
+
+  document.querySelectorAll("#calc-code-tabs .code-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll("#calc-code-tabs .code-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentCalcLang = tab.dataset.lang;
+      updatePlaygroundSnippets();
+    });
+  });
+
+  document.querySelectorAll("#opt-code-tabs .code-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll("#opt-code-tabs .code-tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      currentOptLang = tab.dataset.lang;
+      updatePlaygroundSnippets();
+    });
+  });
+
+  const copyCalc = document.getElementById("copy-calc-snippet");
+  if (copyCalc) {
+    copyCalc.addEventListener("click", () => {
+      const text = calcSnippetEl.textContent;
+      navigator.clipboard.writeText(text);
+      const icon = copyCalc.querySelector("i");
+      icon.setAttribute("data-lucide", "check");
+      refreshIcons();
+      setTimeout(() => {
+        icon.setAttribute("data-lucide", "copy");
+        refreshIcons();
+      }, 2000);
+    });
+  }
+
+  const copyOpt = document.getElementById("copy-opt-snippet");
+  if (copyOpt) {
+    copyOpt.addEventListener("click", () => {
+      const text = optSnippetEl.textContent;
+      navigator.clipboard.writeText(text);
+      const icon = copyOpt.querySelector("i");
+      icon.setAttribute("data-lucide", "check");
+      refreshIcons();
+      setTimeout(() => {
+        icon.setAttribute("data-lucide", "copy");
+        refreshIcons();
+      }, 2000);
+    });
+  }
+
+  updatePlaygroundSnippets();
+}
+
+
 async function callApiNoAuth(method, path, body) {
   const opts = { method, headers: { "Content-Type": "application/json" } };
   if (body) opts.body = JSON.stringify(body);
@@ -185,9 +320,16 @@ if (calcBtn) {
     const response = await callApi("POST", "/calculate-price", payload);
     const jsonEl = document.getElementById("calcJson");
     if (jsonEl) jsonEl.innerHTML = highlightJson(response.data);
-    setStatus(document.getElementById("calc-status"), response.ok, response.status);
+    
+    const statusWrap = document.getElementById("calc-status-indicator");
+    const statusText = document.getElementById("calc-status");
+    if (statusWrap && statusText) {
+      statusWrap.className = `status-indicator ${response.ok ? "status-success" : "status-error"}`;
+      statusText.textContent = `${response.status} ${response.ok ? "OK" : "ERROR"}`;
+    }
 
     const resultsWrap = document.getElementById("calc-results-wrap");
+
     if (resultsWrap) resultsWrap.classList.remove("hidden");
 
     if (response.ok && response.data.tax_amount !== undefined) {
@@ -439,5 +581,6 @@ function initializePanelFromHash() {
 window.addEventListener("hashchange", initializePanelFromHash);
 
 setEndpointTab("calculate");
+setupPlayground();
 initializePanelFromHash();
 refreshIcons();
