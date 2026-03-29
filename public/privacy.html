@@ -9,21 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="dashboard-layout.css">
-  <style>
-    .legal-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
-    h1 { font-size: 2.5rem; margin-bottom: 8px; }
-    .updated { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 40px; }
-    h2 { font-size: 1.25rem; margin: 32px 0 16px; display: flex; align-items: center; gap: 12px; color: var(--accent); }
-    p { margin-bottom: 20px; line-height: 1.7; color: var(--text-muted); }
-    ul { list-style: none; margin-bottom: 24px; }
-    li { margin-bottom: 12px; display: flex; gap: 12px; font-size: 0.95rem; }
-    li::before { content: "•"; color: var(--accent); font-weight: bold; }
-    .highlight { background: rgba(108, 99, 255, 0.05); border-left: 3px solid var(--accent); padding: 20px; border-radius: 4px; margin: 24px 0; }
-    .highlight p { margin-bottom: 0; color: #fff; font-weight: 500; }
-  </style>
 </head>
 <body>
-
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <aside class="sidebar" id="sidebar">
@@ -51,7 +38,7 @@
       </a>
     </nav>
 
-    <nav class="nav-group" style="padding-top: 12px; border-top: 1px solid var(--border);">
+    <nav class="nav-group">
       <span class="nav-label">Documentation</span>
       <a href="about.html" class="nav-item">
         <i data-lucide="info"></i>
@@ -76,8 +63,8 @@
       <div class="acc-card">
         <div class="avatar">D</div>
         <div class="acc-info">
-          <div style="font-size: 0.8rem; font-weight: 600; color: #fff;">Developer</div>
-          <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
+          <div class="acc-name">Developer</div>
+          <div class="acc-plan">Free plan</div>
         </div>
       </div>
     </div>
@@ -85,79 +72,92 @@
 
   <main class="main">
     <header class="top-bar">
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <button class="menu-toggle" id="menu-toggle"><i data-lucide="menu"></i></button>
-        <div id="page-title" style="font-weight: 600; font-size: 1.1rem;">Privacy Policy</div>
+      <div class="top-bar-left">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+          <i data-lucide="menu"></i>
+        </button>
+        <div class="page-heading">
+          <h1>Privacy Policy</h1>
+          <p>How account, pricing, and usage data are handled in PricePilot.</p>
+        </div>
       </div>
     </header>
 
     <div class="content">
-      <div class="legal-card">
-        <h1 style="background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Privacy Policy</h1>
-        <div class="updated">Last Updated: March 23, 2026</div>
-
-        <p>At PricePilot, we prioritize the security and confidentiality of your pricing and customer data. This policy explains how we process information when you utilize our API services to optimize and track product prices across international markets.</p>
-
-        <h2><i data-lucide="database"></i> 1. Information We Collect</h2>
-        <p>To provide accurate tax calculations and conversion tracking, we collect the following datasets:</p>
-        <ul>
-          <li><strong>Account Identifiers:</strong> Your API keys (secured with SHA-256) and associated email addresses.</li>
-          <li><strong>Transactional Metadata:</strong> Base prices, source traffic identifiers, and user country codes for tax processing.</li>
-          <li><strong>Performance Metrics:</strong> Anonymized conversion events to help visualize pricing effectiveness in your dashboard.</li>
-        </ul>
-
-        <h2><i data-lucide="zap"></i> 2. How Information is Used</h2>
-        <p>The primary purpose of data processing in PricePilot is the technical execution of our pricing algorithms:</p>
-        <div class="highlight">
-          <p>We never share your specific product pricing strategies or margin data with other customers. Your data remains isolated within your account environment.</p>
+      <section class="doc-page">
+        <div class="doc-hero">
+          <span class="doc-kicker"><i data-lucide="shield" style="width: 14px;"></i> Policy</span>
+          <h1>Privacy for pricing, tax, and usage data.</h1>
+          <p>PricePilot is built to process the data needed for pricing decisions while keeping customer account information and API access details constrained to operational use.</p>
         </div>
-        <ul>
-          <li><strong>Dynamic Taxation:</strong> Mapping real-time VAT/GST rates to your transaction requests.</li>
-          <li><strong>Price Optimization:</strong> Applying psychological rounding algorithms tailored to your target currency.</li>
-          <li><strong>Security:</strong> Monitoring API traffic to prevent unauthorized access and maintain service uptime.</li>
-        </ul>
 
-        <h2><i data-lucide="lock"></i> 3. Security Framework</h2>
-        <p>PricePilot is built on a "Security First" architecture, ensuring that your data is protected at every layer:</p>
-        <ul>
-          <li><strong>Encryption:</strong> All API requests are transmitted via TLS 1.3 encrypted tunnels.</li>
-          <li><strong>Key Isolation:</strong> API keys are hashed and stored separately from usage logs.</li>
-          <li><strong>Minimal Retention:</strong> We do not store full transaction details longer than necessary for auditing purposes.</li>
-        </ul>
+        <div class="legal-card">
+          <div class="legal-meta">Last updated: March 23, 2026</div>
 
-        <h2><i data-lucide="user-check"></i> 4. Controller & Data Rights</h2>
-        <p>Under GDPR and CCPA, you retain full control over your account data. You may request an export of your usage logs or the permanent deletion of your API keys via our support channels.</p>
-      </div>
+          <div class="legal-section">
+            <h2>1. Information we collect</h2>
+            <p>To provide tax-aware pricing and API analytics, PricePilot processes account identifiers, request metadata, and event-level usage details tied to your API activity.</p>
+            <ul class="legal-list">
+              <li><i data-lucide="database"></i><span>Account information such as email addresses and API key records.</span></li>
+              <li><i data-lucide="globe"></i><span>Transaction context such as country, currency, and source metadata used for pricing decisions.</span></li>
+              <li><i data-lucide="bar-chart-3"></i><span>Performance and usage metrics used to present analytics inside the dashboard.</span></li>
+            </ul>
+          </div>
 
-      <footer style="margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
-        &copy; 2026 PricePilot API. All rights reserved.
-      </footer>
+          <div class="legal-section">
+            <h2>2. How information is used</h2>
+            <p>Data is used to execute pricing calculations, protect platform access, and present usage reporting for your account.</p>
+            <div class="legal-highlight">
+              <p>Your product pricing logic and account data are not shared across customer accounts. Operational data is used to serve your workspace and maintain the service.</p>
+            </div>
+            <ul class="legal-list">
+              <li><i data-lucide="calculator"></i><span>Applying current tax and rounding logic to request payloads.</span></li>
+              <li><i data-lucide="shield-check"></i><span>Protecting API access through authentication, monitoring, and abuse prevention.</span></li>
+              <li><i data-lucide="activity"></i><span>Displaying usage, conversion, and optimization performance inside analytics views.</span></li>
+            </ul>
+          </div>
+
+          <div class="legal-section">
+            <h2>3. Security framework</h2>
+            <p>Security controls are intended to reduce unnecessary exposure of account and usage data throughout the product.</p>
+            <ul class="legal-list">
+              <li><i data-lucide="lock"></i><span>API requests are expected to travel over encrypted HTTPS connections.</span></li>
+              <li><i data-lucide="key"></i><span>Key records are stored as hashed values rather than plain-text secrets.</span></li>
+              <li><i data-lucide="archive"></i><span>Only the data required for service operation, auditing, and support is retained.</span></li>
+            </ul>
+          </div>
+
+          <div class="legal-section">
+            <h2>4. Your rights</h2>
+            <p>You may request account support related to exports, deletion, or access concerns by contacting the PricePilot team through the support channels listed on the contact page.</p>
+          </div>
+        </div>
+
+        <div class="footer-note">&copy; 2026 PricePilot API. All rights reserved.</div>
+      </section>
     </div>
   </main>
 
   <script>
     lucide.createIcons();
-    
-    // Simple Sidebar Mobile Toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebar-overlay");
+
     if (menuToggle) {
-      menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        overlay.classList.toggle('active');
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("active");
       });
     }
-    
+
     if (overlay) {
-      overlay.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('active');
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
       });
     }
   </script>
-</body>
-</html>
 </body>
 </html>

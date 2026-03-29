@@ -9,18 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="dashboard-layout.css">
-  <style>
-    /* Content-specific tweaks to make about sections look clean in the dashboard shell */
-    .about-hero { text-align: center; padding: 60px 0; margin-bottom: 48px; border-bottom: 1px solid var(--border); }
-    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-bottom: 64px; }
-    .value-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .value-card { background: var(--surface2); border: 1px solid var(--border); padding: 32px; border-radius: var(--radius); }
-    .feature-icon { color: var(--accent); margin-bottom: 16px; }
-    @media (max-width: 992px) { .story-grid { grid-template-columns: 1fr; } }
-  </style>
 </head>
 <body>
-
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <aside class="sidebar" id="sidebar">
@@ -48,7 +38,7 @@
       </a>
     </nav>
 
-    <nav class="nav-group" style="padding-top: 12px; border-top: 1px solid var(--border);">
+    <nav class="nav-group">
       <span class="nav-label">Documentation</span>
       <a href="about.html" class="nav-item active">
         <i data-lucide="info"></i>
@@ -73,8 +63,8 @@
       <div class="acc-card">
         <div class="avatar">D</div>
         <div class="acc-info">
-          <div style="font-size: 0.8rem; font-weight: 600; color: #fff;">Developer</div>
-          <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
+          <div class="acc-name">Developer</div>
+          <div class="acc-plan">Free plan</div>
         </div>
       </div>
     </div>
@@ -82,81 +72,89 @@
 
   <main class="main">
     <header class="top-bar">
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <button class="menu-toggle" id="menu-toggle"><i data-lucide="menu"></i></button>
-        <div id="page-title" style="font-weight: 600; font-size: 1.1rem;">About PricePilot</div>
+      <div class="top-bar-left">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+          <i data-lucide="menu"></i>
+        </button>
+        <div class="page-heading">
+          <h1>About PricePilot</h1>
+          <p>Why the product exists and what it is built to solve.</p>
+        </div>
       </div>
     </header>
 
     <div class="content">
-      <section class="about-hero">
-        <h1 style="font-size: 2.5rem; margin-bottom: 16px; background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Beyond the Decimal Point.</h1>
-        <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 700px; margin: 0 auto;">Automating the hidden friction of international pricing and tax compliance.</p>
+      <section class="doc-page">
+        <div class="doc-hero">
+          <span class="doc-kicker"><i data-lucide="sparkles" style="width: 14px;"></i> Company</span>
+          <h1>Global pricing should feel clean, local, and trustworthy.</h1>
+          <p>PricePilot helps teams handle cross-border pricing without scattering tax logic, rounding rules, and conversion tracking across multiple tools.</p>
+        </div>
+
+        <div class="doc-grid">
+          <div class="doc-card">
+            <h2>What we are building</h2>
+            <p>Most teams start international pricing with manual tables, one-off formulas, and checkout patches. That usually works until tax rules change or product teams need more control over margin and conversion performance.</p>
+            <p>PricePilot centralizes those decisions into a single pricing engine. It calculates taxes, rounds prices to more natural endings, and gives developers a direct API surface instead of forcing them to maintain pricing logic in multiple places.</p>
+          </div>
+
+          <div class="stat-stack">
+            <div class="stat-panel">
+              <strong>Developer first</strong>
+              <span class="mini-stat-label">Fast API testing, readable output, and simple integration paths.</span>
+            </div>
+            <div class="stat-panel">
+              <strong>Margin aware</strong>
+              <span class="mini-stat-label">Optimization logic is designed to protect thresholds, not just round attractively.</span>
+            </div>
+            <div class="stat-panel">
+              <strong>Operationally clear</strong>
+              <span class="mini-stat-label">Tax, response data, and analytics stay visible in one place for teams.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-grid">
+          <div class="doc-card">
+            <h2>How we think about the product</h2>
+            <ul class="doc-list">
+              <li><i data-lucide="check"></i><span>Pricing should be treated as product infrastructure, not just a static number in a database.</span></li>
+              <li><i data-lucide="check"></i><span>International customers trust prices that look local and predictable.</span></li>
+              <li><i data-lucide="check"></i><span>Developers need transparent request and response flows so they can validate behavior quickly.</span></li>
+            </ul>
+          </div>
+
+          <div class="doc-card">
+            <h2>Where PricePilot fits</h2>
+            <p>PricePilot is intended to sit between your product catalog and your checkout or billing flow. Your app sends the base price and region context, and the engine returns a cleaner sell price along with the data you need to explain that result internally.</p>
+          </div>
+        </div>
+
+        <div class="footer-note">&copy; 2026 PricePilot API. All rights reserved.</div>
       </section>
-
-      <div class="story-grid">
-        <div>
-          <h2 style="margin-bottom: 24px; color: #fff;">Our Mission</h2>
-          <p style="color: var(--text-muted); margin-bottom: 20px; line-height: 1.8;">For most developers, global pricing is an afterthought. You set a base price, maybe add a static tax percentage, and hope for the best. But international markets are complex. VAT and GST rules change constantly, and awkward rounded prices lower customer trust.</p>
-          <p style="color: var(--text-muted); line-height: 1.8;">PricePilot was born to solve this. Pricing shouldn't just be an input field. It should be a smart, automated service that protects your margins and delights your users.</p>
-        </div>
-        <div class="card" style="border-left: 4px solid var(--accent); background: var(--surface);">
-          <i data-lucide="quote" style="color: var(--accent); margin-bottom: 16px;"></i>
-          <p style="font-size: 1.1rem; color: #fff; font-style: italic; line-height: 1.6;">"Scalability begins with localized trust. If your prices feel foreign, your brand feels foreign."</p>
-        </div>
-      </div>
-
-      <div style="margin-bottom: 40px;">
-        <h2 style="margin-bottom: 32px; text-align: center;">Built for Builders</h2>
-        <div class="value-grid">
-          <div class="value-card">
-            <i data-lucide="zap" class="feature-icon"></i>
-            <h3 style="margin-bottom: 12px;">Developer-First</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Integration that takes less than 10 minutes. Documentation actually written for humans.</p>
-          </div>
-          <div class="value-card">
-            <i data-lucide="cpu" class="feature-icon"></i>
-            <h3 style="margin-bottom: 12px;">High Performance</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Our engine is optimized for speed. Price calculations happen in milliseconds.</p>
-          </div>
-          <div class="value-card">
-            <i data-lucide="shield" class="feature-icon"></i>
-            <h3 style="margin-bottom: 12px;">Margin Protection</h3>
-            <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Stay profitable. Our logic ensures you always stay above your minimum margin threshold.</p>
-          </div>
-        </div>
-      </div>
-
-      <footer style="margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
-        &copy; 2026 PricePilot API. All rights reserved.
-      </footer>
     </div>
   </main>
 
   <script>
     lucide.createIcons();
-    
-    // Simple Sidebar Mobile Toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebar-overlay");
+
     if (menuToggle) {
-      menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        overlay.classList.toggle('active');
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("active");
       });
     }
-    
+
     if (overlay) {
-      overlay.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('active');
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
       });
     }
   </script>
-</body>
-</html>
-
 </body>
 </html>

@@ -9,21 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="dashboard-layout.css">
-  <style>
-    .legal-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
-    h1 { font-size: 2.5rem; margin-bottom: 8px; }
-    .updated { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 40px; }
-    h2 { font-size: 1.25rem; margin: 32px 0 16px; display: flex; align-items: center; gap: 12px; color: var(--accent); }
-    p { margin-bottom: 20px; line-height: 1.7; color: var(--text-muted); }
-    ul { list-style: none; margin-bottom: 24px; }
-    li { margin-bottom: 12px; display: flex; gap: 12px; font-size: 0.95rem; }
-    li::before { content: "•"; color: var(--accent); font-weight: bold; }
-    .highlight { background: rgba(108, 99, 255, 0.05); border-left: 3px solid var(--accent); padding: 20px; border-radius: 4px; margin: 24px 0; }
-    .highlight p { margin-bottom: 0; color: #fff; font-weight: 500; }
-  </style>
 </head>
 <body>
-
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <aside class="sidebar" id="sidebar">
@@ -51,7 +38,7 @@
       </a>
     </nav>
 
-    <nav class="nav-group" style="padding-top: 12px; border-top: 1px solid var(--border);">
+    <nav class="nav-group">
       <span class="nav-label">Documentation</span>
       <a href="about.html" class="nav-item">
         <i data-lucide="info"></i>
@@ -76,8 +63,8 @@
       <div class="acc-card">
         <div class="avatar">D</div>
         <div class="acc-info">
-          <div style="font-size: 0.8rem; font-weight: 600; color: #fff;">Developer</div>
-          <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
+          <div class="acc-name">Developer</div>
+          <div class="acc-plan">Free plan</div>
         </div>
       </div>
     </div>
@@ -85,73 +72,86 @@
 
   <main class="main">
     <header class="top-bar">
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <button class="menu-toggle" id="menu-toggle"><i data-lucide="menu"></i></button>
-        <div id="page-title" style="font-weight: 600; font-size: 1.1rem;">Terms of Service</div>
+      <div class="top-bar-left">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu">
+          <i data-lucide="menu"></i>
+        </button>
+        <div class="page-heading">
+          <h1>Terms of Service</h1>
+          <p>Usage boundaries, licensing, and platform responsibility.</p>
+        </div>
       </div>
     </header>
 
     <div class="content">
-      <div class="legal-card">
-        <h1 style="background: linear-gradient(135deg, #fff 0%, var(--accent) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Terms of Service</h1>
-        <div class="updated">Last Updated: March 23, 2026</div>
-
-        <p>Welcome to PricePilot. By integrating our API into your platforms, you agree to the following terms governing the usage, limitations, and responsibilities associated with our pricing optimization engine.</p>
-
-        <h2><i data-lucide="key"></i> 1. API Usage & Licensing</h2>
-        <p>We grant you a revocable, non-exclusive license to use the PricePilot API for the purpose of optimizing product pricing and tracking sales data. Your usage is subject to the following principles:</p>
-        <ul>
-          <li><strong>Authorized Access:</strong> You are responsible for maintaining the confidentiality of your API keys. Any activity performed using your keys is attributed to your account.</li>
-          <li><strong>Commercial Purpose:</strong> The Service is intended for legitimate business operations. Automated scraping or destructive load testing is strictly prohibited.</li>
-          <li><strong>Service Limits:</strong> Usage is capped based on your selected tier. Requests exceeding these limits may be throttled to ensure system stability.</li>
-        </ul>
-
-        <h2><i data-lucide="trending-up"></i> 2. Optimization Responsibility</h2>
-        <p>PricePilot provides advanced algorithms for tax mapping and psychological rounding. However, the final commercial decision remains with the merchant:</p>
-        <div class="highlight">
-          <p>While we aim for 99.9% accuracy in tax calculations, PricePilot is an advisory tool. You should verify that optimized prices meet your specific local legal and tax requirements before publishing.</p>
+      <section class="doc-page">
+        <div class="doc-hero">
+          <span class="doc-kicker"><i data-lucide="file-text" style="width: 14px;"></i> Terms</span>
+          <h1>Terms for using the PricePilot API and dashboard.</h1>
+          <p>These terms describe how the service may be used, where responsibility stays with the customer, and the operational limits that apply to platform access.</p>
         </div>
 
-        <h2><i data-lucide="alert-triangle"></i> 3. Limitation of Liability</h2>
-        <p>PricePilot is provided on an "as-is" basis. We are not liable for any revenue loss, margin erosion, or tax penalization resulting from the algorithmic recommendations of the API.</p>
-        <ul>
-          <li><strong>Uptime:</strong> We strive for 99.9% uptime but do not guarantee uninterrupted access during maintenance windows.</li>
-          <li><strong>Data Integrity:</strong> We are not responsible for pricing errors caused by incorrect input parameters (e.g., wrong country codes or base currencies).</li>
-        </ul>
+        <div class="legal-card">
+          <div class="legal-meta">Last updated: March 23, 2026</div>
 
-        <h2><i data-lucide="door-closed"></i> 4. Termination of Service</h2>
-        <p>We reserve the right to suspend API access for accounts that violate our usage policies or engage in fraudulent activities. You may terminate your association with PricePilot by deleting your API keys at any time.</p>
-      </div>
+          <div class="legal-section">
+            <h2>1. API usage and licensing</h2>
+            <p>PricePilot grants you a revocable, non-exclusive right to use the API and dashboard for legitimate pricing, tax, and analytics workflows tied to your own business operations.</p>
+            <ul class="legal-list">
+              <li><i data-lucide="key"></i><span>You are responsible for maintaining the confidentiality of your API keys.</span></li>
+              <li><i data-lucide="briefcase"></i><span>The service is intended for real product and business use, not abusive or destructive automation.</span></li>
+              <li><i data-lucide="gauge"></i><span>Usage limits may apply depending on the plan attached to your account.</span></li>
+            </ul>
+          </div>
 
-      <footer style="margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
-        &copy; 2026 PricePilot API. All rights reserved.
-      </footer>
+          <div class="legal-section">
+            <h2>2. Optimization responsibility</h2>
+            <p>PricePilot provides tax-aware pricing and rounding recommendations, but the final commercial decision remains with the merchant using the tool.</p>
+            <div class="legal-highlight">
+              <p>You should verify that optimized prices fit your specific legal, tax, and business requirements before presenting them to customers.</p>
+            </div>
+          </div>
+
+          <div class="legal-section">
+            <h2>3. Service limitations</h2>
+            <p>The service is provided as operational software. While reliability is a goal, uninterrupted availability and universal legal accuracy cannot be guaranteed in every environment.</p>
+            <ul class="legal-list">
+              <li><i data-lucide="alert-triangle"></i><span>Platform downtime, maintenance periods, and third-party dependency issues may affect availability.</span></li>
+              <li><i data-lucide="clipboard-list"></i><span>Incorrect request inputs can lead to pricing results that do not reflect your intended configuration.</span></li>
+            </ul>
+          </div>
+
+          <div class="legal-section">
+            <h2>4. Suspension and termination</h2>
+            <p>PricePilot may suspend or terminate access for abuse, fraud, or repeated violations of platform rules. Customers may stop using the service and rotate or remove API access as needed.</p>
+          </div>
+        </div>
+
+        <div class="footer-note">&copy; 2026 PricePilot API. All rights reserved.</div>
+      </section>
     </div>
   </main>
 
   <script>
     lucide.createIcons();
-    
-    // Simple Sidebar Mobile Toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebar-overlay");
+
     if (menuToggle) {
-      menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        overlay.classList.toggle('active');
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("active");
       });
     }
-    
+
     if (overlay) {
-      overlay.addEventListener('click', () => {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('active');
+      overlay.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
       });
     }
   </script>
-</body>
-</html>
 </body>
 </html>

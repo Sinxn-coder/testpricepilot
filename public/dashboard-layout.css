@@ -44,7 +44,8 @@ body {
   color: var(--text);
   font-family: var(--font-main);
   display: flex;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 a {
@@ -238,7 +239,7 @@ button {
   flex: 1;
   min-height: 100vh;
   margin-left: var(--sidebar-w-folded);
-  overflow-y: auto;
+  overflow: visible;
 }
 
 .top-bar {
@@ -331,6 +332,192 @@ button {
   max-width: 1320px;
   margin: 0 auto;
   padding: 36px 40px 56px;
+}
+
+.doc-page {
+  display: grid;
+  gap: 28px;
+}
+
+.doc-hero {
+  display: grid;
+  gap: 18px;
+  padding: 34px;
+  background: linear-gradient(180deg, rgba(108, 99, 255, 0.08), rgba(108, 99, 255, 0.02));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.doc-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(108, 99, 255, 0.12);
+  color: #d8d4ff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.doc-hero h1 {
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.05;
+}
+
+.doc-hero p {
+  max-width: 64ch;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.doc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: 28px;
+}
+
+.doc-card,
+.legal-card,
+.contact-card,
+.contact-form {
+  padding: 30px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+}
+
+.doc-card h2,
+.legal-card h2,
+.contact-card h3,
+.contact-form h3 {
+  margin-bottom: 14px;
+  font-size: 1.12rem;
+}
+
+.doc-card p,
+.doc-card li,
+.legal-card p,
+.legal-card li,
+.contact-card p,
+.contact-form p {
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.doc-list,
+.legal-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.doc-list li,
+.legal-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.doc-list li i,
+.legal-list li i,
+.contact-point i {
+  color: var(--accent);
+  width: 16px;
+  flex: 0 0 auto;
+  margin-top: 4px;
+}
+
+.stat-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.stat-panel {
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border);
+}
+
+.stat-panel strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.legal-card {
+  display: grid;
+  gap: 22px;
+}
+
+.legal-meta {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.legal-section {
+  display: grid;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.legal-section:first-of-type {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.legal-highlight {
+  padding: 18px 20px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 14px 14px 0;
+  background: rgba(108, 99, 255, 0.08);
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  gap: 28px;
+}
+
+.contact-points {
+  display: grid;
+  gap: 18px;
+}
+
+.contact-point {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.contact-point strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.contact-point a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.footer-note {
+  padding-top: 22px;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  text-align: center;
 }
 
 .panel {
@@ -620,7 +807,8 @@ button {
 }
 
 .field input,
-.field select {
+.field select,
+.field textarea {
   min-height: 46px;
   padding: 0 14px;
   border-radius: 12px;
@@ -632,7 +820,8 @@ button {
 }
 
 .field input:focus,
-.field select:focus {
+.field select:focus,
+.field textarea:focus {
   border-color: rgba(108, 99, 255, 0.55);
   background: rgba(5, 9, 18, 0.74);
 }
@@ -1015,7 +1204,9 @@ tbody tr:last-child td {
   .panel-intro,
   .endpoint-shell,
   .analytics-layout,
-  .settings-grid {
+  .settings-grid,
+  .doc-grid,
+  .contact-layout {
     grid-template-columns: 1fr;
   }
 
@@ -1094,6 +1285,14 @@ tbody tr:last-child td {
     padding-right: 16px;
   }
 
+  .doc-hero,
+  .doc-card,
+  .legal-card,
+  .contact-card,
+  .contact-form {
+    padding: 22px;
+  }
+
   .top-bar {
     align-items: flex-start;
   }
@@ -1107,6 +1306,10 @@ tbody tr:last-child td {
 
   .tabs {
     width: 100%;
+  }
+
+  .input-grid {
+    grid-template-columns: 1fr;
   }
 
   .tab-btn {
