@@ -1,25 +1,25 @@
 :root {
   --sidebar-w-folded: 82px;
   --sidebar-w-expanded: 280px;
-  --bg: #0a0f1c;
-  --bg-accent: #10182c;
-  --sidebar: rgba(8, 12, 21, 0.94);
-  --surface: rgba(16, 24, 42, 0.9);
-  --surface-strong: #18233d;
-  --surface-soft: rgba(30, 41, 70, 0.72);
-  --border: rgba(120, 138, 184, 0.18);
-  --border-strong: rgba(120, 138, 184, 0.28);
-  --accent: #4f8cff;
-  --accent-soft: rgba(79, 140, 255, 0.14);
-  --green: #32d1a0;
-  --yellow: #f3c969;
+  --bg: #0a0c12;
+  --bg-accent: #111523;
+  --sidebar: rgba(13, 17, 27, 0.96);
+  --surface: rgba(17, 20, 32, 0.96);
+  --surface-strong: #181c2e;
+  --surface-soft: rgba(24, 28, 46, 0.84);
+  --border: rgba(108, 99, 255, 0.14);
+  --border-strong: rgba(108, 99, 255, 0.24);
+  --accent: #6c63ff;
+  --accent-soft: rgba(108, 99, 255, 0.14);
+  --green: #22d3a5;
+  --yellow: #fbbf24;
   --red: #ff7b87;
   --text: #ebf1ff;
   --text-muted: #97a4c2;
   --radius: 18px;
   --radius-sm: 12px;
-  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 16px 36px rgba(0, 0, 0, 0.24);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.18);
   --transition: 180ms ease;
   --font-main: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -38,8 +38,8 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top right, rgba(79, 140, 255, 0.14), transparent 34%),
-    radial-gradient(circle at bottom left, rgba(50, 209, 160, 0.08), transparent 30%),
+    radial-gradient(circle at top right, rgba(108, 99, 255, 0.16), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(108, 99, 255, 0.07), transparent 28%),
     linear-gradient(180deg, var(--bg-accent) 0%, var(--bg) 100%);
   color: var(--text);
   font-family: var(--font-main);
@@ -98,7 +98,7 @@ button {
 
 .sidebar:hover {
   width: var(--sidebar-w-expanded);
-  box-shadow: 18px 0 48px rgba(0, 0, 0, 0.24);
+  box-shadow: 12px 0 32px rgba(0, 0, 0, 0.24);
 }
 
 .sidebar-logo {
@@ -191,8 +191,8 @@ button {
 
 .nav-item.active {
   color: var(--text);
-  background: linear-gradient(90deg, rgba(79, 140, 255, 0.18), rgba(79, 140, 255, 0.03));
-  border: 1px solid rgba(79, 140, 255, 0.2);
+  background: linear-gradient(90deg, rgba(108, 99, 255, 0.16), rgba(108, 99, 255, 0.03));
+  border: 1px solid rgba(108, 99, 255, 0.22);
 }
 
 .sidebar-footer {
@@ -217,7 +217,7 @@ button {
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg, var(--accent), #7eb2ff);
+  background: linear-gradient(135deg, var(--accent), #8d86ff);
   color: #fff;
   font-size: 0.78rem;
   font-weight: 700;
@@ -251,7 +251,7 @@ button {
   gap: 20px;
   min-height: 84px;
   padding: 18px 40px;
-  background: rgba(10, 15, 28, 0.86);
+  background: rgba(10, 12, 18, 0.9);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
 }
@@ -328,22 +328,17 @@ button {
 
 .content {
   width: 100%;
-  max-width: 1380px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 34px 40px 48px;
+  padding: 36px 40px 56px;
 }
 
 .panel {
   display: grid;
-  gap: 24px;
+  gap: 28px;
 }
 
-.panel-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.9fr);
-  gap: 24px;
-}
-
+.panel-intro,
 .hero-card,
 .card,
 .surface-card {
@@ -353,8 +348,34 @@ button {
   box-shadow: var(--shadow-md);
 }
 
+.panel-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.8fr);
+  gap: 28px;
+  padding: 34px;
+  align-items: start;
+}
+
+.panel-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.9fr);
+  gap: 28px;
+}
+
 .hero-card {
-  padding: 28px 30px;
+  padding: 30px 32px;
+}
+
+.hero-card h2 {
+  margin-top: 16px;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  line-height: 1.1;
+}
+
+.hero-card p {
+  margin-top: 14px;
+  max-width: 58ch;
+  color: var(--text-muted);
 }
 
 .eyebrow {
@@ -364,73 +385,75 @@ button {
   padding: 8px 12px;
   border-radius: 999px;
   background: var(--accent-soft);
-  color: #bdd4ff;
+  color: #cecaff;
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.hero-card h2 {
+.panel-intro-copy h2 {
   margin-top: 16px;
-  font-size: clamp(1.7rem, 3vw, 2.4rem);
-  line-height: 1.08;
+  font-size: clamp(1.75rem, 3vw, 2.2rem);
+  line-height: 1.12;
 }
 
-.hero-card p {
+.panel-intro-copy p {
   margin-top: 14px;
-  max-width: 56ch;
+  max-width: 62ch;
   color: var(--text-muted);
+  font-size: 0.96rem;
 }
 
-.hero-meta {
+.panel-intro-meta {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 24px;
+  gap: 16px;
 }
 
-.metric-chip {
-  padding: 16px;
+.mini-stat {
+  padding: 18px 20px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.025);
   border: 1px solid var(--border);
 }
 
-.metric-chip strong,
 .mini-stat-value {
   display: block;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--text);
 }
 
-.metric-chip span,
 .mini-stat-label {
   display: block;
-  margin-top: 4px;
-  font-size: 0.8rem;
+  margin-top: 6px;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 
-.hero-side {
-  padding: 24px;
-  display: grid;
-  gap: 14px;
-}
-
-.hero-side h3 {
-  font-size: 0.98rem;
-}
-
-.hero-side ul,
 .security-list {
   list-style: none;
   display: grid;
   gap: 12px;
 }
 
+.hero-side {
+  display: grid;
+  gap: 14px;
+}
+
+.hero-side h3 {
+  font-size: 1rem;
+}
+
+.hero-side ul {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
 .hero-side li,
+.note-list li,
 .security-list li {
   display: flex;
   align-items: flex-start;
@@ -440,6 +463,7 @@ button {
 }
 
 .hero-side li i,
+.note-list li i,
 .security-list li i {
   color: var(--accent);
   width: 16px;
@@ -463,10 +487,11 @@ button {
   margin-top: 6px;
   color: var(--text-muted);
   font-size: 0.9rem;
+  max-width: 60ch;
 }
 
 .card {
-  padding: 28px;
+  padding: 32px;
 }
 
 .card-title {
@@ -509,36 +534,72 @@ button {
 }
 
 .tab-btn.active {
-  background: rgba(79, 140, 255, 0.16);
+  background: rgba(108, 99, 255, 0.16);
   color: var(--text);
 }
 
 .endpoint-view {
   display: grid;
-  gap: 24px;
+  gap: 28px;
 }
 
 .endpoint-shell {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
-  gap: 24px;
+  gap: 28px;
 }
 
 .stack {
   display: grid;
-  gap: 24px;
+  gap: 20px;
 }
 
-.subtle-block {
-  padding: 20px;
+.endpoint-info,
+.response-head,
+.result-notes {
+  padding: 24px;
+}
+
+.endpoint-info,
+.response-head {
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.025);
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border);
 }
 
-.subtle-block p {
+.endpoint-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.endpoint-badge code {
+  font-family: var(--font-mono);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.method-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(108, 99, 255, 0.16);
+  color: #d5d1ff;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.endpoint-info p,
+.response-head p {
   color: var(--text-muted);
-  font-size: 0.86rem;
+  font-size: 0.88rem;
+  max-width: 58ch;
 }
 
 .form-grid {
@@ -564,7 +625,7 @@ button {
   padding: 0 14px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: rgba(5, 9, 18, 0.45);
+  background: rgba(7, 10, 17, 0.58);
   color: var(--text);
   outline: none;
   transition: border-color var(--transition), background var(--transition);
@@ -572,7 +633,7 @@ button {
 
 .field input:focus,
 .field select:focus {
-  border-color: rgba(79, 140, 255, 0.55);
+  border-color: rgba(108, 99, 255, 0.55);
   background: rgba(5, 9, 18, 0.74);
 }
 
@@ -597,10 +658,10 @@ button {
   padding: 0 18px;
   border: 0;
   border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent), #78a8ff);
+  background: linear-gradient(135deg, var(--accent), #8a84ff);
   color: #fff;
   font-weight: 700;
-  box-shadow: 0 14px 28px rgba(79, 140, 255, 0.22);
+  box-shadow: 0 12px 24px rgba(108, 99, 255, 0.2);
 }
 
 .btn.outline,
@@ -618,7 +679,7 @@ button {
 .result-split {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
-  gap: 24px;
+  gap: 28px;
 }
 
 .visual-grid {
@@ -638,8 +699,8 @@ button {
 
 .vis-card.highlight {
   grid-column: 1 / -1;
-  background: linear-gradient(135deg, rgba(50, 209, 160, 0.1), rgba(79, 140, 255, 0.08));
-  border-color: rgba(50, 209, 160, 0.3);
+  background: linear-gradient(135deg, rgba(108, 99, 255, 0.12), rgba(34, 211, 165, 0.08));
+  border-color: rgba(108, 99, 255, 0.24);
 }
 
 .vis-label {
@@ -665,10 +726,10 @@ button {
 
 .json-viewer {
   min-height: 320px;
-  padding: 18px;
+  padding: 22px;
   border-radius: 16px;
   border: 1px solid var(--border);
-  background: #09111f;
+  background: #0b1020;
   color: #d8e6ff;
   font-family: var(--font-mono);
   font-size: 0.84rem;
@@ -679,11 +740,11 @@ button {
 }
 
 .json-key {
-  color: #84b2ff;
+  color: #a4a0ff;
 }
 
 .json-str {
-  color: #84e2c3;
+  color: #7ee1bf;
 }
 
 .json-num,
@@ -758,7 +819,7 @@ tbody tr:last-child td {
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 24px;
 }
 
 .stat-card {
@@ -812,7 +873,7 @@ tbody tr:last-child td {
 .analytics-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
-  gap: 24px;
+  gap: 28px;
 }
 
 .chart-shell {
@@ -844,13 +905,13 @@ tbody tr:last-child td {
 .settings-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.12fr) minmax(320px, 0.88fr);
-  gap: 24px;
+  gap: 28px;
 }
 
 .callout-card {
   padding: 28px;
-  border: 1px solid rgba(79, 140, 255, 0.24);
-  background: linear-gradient(180deg, rgba(79, 140, 255, 0.08), rgba(79, 140, 255, 0.02));
+  border: 1px solid rgba(108, 99, 255, 0.24);
+  background: linear-gradient(180deg, rgba(108, 99, 255, 0.08), rgba(108, 99, 255, 0.02));
 }
 
 .signup-panel,
@@ -951,13 +1012,13 @@ tbody tr:last-child td {
 
 @media (max-width: 1200px) {
   .panel-hero,
+  .panel-intro,
   .endpoint-shell,
   .analytics-layout,
   .settings-grid {
     grid-template-columns: 1fr;
   }
 
-  .hero-meta,
   .stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

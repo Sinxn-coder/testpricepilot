@@ -95,34 +95,21 @@
 
     <div class="content">
       <section id="panel-pricing" class="panel">
-        <div class="panel-hero">
-          <div class="hero-card">
+        <div class="card panel-intro">
+          <div class="panel-intro-copy">
             <span class="eyebrow"><i data-lucide="sparkles" style="width: 14px;"></i> API Preview</span>
-            <h2>Clean developer preview for testing pricing endpoints.</h2>
-            <p>The pricing workspace now keeps navigation, endpoint tabs, forms, and JSON output in a single readable flow so you can test requests without layout collisions.</p>
-            <div class="hero-meta">
-              <div class="metric-chip">
-                <strong>2 endpoints</strong>
-                <span>Primary calculator and legacy optimizer</span>
-              </div>
-              <div class="metric-chip">
-                <strong>Live JSON</strong>
-                <span>Structured response area with status feedback</span>
-              </div>
-              <div class="metric-chip">
-                <strong>Responsive</strong>
-                <span>Sidebar, tabs, and cards now collapse cleanly</span>
-              </div>
-            </div>
+            <h2>Structured endpoint testing, without the mixed layout.</h2>
+            <p>This screen is now focused on the request flow itself: endpoint tabs at the top, inputs on the left, response output on the right, and the result summary below.</p>
           </div>
-
-          <div class="hero-card hero-side">
-            <h3>What changed in this preview</h3>
-            <ul>
-              <li><i data-lucide="check"></i><span>Sidebar items now target the correct panels instead of calling missing handlers.</span></li>
-              <li><i data-lucide="check"></i><span>The API area is split into tabs so forms and output do not compete for space.</span></li>
-              <li><i data-lucide="check"></i><span>Cards, tables, and top bar spacing now follow one consistent layout system.</span></li>
-            </ul>
+          <div class="panel-intro-meta">
+            <div class="mini-stat">
+              <span class="mini-stat-value">2 endpoints</span>
+              <span class="mini-stat-label">Primary calculator and legacy compatibility test</span>
+            </div>
+            <div class="mini-stat">
+              <span class="mini-stat-value">Single workspace</span>
+              <span class="mini-stat-label">Tabs, forms, output, and summary all follow one structure</span>
+            </div>
           </div>
         </div>
 
@@ -130,7 +117,7 @@
           <div class="panel-header">
             <div>
               <h3>Endpoint workspace</h3>
-              <p>Switch between the recommended calculator flow and the legacy optimizer without losing the clean result layout.</p>
+              <p>Use the active tab to send a request, inspect the raw JSON response, and review the most important values underneath.</p>
             </div>
             <div class="tabs" role="tablist" aria-label="API endpoint tabs">
               <button class="tab-btn active" type="button" data-tab="calculate" aria-selected="true">
@@ -147,9 +134,12 @@
           <div class="endpoint-view" id="tab-calculate">
             <div class="endpoint-shell">
               <div class="stack">
-                <div class="subtle-block">
-                  <div class="card-title"><i data-lucide="calculator" style="color: var(--accent);"></i>Tax-aware calculation</div>
-                  <p>Applies VAT or GST, protects minimum margin, and returns a clean psychologically rounded final price.</p>
+                <div class="endpoint-info">
+                  <div class="endpoint-badge">
+                    <span class="method-chip">POST</span>
+                    <code>/calculate-price</code>
+                  </div>
+                  <p>Applies VAT or GST, protects minimum margin, and returns a psychologically rounded final price.</p>
                 </div>
 
                 <div class="form-grid">
@@ -187,19 +177,19 @@
               </div>
 
               <div class="stack">
-                <div class="subtle-block">
+                <div class="response-head">
                   <div class="card-title-row">
                     <div class="card-title">Response preview</div>
                     <span id="calc-status"></span>
                   </div>
-                  <p>The raw API response stays pinned beside the form so output is easy to inspect while tuning inputs.</p>
+                  <p>The JSON response stays fixed beside the request form so you can compare inputs and output without scrolling around.</p>
                 </div>
                 <pre class="json-viewer" id="calcJson">// Response will appear here</pre>
               </div>
             </div>
 
             <div class="result-split hidden" id="calc-results-wrap">
-              <div class="card">
+              <div class="card result-card">
                 <div class="card-title">Analysis Summary</div>
                 <div class="visual-grid">
                   <div class="vis-card">
@@ -217,15 +207,13 @@
                 </div>
               </div>
 
-              <div class="card">
-                <div class="card-title">Why this output matters</div>
-                <div class="hero-side" style="padding: 0;">
-                  <ul>
-                    <li><i data-lucide="dollar-sign"></i><span>Base price, tax, and optimized price stay visually separated for faster QA.</span></li>
-                    <li><i data-lucide="shield-check"></i><span>Margin-sensitive pricing is easier to validate before sending traffic to production.</span></li>
-                    <li><i data-lucide="search"></i><span>The JSON response remains available above for exact contract inspection.</span></li>
-                  </ul>
-                </div>
+              <div class="card result-notes">
+                <div class="card-title">Review Notes</div>
+                <ul class="note-list">
+                  <li><i data-lucide="dollar-sign"></i><span>Tax amount, taxed total, and optimized final price each have their own block.</span></li>
+                  <li><i data-lucide="shield-check"></i><span>Margin-sensitive pricing is easier to verify before using the endpoint in production.</span></li>
+                  <li><i data-lucide="search"></i><span>The raw JSON response remains visible above for exact payload inspection.</span></li>
+                </ul>
               </div>
             </div>
           </div>
@@ -233,9 +221,12 @@
           <div class="endpoint-view hidden" id="tab-legacy">
             <div class="endpoint-shell">
               <div class="stack">
-                <div class="subtle-block">
-                  <div class="card-title"><i data-lucide="trending-up" style="color: var(--text-muted);"></i>Legacy optimizer</div>
-                  <p>Older multiplier-based pricing flow kept for compatibility testing and comparison.</p>
+                <div class="endpoint-info">
+                  <div class="endpoint-badge">
+                    <span class="method-chip">POST</span>
+                    <code>/optimize-price</code>
+                  </div>
+                  <p>Legacy multiplier-based pricing flow kept for compatibility testing and side-by-side comparison.</p>
                 </div>
 
                 <div class="form-grid">
@@ -266,9 +257,9 @@
               </div>
 
               <div class="stack">
-                <div class="subtle-block">
+                <div class="response-head">
                   <div class="card-title">Legacy response</div>
-                  <p>Use this panel to compare the old multiplier logic with the primary tax-aware endpoint.</p>
+                  <p>Use this panel to compare the older multiplier logic with the cleaner tax-aware endpoint above.</p>
                 </div>
                 <div class="card hidden" id="opt-results-wrap" style="padding: 0; margin: 0;">
                   <pre class="json-viewer" id="optimizeJson"></pre>
