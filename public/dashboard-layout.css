@@ -243,9 +243,11 @@ button {
   min-width: 0;
 }
 
+/* Prevent content from shifting/resizing when sidebar expands */
 .sidebar:hover ~ .main {
-  margin-left: var(--sidebar-w-expanded);
+  margin-left: var(--sidebar-w-folded);
 }
+
 
 .top-bar {
   position: sticky;
