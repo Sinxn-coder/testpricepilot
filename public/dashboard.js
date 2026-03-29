@@ -239,12 +239,61 @@ if (ratesBtn) {
   });
 }
 
-// --- Analytics Logic ---
-let analyticsChart = null;
+function updateChart(data) {
+  const chartEl = document.getElementById('analyticsChart');
+  if (!chartEl) return;
+  const ctx = chartEl.getContext('2d');
+  
+  if (analyticsChart) {
+    analyticsChart.destroy();
+  }
+
+  const labels = data.map(d => d.label);
+  const requests = data.map(d => d.requests);
+
+  analyticsChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'API Requests',
+        data: requests,
+        borderColor: '#6c63ff',
+        backgroundColor: 'rgba(108, 99, 255, 0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 4,
+        pointBackgroundColor: '#6c63ff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(255, 255, 255, 0.05)' },
+          ticks: { color: '#8e9bb3', font: { size: 10 } }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: '#8e9bb3', font: { size: 10 } }
+        }
+      }
+    }
+  });
+}
 
 async function fetchAnalytics() {
     const r = await callApi('GET', '/analytics');
-    if (!r.ok) return console.error('Failed to fetch analytics:', r.data.error);
+    if (!r.ok) {
+      console.warn('Analytics Hub: Backend unavailable or not configured:', r.data.error);
+      return;
+    }
 
     const { summary, recent_activity, time_series } = r.data;
 
@@ -264,7 +313,7 @@ async function fetchAnalytics() {
     const tbody = document.getElementById('analyticsBody');
     if (tbody) {
       tbody.innerHTML = '';
-      if (recent_activity.length === 0) {
+      if (!recent_activity || recent_activity.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 32px;">No activity logged yet.</td></tr>';
       } else {
         recent_activity.forEach(log => {
@@ -284,6 +333,7 @@ async function fetchAnalytics() {
         });
       }
     }
+    lucide.createIcons();
 }
 
 // --- Signup Logic ---
