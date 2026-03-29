@@ -579,7 +579,10 @@ button {
 .panel {
   display: grid;
   gap: 28px;
+  align-content: start;
+  align-items: start;
 }
+
 
 .panel-intro,
 .hero-card,
@@ -1119,7 +1122,9 @@ tbody tr:last-child td {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
   gap: 28px;
+  align-items: start;
 }
+
 
 .chart-shell {
   padding-top: 18px;
@@ -1500,7 +1505,10 @@ tbody tr:last-child td {
 /* New minimal preview theme */
 .tool-panel {
   gap: 20px;
+  align-content: start;
+  align-items: start;
 }
+
 
 .tool-shell,
 .tool-form-card,
@@ -1528,7 +1536,9 @@ tbody tr:last-child td {
 .compact-stats {
   display: grid;
   gap: 20px;
+  align-items: start;
 }
+
 
 .tool-toolbar,
 .plain-panel-head,
