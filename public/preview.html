@@ -22,44 +22,51 @@
       <span>PricePilot</span>
     </a>
 
-    <!-- Top: 4 Primary Hubs -->
     <nav class="nav-group">
-      <div class="nav-item active" data-target="panel-pricing">
+      <a href="javascript:void(0)" onclick="switchPanel('hub')" class="nav-item active" id="nav-hub">
         <i data-lucide="cpu"></i>
         <span>Pricing Engine</span>
-      </div>
-      <div class="nav-item" data-target="panel-analytics-hub">
+      </a>
+      <a href="javascript:void(0)" onclick="switchPanel('analytics')" class="nav-item" id="nav-analytics">
         <i data-lucide="bar-chart-3"></i>
         <span>Analytics Hub</span>
-      </div>
-      <div class="nav-item" data-target="panel-market">
+      </a>
+      <a href="javascript:void(0)" onclick="switchPanel('tax')" class="nav-item" id="nav-tax">
         <i data-lucide="globe"></i>
         <span>Global Tax Hub</span>
-      </div>
-      <div class="nav-item" data-target="panel-settings">
+      </a>
+      <a href="javascript:void(0)" onclick="switchPanel('settings')" class="nav-item" id="nav-settings">
         <i data-lucide="settings"></i>
         <span>Settings & API</span>
-      </div>
+      </a>
     </nav>
 
-    <!-- Middle: Documentation -->
     <nav class="nav-group" style="padding-top: 12px; border-top: 1px solid var(--border);">
       <span class="nav-label">Documentation</span>
-      <a href="/about.html" class="nav-item"><i data-lucide="info"></i><span>About Us</span></a>
-      <a href="/contact.html" class="nav-item"><i data-lucide="mail"></i><span>Contact Us</span></a>
-      <a href="/privacy.html" class="nav-item"><i data-lucide="shield"></i><span>Privacy Policy</span></a>
-      <a href="/terms.html" class="nav-item"><i data-lucide="file-text"></i><span>Terms of Service</span></a>
-      <a href="#" class="nav-item"><i data-lucide="book-open"></i><span>API Reference</span></a>
-      <a href="/health" class="nav-item"><i data-lucide="activity"></i><span>Health Check</span></a>
+      <a href="/about.html" class="nav-item">
+        <i data-lucide="info"></i>
+        <span>About Us</span>
+      </a>
+      <a href="/contact.html" class="nav-item">
+        <i data-lucide="mail"></i>
+        <span>Contact Us</span>
+      </a>
+      <a href="/privacy.html" class="nav-item">
+        <i data-lucide="shield"></i>
+        <span>Privacy Policy</span>
+      </a>
+      <a href="/terms.html" class="nav-item">
+        <i data-lucide="file-text"></i>
+        <span>Terms of Service</span>
+      </a>
     </nav>
 
-    <!-- Bottom: Your Account Info -->
     <div class="sidebar-footer">
       <span class="nav-label">Your Account</span>
       <div class="acc-card">
         <div class="avatar">D</div>
         <div class="acc-info">
-          <div style="font-size: 0.8rem; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Developer</div>
+          <div style="font-size: 0.8rem; font-weight: 600; color: #fff;">Developer</div>
           <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
         </div>
       </div>
