@@ -546,37 +546,9 @@
           <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Log sales events to measure the effectiveness of your pricing strategy.</p>
           
           <div class="form-grid">
-            <div class="field">
-              <label>Price Shown</label>
-              <input id="t-price" type="number" step="0.01" value="10.99">
-            </div>
-            <div class="field">
-              <label>Converted</label>
-              <select id="t-converted">
-                <option value="true">Yes — Sale occurred</option>
-                <option value="false">No — Drop off</option>
-              </select>
-            </div>
-            <div class="field">
-              <label>Country</label>
-              <input id="t-country" type="text" value="IN">
-            </div>
-          </div>
-          <div style="margin-top: 24px;">
-            <button class="btn" id="trackBtn"><i data-lucide="save"></i> Track Sale</button>
-          </div>
-        </div>
-        <div class="card hidden" id="track-results-wrap">
-          <div class="card-title" style="display: flex; justify-content: space-between;">
-            Response
-            <span id="track-status"></span>
-          </div>
-          <pre class="json-viewer" id="trackJson"></pre>
-        </div>
-      </div>
-
-      <!-- PANEL: ANALYTICS -->
-      <div id="panel-analytics" class="panel hidden">
+      <!-- PANEL: ANALYTICS HUB -->
+      <div id="panel-analytics-hub" class="panel hidden">
+        <!-- Stats Summary -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 24px;">
           <div class="card" style="margin-bottom: 0; padding: 24px; background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, transparent 100%);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
@@ -619,6 +591,34 @@
           </div>
         </div>
 
+        <!-- Track Conversion Form (Embedded in Analytics) -->
+        <div class="card" style="background: var(--surface2); border: 1px dashed var(--border);">
+          <div class="card-title"><i data-lucide="target" style="color: var(--accent);"></i> Manual Event Logger</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Simulate a conversion event to test your tracking logic.</p>
+          <div class="form-grid">
+            <div class="field">
+              <label>Price Shown</label>
+              <input id="t-price" type="number" step="0.01" value="10.99">
+            </div>
+            <div class="field">
+              <label>Converted</label>
+              <select id="t-converted">
+                <option value="true">Yes — Sale occurred</option>
+                <option value="false">No — Drop off</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Country</label>
+              <input id="t-country" type="text" value="IN">
+            </div>
+          </div>
+          <div style="margin-top: 24px; display: flex; align-items: center; gap: 16px;">
+            <button class="btn" id="trackBtn"><i data-lucide="save"></i> Track Sale</button>
+            <span id="track-status"></span>
+          </div>
+          <pre class="json-viewer hidden" id="trackJson" style="margin-top: 20px;"></pre>
+        </div>
+
         <div class="card">
           <div class="card-title">Detailed Activity Log</div>
           <div class="table-wrap">
@@ -640,7 +640,36 @@
         </div>
       </div>
 
-      <!-- PANEL: BILLING -->
+      <!-- PANEL: MARKET DATA -->
+      <div id="panel-market" class="panel hidden">
+        <div class="card">
+          <div class="card-title"><i data-lucide="globe" style="color: var(--accent);"></i> Global Tax Hub</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Real-time VAT and GST library for automatic legal compliance.</p>
+          
+          <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+            <button class="btn" id="ratesBtn"><i data-lucide="refresh-cw"></i> Fetch Latest Rates</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Region</th>
+                  <th>Legal Tax Rate</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody id="ratesBody">
+                <tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 32px;">Click 'Fetch' to load market data.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card hidden" id="rates-results-wrap">
+          <div class="card-title">Raw Tax Response <span id="rates-status"></span></div>
+          <pre class="json-viewer" id="ratesJson"></pre>
+        </div>
+      </div>
         </div>
       </div>
 
