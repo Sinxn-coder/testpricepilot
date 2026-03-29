@@ -21,46 +21,46 @@
     </a>
 
     <nav class="nav-group">
-      <a href="#pricing" class="nav-item active" data-target="panel-pricing" data-title="API Preview" data-subtitle="New control room for requests, responses, and rollout guidance.">
+      <a href="#pricing" class="nav-item active" data-target="panel-pricing" data-title="API Preview" data-subtitle="Request builder and response view.">
         <i data-lucide="cpu"></i>
         <span>API Preview</span>
       </a>
-      <a href="#analytics" class="nav-item" data-target="panel-analytics-hub" data-title="Analytics Hub" data-subtitle="Observe request volume, conversion flow, and recent activity.">
+      <a href="#analytics" class="nav-item" data-target="panel-analytics-hub" data-title="Analytics" data-subtitle="Usage and conversion view.">
         <i data-lucide="bar-chart-3"></i>
-        <span>Analytics Hub</span>
+        <span>Analytics</span>
       </a>
-      <a href="#tax" class="nav-item" data-target="panel-market" data-title="Tax Library" data-subtitle="Inspect country coverage, rates, and raw tax payloads.">
+      <a href="#tax" class="nav-item" data-target="panel-market" data-title="Tax Rates" data-subtitle="Country rate reference.">
         <i data-lucide="globe"></i>
-        <span>Tax Library</span>
+        <span>Tax Rates</span>
       </a>
-      <a href="#settings" class="nav-item" data-target="panel-settings" data-title="Access Console" data-subtitle="Create keys, copy integration details, and secure deployment.">
+      <a href="#settings" class="nav-item" data-target="panel-settings" data-title="Access" data-subtitle="Keys and security.">
         <i data-lucide="settings"></i>
-        <span>Access Console</span>
+        <span>Access</span>
       </a>
     </nav>
 
     <nav class="nav-group">
-      <span class="nav-label">Documentation</span>
+      <span class="nav-label">Docs</span>
       <a href="about.html" class="nav-item">
         <i data-lucide="info"></i>
-        <span>About Us</span>
+        <span>About</span>
       </a>
       <a href="contact.html" class="nav-item">
         <i data-lucide="mail"></i>
-        <span>Contact Us</span>
+        <span>Contact</span>
       </a>
       <a href="privacy.html" class="nav-item">
         <i data-lucide="shield"></i>
-        <span>Privacy Policy</span>
+        <span>Privacy</span>
       </a>
       <a href="terms.html" class="nav-item">
         <i data-lucide="file-text"></i>
-        <span>Terms of Service</span>
+        <span>Terms</span>
       </a>
     </nav>
 
     <div class="sidebar-footer">
-      <span class="nav-label">Your Account</span>
+      <span class="nav-label">Account</span>
       <div class="acc-card">
         <div class="avatar">D</div>
         <div class="acc-info">
@@ -82,7 +82,7 @@
         </button>
         <div class="page-heading">
           <h1 id="page-title">API Preview</h1>
-          <p id="page-subtitle">New control room for requests, responses, and rollout guidance.</p>
+          <p id="page-subtitle">Request builder and response view.</p>
         </div>
       </div>
 
@@ -94,74 +94,31 @@
     </header>
 
     <div class="content">
-      <section id="panel-pricing" class="panel preview-panel">
-        <div class="preview-hero">
-          <div class="preview-hero-copy">
-            <span class="doc-kicker"><i data-lucide="sparkles" style="width: 14px;"></i> Playground</span>
-            <h2>Rebuilt API preview from scratch.</h2>
-            <p>The request lab, response inspector, rollout notes, and endpoint reference now sit in a single clean system instead of a mixed dashboard layout.</p>
-          </div>
-          <div class="preview-hero-stats">
-            <div class="hero-stat">
-              <strong>Request lab</strong>
-              <span>Inputs, endpoint tabs, and execution controls in one surface.</span>
+      <section id="panel-pricing" class="panel tool-panel">
+        <div class="tool-shell">
+          <div class="tool-toolbar">
+            <div class="tool-tabs tabs" role="tablist" aria-label="API endpoint tabs">
+              <button class="tab-btn active" type="button" data-tab="calculate" aria-selected="true">
+                <span>/calculate-price</span>
+              </button>
+              <button class="tab-btn" type="button" data-tab="legacy" aria-selected="false">
+                <span>/optimize-price</span>
+              </button>
             </div>
-            <div class="hero-stat">
-              <strong>Response inspector</strong>
-              <span>Raw JSON, status code, and key outputs stay visible side by side.</span>
-            </div>
-            <div class="hero-stat">
-              <strong>Rollout guidance</strong>
-              <span>cURL examples, security notes, and deployment reminders are separated cleanly.</span>
+            <div class="tool-chip-row">
+              <span class="tool-chip">Bearer auth</span>
+              <span class="tool-chip">Live JSON</span>
             </div>
           </div>
-        </div>
 
-        <div class="preview-metrics">
-          <div class="metric-panel">
-            <span class="metric-label">Primary endpoint</span>
-            <strong>/calculate-price</strong>
-            <span class="metric-copy">Tax-aware price calculation with margin protection.</span>
-          </div>
-          <div class="metric-panel">
-            <span class="metric-label">Fallback endpoint</span>
-            <strong>/optimize-price</strong>
-            <span class="metric-copy">Legacy compatibility flow for multiplier-based pricing.</span>
-          </div>
-          <div class="metric-panel">
-            <span class="metric-label">Auth model</span>
-            <strong>Bearer API key</strong>
-            <span class="metric-copy">All protected endpoints use the same session key from the top bar.</span>
-          </div>
-        </div>
-
-        <div class="api-workbench">
-          <div class="request-column">
-            <div class="workbench-card endpoint-switcher">
-              <div class="section-heading">
-                <h3>Endpoint selector</h3>
-                <p>Switch the active endpoint without losing the structure of the preview.</p>
-              </div>
-              <div class="tabs endpoint-tabs" role="tablist" aria-label="API endpoint tabs">
-                <button class="tab-btn active" type="button" data-tab="calculate" aria-selected="true">
-                  <i data-lucide="calculator" style="width: 16px;"></i>
-                  <span>/calculate-price</span>
-                </button>
-                <button class="tab-btn" type="button" data-tab="legacy" aria-selected="false">
-                  <i data-lucide="history" style="width: 16px;"></i>
-                  <span>/optimize-price</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="endpoint-view" id="tab-calculate">
-              <div class="workbench-card">
-                <div class="endpoint-head">
+          <div class="endpoint-view" id="tab-calculate">
+            <div class="tool-grid">
+              <div class="tool-form-card">
+                <div class="tool-head">
                   <div class="endpoint-line">
                     <span class="method-chip">POST</span>
                     <code>/calculate-price</code>
                   </div>
-                  <p>Use this endpoint when you need tax mapping, minimum-margin protection, and cleaner final price endings in one response.</p>
                 </div>
 
                 <div class="form-grid">
@@ -193,55 +150,54 @@
                 <div class="action-row start">
                   <button class="btn" id="calcBtn">
                     <i data-lucide="zap"></i>
-                    <span>Run Query</span>
+                    <span>Run</span>
                   </button>
                 </div>
               </div>
 
-              <div class="result-split hidden" id="calc-results-wrap">
-                <div class="workbench-card result-summary-card">
-                  <div class="section-heading">
-                    <h3>Result snapshot</h3>
-                    <p>Key values extracted from the response for quick validation.</p>
-                  </div>
-                  <div class="visual-grid">
-                    <div class="vis-card">
-                      <span class="vis-label">Tax Amount</span>
-                      <span class="vis-value accent" id="rc-tax">-</span>
-                    </div>
-                    <div class="vis-card">
-                      <span class="vis-label">Taxed Price</span>
-                      <span class="vis-value" id="rc-taxed">-</span>
-                    </div>
-                    <div class="vis-card highlight">
-                      <span class="vis-label">Optimized Price</span>
-                      <span class="vis-value success" id="rc-optimized">-</span>
-                    </div>
-                  </div>
+              <div class="tool-response-card" id="calc-response-column">
+                <div class="tool-head tool-head-row">
+                  <h3>Response</h3>
+                  <span id="calc-status"></span>
                 </div>
-
-                <div class="workbench-card review-card">
-                  <div class="section-heading">
-                    <h3>Validation checklist</h3>
-                    <p>Use these checks before wiring the endpoint into checkout or billing.</p>
-                  </div>
-                  <ul class="note-list">
-                    <li><i data-lucide="check"></i><span>Confirm the country and currency pair reflects the calling storefront.</span></li>
-                    <li><i data-lucide="check"></i><span>Verify the optimized final price still respects your margin floor.</span></li>
-                    <li><i data-lucide="check"></i><span>Compare the extracted values with the raw JSON on the right.</span></li>
-                  </ul>
-                </div>
+                <pre class="json-viewer" id="calcJson">// Response will appear here</pre>
               </div>
             </div>
 
-            <div class="endpoint-view hidden" id="tab-legacy">
-              <div class="workbench-card">
-                <div class="endpoint-head">
+            <div class="tool-bottom hidden" id="calc-results-wrap">
+              <div class="tool-summary-card">
+                <div class="summary-grid">
+                  <div class="summary-item">
+                    <span class="vis-label">Tax Amount</span>
+                    <strong class="vis-value accent" id="rc-tax">-</strong>
+                  </div>
+                  <div class="summary-item">
+                    <span class="vis-label">Taxed Price</span>
+                    <strong class="vis-value" id="rc-taxed">-</strong>
+                  </div>
+                  <div class="summary-item highlight">
+                    <span class="vis-label">Optimized Price</span>
+                    <strong class="vis-value success" id="rc-optimized">-</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tool-note-card">
+                <pre class="snippet-block"><code>curl -X POST /calculate-price \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="endpoint-view hidden" id="tab-legacy">
+            <div class="tool-grid tool-grid-single">
+              <div class="tool-form-card">
+                <div class="tool-head">
                   <div class="endpoint-line">
                     <span class="method-chip">POST</span>
                     <code>/optimize-price</code>
                   </div>
-                  <p>Use this endpoint only when you need the earlier multiplier-based behavior for comparison or backwards compatibility.</p>
                 </div>
 
                 <div class="form-grid">
@@ -266,130 +222,132 @@
                 <div class="action-row start">
                   <button class="btn outline" id="optimizeBtn">
                     <i data-lucide="zap"></i>
-                    <span>Run Legacy Query</span>
+                    <span>Run</span>
                   </button>
                 </div>
               </div>
 
-              <div class="workbench-card">
-                <div class="section-heading">
-                  <h3>Legacy response</h3>
-                  <p>This output is separate so you can compare it directly with the newer calculator behavior.</p>
+              <div class="tool-response-card">
+                <div class="tool-head">
+                  <h3>Legacy Response</h3>
                 </div>
-                <div class="card hidden" id="opt-results-wrap" style="padding: 0; margin: 0; background: transparent; border: 0; box-shadow: none;">
+                <div class="card hidden legacy-wrap" id="opt-results-wrap">
                   <pre class="json-viewer" id="optimizeJson"></pre>
                 </div>
                 <pre class="json-viewer" id="optimizeJsonPlaceholder">// Legacy response will appear here</pre>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div class="response-column" id="calc-response-column">
-            <div class="workbench-card inspector-card">
-              <div class="section-heading">
-                <div class="card-title-row">
-                  <h3>Response inspector</h3>
-                  <span id="calc-status"></span>
-                </div>
-                <p>The active request response is shown here in formatted JSON with status feedback.</p>
-              </div>
-              <pre class="json-viewer" id="calcJson">// Response will appear here</pre>
-            </div>
+      <section id="panel-analytics-hub" class="panel hidden tool-panel">
+        <div class="plain-panel-head">
+          <h2>Analytics</h2>
+        </div>
 
-            <div class="workbench-card code-card">
-              <div class="section-heading">
-                <h3>Quick request example</h3>
-                <p>Use the same key from this preview in your backend service.</p>
-              </div>
-              <pre class="snippet-block"><code>curl -X POST /calculate-price \
-  -H "Authorization: Bearer YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "base_price": 10,
-    "country": "IN",
-    "currency": "USD",
-    "min_margin": 10
-  }'</code></pre>
+        <div class="stats-grid compact-stats">
+          <div class="workbench-card stat-card">
+            <div class="stat-head">
+              <span>Requests</span>
+              <div class="stat-icon"><i data-lucide="activity" style="color: var(--accent);"></i></div>
             </div>
+            <div id="stat-requests" class="stat-value">-</div>
+          </div>
+          <div class="workbench-card stat-card">
+            <div class="stat-head">
+              <span>Lift</span>
+              <div class="stat-icon"><i data-lucide="trending-up" style="color: var(--green);"></i></div>
+            </div>
+            <div id="stat-lift" class="stat-value green">-</div>
+          </div>
+          <div class="workbench-card stat-card">
+            <div class="stat-head">
+              <span>Conversion</span>
+              <div class="stat-icon"><i data-lucide="mouse-pointer-2" style="color: var(--yellow);"></i></div>
+            </div>
+            <div id="stat-conv" class="stat-value yellow">-</div>
           </div>
         </div>
 
-        <div class="preview-footer-grid">
+        <div class="analytics-layout minimal-layout">
           <div class="workbench-card">
-            <div class="section-heading">
-              <h3>Implementation notes</h3>
-              <p>Keep the integration path clean and predictable.</p>
+            <div class="tool-head">
+              <h3>Trend</h3>
             </div>
-            <ul class="note-list">
-              <li><i data-lucide="server"></i><span>Call the API from your backend, not from public browser code.</span></li>
-              <li><i data-lucide="shield-check"></i><span>Store the API key in environment variables and deployment secrets.</span></li>
-              <li><i data-lucide="refresh-cw"></i><span>Use the legacy endpoint only while migrating older integrations.</span></li>
-            </ul>
+            <div class="chart-shell">
+              <canvas id="analyticsChart"></canvas>
+            </div>
           </div>
 
           <div class="workbench-card">
-            <div class="section-heading">
-              <h3>What this preview covers</h3>
-              <p>The preview is now intentionally split by job, not mixed by feature.</p>
+            <div class="tool-head tool-head-row">
+              <h3>Track Event</h3>
+              <span id="track-status"></span>
             </div>
-            <div class="coverage-grid">
-              <div class="coverage-item">
-                <strong>Request builder</strong>
-                <span>Inputs and endpoint selection</span>
+            <div class="form-grid single-column-grid">
+              <div class="field">
+                <label for="t-price">Price Shown</label>
+                <input id="t-price" type="number" step="0.01" value="10.99">
               </div>
-              <div class="coverage-item">
-                <strong>Inspector</strong>
-                <span>Raw JSON and HTTP status</span>
+              <div class="field">
+                <label for="t-converted">Converted</label>
+                <select id="t-converted">
+                  <option value="true">Yes - sale occurred</option>
+                  <option value="false">No - drop off</option>
+                </select>
               </div>
-              <div class="coverage-item">
-                <strong>Summary</strong>
-                <span>Readable business output</span>
-              </div>
-              <div class="coverage-item">
-                <strong>Integration</strong>
-                <span>Backend and key handling notes</span>
+              <div class="field">
+                <label for="t-country">Country</label>
+                <input id="t-country" type="text" value="IN">
               </div>
             </div>
+            <div class="action-row start">
+              <button class="btn" id="trackBtn">
+                <i data-lucide="save"></i>
+                <span>Track</span>
+              </button>
+            </div>
+            <pre class="json-viewer hidden compact-json" id="trackJson"></pre>
+          </div>
+        </div>
+
+        <div class="workbench-card">
+          <div class="tool-head">
+            <h3>Activity</h3>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Country</th>
+                  <th>Base Price</th>
+                  <th>Final Optimized</th>
+                  <th>Conversion</th>
+                </tr>
+              </thead>
+              <tbody id="analyticsBody">
+                <tr><td colspan="5" class="empty-row">No activity logged yet.</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
 
-      <section id="panel-market" class="panel hidden preview-panel">
-        <div class="panel-header panel-header-wide">
-          <div>
-            <span class="doc-kicker"><i data-lucide="globe-2" style="width: 14px;"></i> Tax Library</span>
-            <h2 class="panel-title-xl">Country rate coverage and raw tax payloads.</h2>
-            <p>Use this workspace to inspect regional tax coverage, confirm update dates, and compare the raw API response against the rendered table.</p>
-          </div>
+      <section id="panel-market" class="panel hidden tool-panel">
+        <div class="plain-panel-head panel-head-row">
+          <h2>Tax Rates</h2>
           <button class="btn" id="ratesBtn">
             <i data-lucide="refresh-cw"></i>
-            <span>Fetch Latest Rates</span>
+            <span>Fetch</span>
           </button>
         </div>
 
-        <div class="preview-metrics">
-          <div class="metric-panel">
-            <span class="metric-label">Data source</span>
-            <strong>/tax-rates</strong>
-            <span class="metric-copy">No-auth tax rate reference endpoint.</span>
-          </div>
-          <div class="metric-panel">
-            <span class="metric-label">Use case</span>
-            <strong>Coverage audit</strong>
-            <span class="metric-copy">Check which regions and percentages are being served right now.</span>
-          </div>
-          <div class="metric-panel">
-            <span class="metric-label">Validation</span>
-            <strong>Raw + table</strong>
-            <span class="metric-copy">Rendered table and underlying JSON stay visible together.</span>
-          </div>
-        </div>
-
-        <div class="tax-layout">
+        <div class="analytics-layout minimal-layout">
           <div class="workbench-card">
-            <div class="section-heading">
-              <h3>Tax rate table</h3>
-              <p>Country names, legal tax percentages, and last-known update date.</p>
+            <div class="tool-head">
+              <h3>Countries</h3>
             </div>
             <div class="table-wrap">
               <table>
@@ -401,273 +359,79 @@
                   </tr>
                 </thead>
                 <tbody id="ratesBody">
-                  <tr><td colspan="3" class="empty-row">Click "Fetch Latest Rates" to load market data.</td></tr>
+                  <tr><td colspan="3" class="empty-row">Click "Fetch" to load market data.</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <div class="stack">
-            <div class="workbench-card">
-              <div class="section-heading">
-                <div class="card-title-row">
-                  <h3>Raw tax response</h3>
-                  <span id="rates-status"></span>
-                </div>
-                <p>Inspect the exact payload returned by the API before or after the table render.</p>
-              </div>
-              <div class="hidden" id="rates-results-wrap" style="display: block;">
-                <pre class="json-viewer" id="ratesJson">// Tax response will appear here</pre>
-              </div>
+          <div class="workbench-card">
+            <div class="tool-head tool-head-row">
+              <h3>Raw Response</h3>
+              <span id="rates-status"></span>
             </div>
-
-            <div class="workbench-card">
-              <div class="section-heading">
-                <h3>Operational notes</h3>
-              </div>
-              <ul class="note-list">
-                <li><i data-lucide="info"></i><span>Use this library to confirm country support before sending production traffic.</span></li>
-                <li><i data-lucide="braces"></i><span>Compare the rendered labels with `country_code`, `country_name`, and `tax_percentage` in the raw payload.</span></li>
-                <li><i data-lucide="calendar"></i><span>Watch update dates when validating tax changes across regions.</span></li>
-              </ul>
+            <div id="rates-results-wrap" class="rates-raw-wrap">
+              <pre class="json-viewer" id="ratesJson">// Tax response will appear here</pre>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="panel-analytics-hub" class="panel hidden preview-panel">
-        <div class="panel-header panel-header-wide">
-          <div>
-            <span class="doc-kicker"><i data-lucide="activity" style="width: 14px;"></i> Analytics Hub</span>
-            <h2 class="panel-title-xl">Observe usage, conversion flow, and recent optimization activity.</h2>
-            <p>This section is rebuilt as a clean monitoring surface with KPIs first, charting second, and event logging separated from the activity table.</p>
-          </div>
+      <section id="panel-settings" class="panel hidden tool-panel">
+        <div class="plain-panel-head">
+          <h2>Access</h2>
         </div>
 
-        <div class="stats-grid">
-          <div class="workbench-card stat-card">
-            <div class="stat-head">
-              <span>Request Volume</span>
-              <div class="stat-icon"><i data-lucide="activity" style="color: var(--accent);"></i></div>
-            </div>
-            <div id="stat-requests" class="stat-value">-</div>
-            <div class="stat-copy">Total tracked API requests</div>
-          </div>
-
-          <div class="workbench-card stat-card">
-            <div class="stat-head">
-              <span>Optimization ROI</span>
-              <div class="stat-icon"><i data-lucide="trending-up" style="color: var(--green);"></i></div>
-            </div>
-            <div id="stat-lift" class="stat-value green">-</div>
-            <div class="stat-copy">Revenue lift versus standard rounding</div>
-          </div>
-
-          <div class="workbench-card stat-card">
-            <div class="stat-head">
-              <span>Conversion Rate</span>
-              <div class="stat-icon"><i data-lucide="mouse-pointer-2" style="color: var(--yellow);"></i></div>
-            </div>
-            <div id="stat-conv" class="stat-value yellow">-</div>
-            <div class="stat-copy">Observed success rate of optimized pricing</div>
-          </div>
-        </div>
-
-        <div class="analytics-layout">
-          <div class="stack">
-            <div class="workbench-card">
-              <div class="section-heading">
-                <h3>Usage trend</h3>
-                <p>Seven-day request trend based on analytics response data.</p>
-              </div>
-              <div class="chart-shell">
-                <canvas id="analyticsChart"></canvas>
-              </div>
+        <div class="analytics-layout minimal-layout">
+          <div class="workbench-card">
+            <div class="tool-head">
+              <h3>Generate Key</h3>
             </div>
 
-            <div class="workbench-card">
-              <div class="section-heading">
-                <h3>Recent activity</h3>
-                <p>Latest optimization events and conversion status.</p>
-              </div>
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Timestamp</th>
-                      <th>Country</th>
-                      <th>Base Price</th>
-                      <th>Final Optimized</th>
-                      <th>Conversion</th>
-                    </tr>
-                  </thead>
-                  <tbody id="analyticsBody">
-                    <tr><td colspan="5" class="empty-row">No activity logged yet.</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <div class="stack">
-            <div class="workbench-card">
-              <div class="section-heading">
-                <h3>Manual event logger</h3>
-                <p>Simulate a conversion event without leaving the dashboard.</p>
-              </div>
-              <div class="form-grid single-column-grid">
-                <div class="field">
-                  <label for="t-price">Price Shown</label>
-                  <input id="t-price" type="number" step="0.01" value="10.99">
-                </div>
-                <div class="field">
-                  <label for="t-converted">Converted</label>
-                  <select id="t-converted">
-                    <option value="true">Yes - sale occurred</option>
-                    <option value="false">No - drop off</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label for="t-country">Country</label>
-                  <input id="t-country" type="text" value="IN">
-                </div>
+            <div id="signup-form-body">
+              <div class="field">
+                <label for="signup-email">Developer Email</label>
+                <input type="email" id="signup-email" placeholder="you@company.com">
               </div>
               <div class="action-row start">
-                <button class="btn" id="trackBtn">
-                  <i data-lucide="save"></i>
-                  <span>Track Sale</span>
+                <button class="btn" id="signup-btn">
+                  <i data-lucide="zap"></i>
+                  <span>Generate</span>
                 </button>
-                <span id="track-status"></span>
-              </div>
-              <pre class="json-viewer hidden compact-json" id="trackJson"></pre>
-            </div>
-
-            <div class="workbench-card">
-              <div class="section-heading">
-                <h3>Reading the hub</h3>
-              </div>
-              <ul class="note-list">
-                <li><i data-lucide="eye"></i><span>Start with KPI cards to see volume, conversion, and lift in one glance.</span></li>
-                <li><i data-lucide="bar-chart-3"></i><span>Use the trend chart to spot traffic spikes or quiet periods before checking the table.</span></li>
-                <li><i data-lucide="target"></i><span>Use the logger to validate the tracking endpoint against your current session key.</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="panel-settings" class="panel hidden preview-panel">
-        <div class="panel-header panel-header-wide">
-          <div>
-            <span class="doc-kicker"><i data-lucide="settings" style="width: 14px;"></i> Access Console</span>
-            <h2 class="panel-title-xl">Create keys, copy onboarding details, and ship securely.</h2>
-            <p>The access area is rebuilt around a clearer lifecycle: generate a key, move it into a backend secret store, then use the deployment notes below to keep the integration safe.</p>
-          </div>
-        </div>
-
-        <div class="settings-layout-new">
-          <div class="stack">
-            <div class="workbench-card access-card">
-              <div class="section-heading">
-                <h3>Request production access</h3>
-                <p>Generate a new API key for this session and copy it once.</p>
-              </div>
-
-              <div id="signup-form-body">
-                <div class="field">
-                  <label for="signup-email">Developer Email Address</label>
-                  <input type="email" id="signup-email" placeholder="you@company.com">
-                </div>
-                <div class="action-row start">
-                  <button class="btn" id="signup-btn">
-                    <i data-lucide="zap"></i>
-                    <span>Generate New API Key</span>
-                  </button>
-                </div>
-              </div>
-
-              <div id="signup-result-body" class="hidden">
-                <div class="success-banner">
-                  <div class="success-icon">
-                    <i data-lucide="check"></i>
-                  </div>
-                  <div>
-                    <strong>Credential generated successfully</strong>
-                    <p>Store it safely. This value should move into server-side secrets only.</p>
-                  </div>
-                </div>
-                <div class="key-display">
-                  <code id="new-api-key"></code>
-                  <button class="icon-btn" type="button" id="copy-api-key" aria-label="Copy API key">
-                    <i data-lucide="copy" style="width: 16px;"></i>
-                  </button>
-                </div>
-                <div class="action-row start">
-                  <button class="btn outline" id="finish-signup">Done</button>
-                </div>
               </div>
             </div>
 
-            <div class="workbench-card">
-              <div class="section-heading">
-                <h3>Environment example</h3>
-                <p>Keep keys on the server and inject them through configuration.</p>
+            <div id="signup-result-body" class="hidden">
+              <div class="success-banner">
+                <div class="success-icon">
+                  <i data-lucide="check"></i>
+                </div>
+                <div>
+                  <strong>Key ready</strong>
+                </div>
               </div>
-              <pre class="snippet-block"><code>PRICEPILOT_API_KEY=pp_live_xxxxx
-PRICEPILOT_API_URL=https://your-api-host
-
-Authorization: Bearer ${PRICEPILOT_API_KEY}</code></pre>
+              <div class="key-display">
+                <code id="new-api-key"></code>
+                <button class="icon-btn" type="button" id="copy-api-key" aria-label="Copy API key">
+                  <i data-lucide="copy" style="width: 16px;"></i>
+                </button>
+              </div>
+              <div class="action-row start">
+                <button class="btn outline" id="finish-signup">Done</button>
+              </div>
             </div>
           </div>
 
-          <div class="stack">
-            <div class="workbench-card">
-              <div class="section-heading">
-                <h3>Security checklist</h3>
-              </div>
-              <ul class="note-list">
-                <li><i data-lucide="shield"></i><span>Never expose production keys in browser JavaScript, public repos, or client bundles.</span></li>
-                <li><i data-lucide="server"></i><span>Route all authenticated calls through your own backend or serverless layer.</span></li>
-                <li><i data-lucide="refresh-cw"></i><span>Rotate keys immediately if logs, screenshots, or test environments leak them.</span></li>
-                <li><i data-lucide="lock"></i><span>Use environment variables or platform secret managers for deployment.</span></li>
-              </ul>
+          <div class="workbench-card">
+            <div class="tool-head">
+              <h3>Security</h3>
             </div>
-
-            <div class="workbench-card">
-              <div class="section-heading">
-                <h3>Onboarding sequence</h3>
-              </div>
-              <div class="sequence-list">
-                <div class="sequence-item">
-                  <span>01</span>
-                  <div>
-                    <strong>Generate</strong>
-                    <p>Create a key for your team email.</p>
-                  </div>
-                </div>
-                <div class="sequence-item">
-                  <span>02</span>
-                  <div>
-                    <strong>Store</strong>
-                    <p>Move it to deployment secrets or your backend environment file.</p>
-                  </div>
-                </div>
-                <div class="sequence-item">
-                  <span>03</span>
-                  <div>
-                    <strong>Integrate</strong>
-                    <p>Wire the calculator endpoint into checkout or billing logic.</p>
-                  </div>
-                </div>
-                <div class="sequence-item">
-                  <span>04</span>
-                  <div>
-                    <strong>Monitor</strong>
-                    <p>Use the analytics hub to verify request and conversion flow.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ul class="note-list">
+              <li><i data-lucide="shield"></i><span>Keep keys on the server.</span></li>
+              <li><i data-lucide="server"></i><span>Route API calls through your backend.</span></li>
+              <li><i data-lucide="refresh-cw"></i><span>Rotate keys after exposure.</span></li>
+              <li><i data-lucide="lock"></i><span>Use environment secrets in deploys.</span></li>
+            </ul>
           </div>
         </div>
       </section>
@@ -683,10 +447,10 @@ Authorization: Bearer ${PRICEPILOT_API_KEY}</code></pre>
     </div>
     <div class="api-key-wrap" style="display: flex; width: 100%;">
       <i data-lucide="key" style="width: 14px; color: var(--accent);"></i>
-      <input type="password" id="api-key-mobile" placeholder="api_key_..." value="api_key_default_sample_123">
+      <input type="password" id="api-key-mobile" placeholder="api_key_...">
       <i data-lucide="eye" style="width: 14px; cursor: pointer;" id="toggle-key-mobile"></i>
     </div>
-    <p class="overlay-copy">Your key is stored locally and reused for requests in this preview.</p>
+    <p class="overlay-copy">Used for authenticated requests in this preview.</p>
   </div>
 
   <script src="dashboard.js"></script>

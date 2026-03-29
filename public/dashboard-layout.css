@@ -1437,6 +1437,186 @@ tbody tr:last-child td {
   line-height: 1.6;
 }
 
+/* New minimal preview theme */
+.tool-panel {
+  gap: 20px;
+}
+
+.tool-shell,
+.tool-form-card,
+.tool-response-card,
+.tool-summary-card,
+.tool-note-card,
+.workbench-card {
+  background: rgba(15, 18, 30, 0.96);
+  border: 1px solid rgba(108, 99, 255, 0.16);
+  border-radius: 22px;
+  box-shadow: none;
+}
+
+.tool-shell {
+  padding: 22px;
+}
+
+.tool-toolbar,
+.tool-grid,
+.tool-bottom,
+.summary-grid,
+.plain-panel-head,
+.panel-head-row,
+.minimal-layout,
+.compact-stats {
+  display: grid;
+  gap: 20px;
+}
+
+.tool-toolbar,
+.plain-panel-head,
+.panel-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.plain-panel-head h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.tool-tabs {
+  background: transparent;
+  padding: 0;
+  border: 0;
+  gap: 12px;
+}
+
+.tool-tabs .tab-btn {
+  min-height: 44px;
+  padding: 0 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(108, 99, 255, 0.14);
+  border-radius: 999px;
+}
+
+.tool-tabs .tab-btn.active {
+  background: rgba(108, 99, 255, 0.18);
+  border-color: rgba(108, 99, 255, 0.28);
+}
+
+.tool-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tool-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(108, 99, 255, 0.12);
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.tool-grid {
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+}
+
+.tool-grid-single {
+  grid-template-columns: 1fr;
+}
+
+.tool-form-card,
+.tool-response-card,
+.tool-summary-card,
+.tool-note-card,
+.workbench-card {
+  padding: 24px;
+}
+
+.tool-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.tool-head h3 {
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.tool-head-row {
+  align-items: center;
+}
+
+.tool-bottom {
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.summary-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.summary-item {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(108, 99, 255, 0.12);
+}
+
+.summary-item.highlight {
+  background: rgba(108, 99, 255, 0.14);
+}
+
+.legacy-wrap {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.rates-raw-wrap {
+  display: block;
+}
+
+.minimal-layout {
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+}
+
+.compact-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.compact-stats .stat-card {
+  background: rgba(15, 18, 30, 0.96);
+  border: 1px solid rgba(108, 99, 255, 0.16);
+}
+
+.snippet-block {
+  min-height: 100%;
+}
+
+.preview-hero,
+.preview-metrics,
+.preview-footer-grid,
+.preview-hero-copy,
+.preview-hero-stats,
+.hero-stat,
+.metric-panel,
+.coverage-grid,
+.coverage-item,
+.panel-title-xl {
+  display: none;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -1444,6 +1624,9 @@ tbody tr:last-child td {
 }
 
 @media (max-width: 1200px) {
+  .tool-grid,
+  .tool-bottom,
+  .minimal-layout,
   .preview-hero,
   .api-workbench,
   .tax-layout,
@@ -1521,6 +1704,7 @@ tbody tr:last-child td {
 }
 
 @media (max-width: 720px) {
+  .summary-grid,
   .hero-meta,
   .visual-grid,
   .form-grid,
@@ -1547,6 +1731,14 @@ tbody tr:last-child td {
   .preview-hero-stats,
   .workbench-card {
     padding: 22px;
+  }
+
+  .tool-shell,
+  .tool-form-card,
+  .tool-response-card,
+  .tool-summary-card,
+  .tool-note-card {
+    padding: 18px;
   }
 
   .top-bar {
