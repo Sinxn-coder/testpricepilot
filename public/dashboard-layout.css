@@ -1509,6 +1509,12 @@ tbody tr:last-child td {
   align-items: start;
 }
 
+.tool-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
 
 .tool-shell,
 .tool-form-card,

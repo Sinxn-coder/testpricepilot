@@ -92,18 +92,19 @@ function setEndpointTab(tabName) {
 
 function syncAndToggle(inputId, toggleId) {
   const input = document.getElementById(inputId);
-  const toggle = document.getElementById(toggleId);
-  if (!input || !toggle) return;
+  const toggleWrapper = document.getElementById(toggleId);
+  if (!input || !toggleWrapper) return;
 
-  toggle.addEventListener("click", () => {
-    const showing = input.type === "text";
-    input.type = showing ? "password" : "text";
+  toggleWrapper.addEventListener("click", () => {
+    const isPassword = input.type === "password";
+    input.type = isPassword ? "text" : "password";
     
-    // Clear and replace icon for Lucide refreshing
-    toggle.innerHTML = `<i data-lucide="${showing ? 'eye' : 'eye-off'}"></i>`;
+    // Replace the icon inside the wrapper
+    toggleWrapper.innerHTML = `<i data-lucide="${isPassword ? 'eye-off' : 'eye'}" style="width: 14px; color: var(--text-muted);"></i>`;
     refreshIcons();
   });
 }
+
 
 
 if (menuToggle) menuToggle.addEventListener("click", () => toggleSidebar(true));
@@ -122,8 +123,8 @@ document.querySelectorAll(".tab-btn").forEach((button) => {
   button.addEventListener("click", () => setEndpointTab(button.dataset.tab));
 });
 
-syncAndToggle("apiKey", "toggleKey");
-syncAndToggle("api-key-mobile", "toggle-key-mobile");
+// syncAndToggle moved to bottom to ensure icons are stable
+
 
 if (apiDesktop && apiMobile) {
   if (apiMobile.value && !apiDesktop.value) apiDesktop.value = apiMobile.value;
@@ -608,3 +609,7 @@ setEndpointTab("calculate");
 setupPlayground();
 initializePanelFromHash();
 refreshIcons();
+
+// Final stable toggle initialization
+syncAndToggle("apiKey", "toggleKey");
+syncAndToggle("api-key-mobile", "toggle-key-mobile");

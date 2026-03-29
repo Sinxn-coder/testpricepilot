@@ -89,8 +89,11 @@
       <div class="api-key-wrap">
         <i data-lucide="key" style="width: 14px; color: var(--accent);"></i>
         <input id="apiKey" type="password" placeholder="api_key_..." autocomplete="off">
-        <i data-lucide="eye" id="toggleKey" style="width: 14px; cursor: pointer; color: var(--text-muted);"></i>
+        <span id="toggleKey" style="cursor: pointer; display: flex; align-items: center;">
+          <i data-lucide="eye" style="width: 14px; color: var(--text-muted);"></i>
+        </span>
       </div>
+
     </header>
 
     <div class="content">
@@ -378,7 +381,7 @@
           </button>
         </div>
 
-        <div class="tool-grid-single minimal-layout">
+        <div class="tool-stack minimal-layout">
           <div class="workbench-card">
             <div class="tool-head">
               <h3>Countries</h3>
