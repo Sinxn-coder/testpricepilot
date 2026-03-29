@@ -395,20 +395,21 @@
         <i data-lucide="cpu"></i>
         <span>Pricing Engine</span>
       </div>
-      <div class="nav-item" data-target="panel-analytics-hub">
-        <i data-lucide="bar-chart-3"></i>
-        <span>Analytics Hub</span>
-      </div>
-      <div class="nav-item" data-target="panel-market">
-        <i data-lucide="globe"></i>
-        <span>Global Tax Hub</span>
+      <div class="nav-item" data-target="panel-settings">
+        <i data-lucide="settings"></i>
+        <span>Settings & API</span>
       </div>
     </nav>
 
-    <div style="padding: 0 24px; margin-top: 24px;">
-      <button class="btn" style="width: 100%; justify-content: center; box-shadow: 0 4px 12px var(--accent-glow);" id="get-key-nav">
-        <span>Get API Key</span>
-      </button>
+    <div style="padding: 0 24px; margin-top: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
+      <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 12px; letter-spacing: 0.05em;">Your Account</div>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid var(--border);">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff;">D</div>
+        <div style="flex: 1; min-width: 0;">
+          <div style="font-size: 0.8rem; font-weight: 600; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Developer</div>
+          <div style="font-size: 0.65rem; color: var(--text-muted);">Free Plan</div>
+        </div>
+      </div>
     </div>
 
     <nav class="nav-group" style="margin-top: auto;">
@@ -633,34 +634,56 @@
         </div>
       </div>
 
-      <!-- PANEL: MARKET DATA -->
-      <div id="panel-market" class="panel hidden">
-        <div class="card">
-          <div class="card-title"><i data-lucide="globe" style="color: var(--accent);"></i> Global Tax Hub</div>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Real-time VAT and GST library for automatic legal compliance.</p>
+      <!-- PANEL: SETTINGS & API -->
+      <div id="panel-settings" class="panel hidden">
+        <div class="card" style="border: 2px solid var(--accent); background: linear-gradient(135deg, rgba(108, 99, 255, 0.05) 0%, transparent 100%);">
+          <div class="card-title"><i data-lucide="key" style="color: var(--accent);"></i> API Access Management</div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 24px;">Manage your production credentials and subscription tiers.</p>
           
-          <div style="display: flex; gap: 12px; margin-bottom: 24px;">
-            <button class="btn" id="ratesBtn"><i data-lucide="refresh-cw"></i> Fetch Latest Rates</button>
+          <div id="signup-form-body">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+              <h4 style="margin-bottom: 8px;">Request Production Access</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">Enter your email to receive a unique API key and start optimizing your pricing.</p>
+              
+              <div class="field" style="margin-bottom: 20px;">
+                <label>Developer Email Address</label>
+                <input type="email" id="signup-email" placeholder="you@company.com" style="background: #000;">
+              </div>
+              
+              <button class="btn btn-primary" id="signup-btn" style="width: 100%; justify-content: center; height: 48px;">
+                <i data-lucide="zap"></i>
+                <span>Generate New API Key</span>
+              </button>
+            </div>
           </div>
 
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Region</th>
-                  <th>Legal Tax Rate</th>
-                  <th>Last Updated</th>
-                </tr>
-              </thead>
-              <tbody id="ratesBody">
-                <tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 32px;">Click 'Fetch' to load market data.</td></tr>
-              </tbody>
-            </table>
+          <div id="signup-result-body" class="hidden">
+            <div style="background: rgba(34,211,165,0.1); border: 1px solid var(--green); border-radius: 12px; padding: 24px; text-align: center;">
+              <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--green); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i data-lucide="check" style="color: #000;"></i>
+              </div>
+              <h4 style="color: var(--green); margin-bottom: 8px;">Credential Generated Successfully</h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px;">Your production key is ready. Store it safely as it won't be shown again.</p>
+              
+              <div style="display: flex; align-items: center; gap: 12px; background: #000; padding: 16px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 24px;">
+                <code id="new-api-key" style="font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent); flex: 1; word-break: break-all; letter-spacing: 1px;"></code>
+                <button class="btn btn-outline" style="padding: 8px; min-width: auto;" onclick="navigator.clipboard.writeText(document.getElementById('new-api-key').textContent); alert('Copied!')">
+                  <i data-lucide="copy" style="width: 14px;"></i>
+                </button>
+              </div>
+              
+              <button class="btn outline" id="finish-signup" style="width: 100%; justify-content: center;">Done</button>
+            </div>
           </div>
         </div>
-        <div class="card hidden" id="rates-results-wrap">
-          <div class="card-title">Raw Tax Response <span id="rates-status"></span></div>
-          <pre class="json-viewer" id="ratesJson"></pre>
+
+        <div class="card">
+          <div class="card-title">Security Best Practices</div>
+          <ul style="list-style: none; font-size: 0.85rem; color: var(--text-muted);">
+            <li style="margin-bottom: 12px; display: flex; gap: 12px;"><i data-lucide="shield" style="width: 16px; flex-shrink: 0; color: var(--accent);"></i> Never share your API key in client-side code (browsers/apps).</li>
+            <li style="margin-bottom: 12px; display: flex; gap: 12px;"><i data-lucide="shield" style="width: 16px; flex-shrink: 0; color: var(--accent);"></i> Always call the PricePilot API from your backend server.</li>
+            <li style="margin-bottom: 12px; display: flex; gap: 12px;"><i data-lucide="shield" style="width: 16px; flex-shrink: 0; color: var(--accent);"></i> Regularly rotate your keys if you suspect a leak.</li>
+          </ul>
         </div>
       </div>
         </div>
@@ -685,38 +708,6 @@
     <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;">Your key is stored locally and used for all requests.</p>
   </div>
 
-  <!-- --- Signup Modal --- -->
-  <div class="key-overlay" id="signup-overlay">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-      <h3 style="font-size: 1rem; color: #fff;">Register Account</h3>
-      <button id="close-signup" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer;">
-        <i data-lucide="x" style="width: 20px;"></i>
-      </button>
-    </div>
-    
-    <div id="signup-form-body">
-      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Enter your email to receive a unique API key and start optimizing your pricing.</p>
-      <div class="field" style="margin-bottom: 16px;">
-        <label>Email Address</label>
-        <input type="email" id="signup-email" placeholder="you@company.com">
-      </div>
-      <button class="btn" id="signup-btn" style="width: 100%; justify-content: center;">
-        <i data-lucide="key"></i>
-        <span>Generate API Key</span>
-      </button>
-    </div>
-
-    <div id="signup-result-body" class="hidden">
-      <div style="background: rgba(34,211,165,0.1); border: 1px solid var(--green); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
-        <p style="color: var(--green); font-size: 0.85rem; font-weight: 600; margin-bottom: 8px;">Success! Save your key safely:</p>
-        <div style="display: flex; align-items: center; gap: 8px; background: #000; padding: 10px; border-radius: 4px;">
-          <code id="new-api-key" style="font-family: var(--font-mono); font-size: 0.75rem; color: #fff; flex: 1; word-break: break-all;"></code>
-        </div>
-      </div>
-      <p style="font-size: 0.75rem; color: var(--text-muted);">This key will not be shown again. It has been automatically applied to your session.</p>
-      <button class="btn outline" id="finish-signup" style="width: 100%; justify-content: center; margin-top: 16px;">Got it</button>
-    </div>
-  </div>
 
   <script src="dashboard.js"></script>
 </body>

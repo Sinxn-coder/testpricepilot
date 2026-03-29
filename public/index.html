@@ -151,19 +151,26 @@
       <div>
         <div class="code-block rotated">
 <pre>
-<span class="code-comment">// Fetch optimized price for India</span>
-<span class="code-keyword">const</span> res = <span class="code-keyword">await</span> fetch(<span class="code-string">'/calculate-price'</span>, {
-  method: <span class="code-string">'POST'</span>,
-  headers: { <span class="code-string">'Authorization'</span>: <span class="code-string">'Bearer api_key'</span> },
-  body: JSON.stringify({
-    base_price: <span class="code-num">10</span>,
-    country: <span class="code-string">'IN'</span>,
-    min_margin: <span class="code-num">10</span>
-  })
-});
+<span class="code-comment">// Professional SaaS Integration Example</span>
+<span class="code-keyword">async function</span> <span class="code-keyword">getOptimizedPrice</span>(base, country) {
+  <span class="code-keyword">const</span> res = <span class="code-keyword">await</span> fetch(<span class="code-string">'/calculate-price'</span>, {
+    method: <span class="code-string">'POST'</span>,
+    headers: { 
+      <span class="code-string">'Authorization'</span>: <span class="code-string">'Bearer YOUR_API_KEY'</span>,
+      <span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>
+    },
+    body: JSON.stringify({
+      base_price: base,
+      country: country,
+      currency: <span class="code-string">'USD'</span>,
+      min_margin: <span class="code-num">0.2</span>
+    })
+  });
 
-<span class="code-keyword">const</span> { optimized_final_price } = <span class="code-keyword">await</span> res.json();
-<span class="code-comment">// Output: 10.99</span>
+  <span class="code-keyword">return await</span> res.json();
+}
+
+<span class="code-comment">// Output: { optimized_final_price: 10.99, ... }</span>
 </pre>
         </div>
       </div>

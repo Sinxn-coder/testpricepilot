@@ -51,20 +51,21 @@ function applyFinalRounding(amount, country, plan = "free") {
   const normalizedCountry = String(country || "").toUpperCase();
   const normalizedPlan = String(plan || "").toLowerCase();
 
-  // Free Plan: Forced .99 only
+  // 1. FREE PLAN: Strictly .99 psychological rounding only
   if (normalizedPlan === "free") {
     return roundToPsych(amount, 0.99);
   }
 
-  // Starter Plan: .99, .95, .90
+  // 2. STARTER PLAN: Support for .99, .95, and .90 styles
   if (normalizedPlan === "starter") {
     const floor = Math.floor(amount);
     const options = [0.99, 0.95, 0.90];
-    const style = options[floor % 3]; // Simple deterministic variety
+    const style = options[Math.abs(floor) % 3]; 
     return roundTo2(floor + style);
   }
 
-  // Growth & Pro: Full Engine (Country specific + Smart logic)
+  // 3. GROWTH & PRO PLANS: Full Psychological Engine + Regional Logic
+  // Access to country-specific optimization (IN/US)
   if (normalizedCountry === "IN") {
     return roundTo2(roundForIndia(amount));
   }
@@ -72,7 +73,8 @@ function applyFinalRounding(amount, country, plan = "free") {
     return roundTo2(roundForUs(amount));
   }
   
-  return roundToPsych(amount, 0.99);
+  // Default to advanced psychological rounding for other regions in premium tiers
+  return roundToPsych99(amount);
 }
 
 function optimizePrice({ basePrice, country, source, plan }) {

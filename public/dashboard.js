@@ -57,6 +57,10 @@ document.querySelectorAll('.nav-item[data-target]').forEach(item => {
     if (targetId === 'panel-analytics-hub') {
       fetchAnalytics();
     }
+    
+    if (targetId === 'panel-settings') {
+      lucide.createIcons();
+    }
 
     // Close sidebar on mobile after clicking
     toggleSidebar(false);
@@ -336,21 +340,9 @@ async function fetchAnalytics() {
     lucide.createIcons();
 }
 
-// --- Signup Logic ---
-const getKeyNav = document.getElementById('get-key-nav');
-const signupOverlay = document.getElementById('signup-overlay');
-const closeSignup = document.getElementById('close-signup');
+// --- Signup Logic (Integrated in Settings Hub) ---
 const signupBtn = document.getElementById('signup-btn');
 const finishSignup = document.getElementById('finish-signup');
-
-if (getKeyNav) getKeyNav.addEventListener('click', () => {
-  signupOverlay.classList.add('active');
-  lucide.createIcons();
-});
-
-if (closeSignup) closeSignup.addEventListener('click', () => {
-  signupOverlay.classList.remove('active');
-});
 
 if (signupBtn) {
   signupBtn.addEventListener('click', async () => {
@@ -358,13 +350,13 @@ if (signupBtn) {
     if (!email) return alert('Email is required');
 
     signupBtn.disabled = true;
-    signupBtn.innerHTML = '<i data-lucide="loader" class="spin"></i> <span>Generating...</span>';
+    signupBtn.innerHTML = '<i data-lucide="loader" class="spin"></i> <span>Generating Credentials...</span>';
     lucide.createIcons();
 
     const r = await callApiNoAuth('POST', '/auth/signup', { email });
     
     signupBtn.disabled = false;
-    signupBtn.innerHTML = '<i data-lucide="key"></i> <span>Generate API Key</span>';
+    signupBtn.innerHTML = '<i data-lucide="key"></i> <span>Generate New API Key</span>';
     lucide.createIcons();
 
     if (r.ok) {
@@ -375,6 +367,8 @@ if (signupBtn) {
       // Auto-apply key to session
       if (apiDesktop) apiDesktop.value = r.data.api_key;
       if (apiMobile) apiMobile.value = r.data.api_key;
+      
+      lucide.createIcons();
     } else {
       alert(r.data.error || 'Signup failed');
     }
@@ -383,13 +377,10 @@ if (signupBtn) {
 
 if (finishSignup) {
   finishSignup.addEventListener('click', () => {
-    signupOverlay.classList.remove('active');
-    // Reset for next time (optional)
-    setTimeout(() => {
-      document.getElementById('signup-form-body').classList.remove('hidden');
-      document.getElementById('signup-result-body').classList.add('hidden');
-      document.getElementById('signup-email').value = '';
-    }, 500);
+    // Just refresh or show success state transition
+    document.getElementById('signup-result-body').classList.add('hidden');
+    document.getElementById('signup-form-body').classList.remove('hidden');
+    document.getElementById('signup-email').value = '';
   });
 }
 
