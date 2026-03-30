@@ -65,9 +65,13 @@
         <div class="avatar">D</div>
         <div class="acc-info">
           <div class="acc-name">Developer</div>
-          <div class="acc-plan">Free plan</div>
+          <div class="acc-plan" id="display-plan">Free plan</div>
         </div>
       </div>
+      <a href="plans.html" class="sidebar-upgrade-btn" id="sidebar-upgrade-btn">
+        <i data-lucide="zap"></i>
+        <span>Upgrade to Pro</span>
+      </a>
     </div>
   </aside>
 
@@ -244,6 +248,14 @@
           <div class="chart-shell">
             <canvas id="analyticsChart"></canvas>
           </div>
+        </div>
+
+        <div class="upsell-banner hidden" id="analytics-upsell">
+          <div class="upsell-content">
+            <h4>Maximize your Conversion Lift</h4>
+            <p>Upgrade to Growth or Pro to unlock advanced psychological pricing styles (.95, .90) and full margin protection.</p>
+          </div>
+          <a href="plans.html" class="btn btn-primary">See Plans</a>
         </div>
 
         <div class="workbench-card">

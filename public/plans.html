@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your Plan | PricePilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .plans-page {
+      min-height: 100vh;
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: radial-gradient(circle at top, rgba(108, 99, 255, 0.05), transparent);
+    }
+    .plans-header {
+      text-align: center;
+      margin-bottom: 60px;
+      max-width: 600px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      position: relative;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .card.popular {
+      border: 2px solid var(--accent);
+      transform: scale(1.05);
+      background: var(--surface2);
+      box-shadow: 0 20px 60px rgba(108, 99, 255, 0.15);
+      z-index: 10;
+    }
+    .card.popular:hover {
+      transform: scale(1.06) translateY(-4px);
+    }
+    .badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .plan-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .plan-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .plan-price span {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+    .plan-features {
+      list-style: none;
+      margin: 32px 0;
+      flex-grow: 1;
+    }
+    .plan-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .plan-features i {
+      color: var(--green);
+      width: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="plans-page">
+    <div class="plans-header">
+      <a href="index.html" class="logo-wrap" style="justify-content: center; margin-bottom: 32px;">
+        <i data-lucide="compass" style="color: var(--accent);"></i> PricePilot
+      </a>
+      <h1 class="gradient-text">Choose your optimization plan</h1>
+      <p style="color: var(--text-muted); margin-top: 16px;">Scale your revenue growth with the right set of tools. You can change your plan at any time.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <!-- Free -->
+      <div class="card">
+        <div class="plan-title">Individual</div>
+        <div class="plan-price">Free</div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Feel the value immediately.</p>
+        <ul class="plan-features">
+          <li><i data-lucide="check"></i> 500 requests / mo</li>
+          <li><i data-lucide="check"></i> Basic Tax Calculation</li>
+          <li><i data-lucide="check"></i> .99 Rounding Only</li>
+          <li><i data-lucide="check"></i> API Access</li>
+        </ul>
+        <button onclick="selectPlan('Free')" class="btn btn-outline" style="width: 100%; justify-content: center;">Get Started Free</button>
+      </div>
+
+      <!-- Starter -->
+      <div class="card">
+        <div class="plan-title">Starter</div>
+        <div class="plan-price">$9<span>/mo</span></div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Perfect for growing projects.</p>
+        <ul class="plan-features">
+          <li><i data-lucide="check"></i> 5,000 requests / mo</li>
+          <li><i data-lucide="check"></i> Adv. Rounding Engine</li>
+          <li><i data-lucide="check"></i> .99, .95, .90 Styles</li>
+          <li><i data-lucide="check"></i> Remove Branding</li>
+          <li><i data-lucide="check"></i> Email Support</li>
+        </ul>
+        <button onclick="selectPlan('Starter')" class="btn btn-outline" style="width: 100%; justify-content: center;">Choose Starter</button>
+      </div>
+
+      <!-- Growth -->
+      <div class="card popular">
+        <div class="badge">Most Popular</div>
+        <div class="plan-title" style="color: var(--accent);">Growth</div>
+        <div class="plan-price">$29<span>/mo</span></div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">The main revenue engine.</p>
+        <ul class="plan-features">
+          <li><i data-lucide="check"></i> 20,000 requests / mo</li>
+          <li><i data-lucide="check"></i> Full Psychology Engine</li>
+          <li><i data-lucide="check"></i> Smart Margin Protection</li>
+          <li><i data-lucide="check"></i> Regional Pricing Support</li>
+          <li><i data-lucide="check"></i> A/B Testing & Logs</li>
+        </ul>
+        <button onclick="selectPlan('Growth')" class="btn btn-primary" style="width: 100%; justify-content: center;">Choose Growth</button>
+      </div>
+
+      <!-- Pro -->
+      <div class="card">
+        <div class="plan-title">Pro</div>
+        <div class="plan-price">$79<span>/mo</span></div>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Scale globally with ease.</p>
+        <ul class="plan-features">
+          <li><i data-lucide="check"></i> 100,000 requests / mo</li>
+          <li><i data-lucide="check"></i> Advanced Pricing Rules</li>
+          <li><i data-lucide="check"></i> Custom Logic Support</li>
+          <li><i data-lucide="check"></i> Webhooks & API Hooks</li>
+          <li><i data-lucide="check"></i> Premium Support</li>
+        </ul>
+        <button onclick="selectPlan('Pro')" class="btn btn-outline" style="width: 100%; justify-content: center;">Choose Pro</button>
+      </div>
+    </div>
+
+    <div style="margin-top: 60px; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+      <p>Need more? <a href="mailto:info@pricepilot.io" style="color: var(--accent); font-weight: 600;">Contact us for Enterprise</a></p>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function selectPlan(plan) {
+      // Simulate plan selection
+      localStorage.setItem('userPlan', plan);
+      window.location.href = 'preview.html?setup_complete=true';
+    }
+  </script>
+</body>
+</html>

@@ -575,12 +575,43 @@ function initializePanelFromHash() {
   }
 }
 
-window.addEventListener("hashchange", initializePanelFromHash);
+// --- Plan Management & Upsells ---
+function checkUserPlan() {
+  const plan = localStorage.getItem("userPlan") || "Free";
+  const displayPlanEl = document.getElementById("display-plan");
+  const upgradeBtn = document.getElementById("sidebar-upgrade-btn");
+  const analyticsUpsell = document.getElementById("analytics-upsell");
 
-setEndpointTab("calculate");
-setupPlayground();
-initializePanelFromHash();
-refreshIcons();
+  if (displayPlanEl) displayPlanEl.innerText = `${plan} plan`;
+
+  // If on Free plan, show upsells
+  if (plan === "Free") {
+    if (upgradeBtn) upgradeBtn.classList.remove("hidden");
+    if (analyticsUpsell) analyticsUpsell.classList.remove("hidden");
+  } else {
+    // Hide specialized upsells for paid plans
+    if (upgradeBtn) upgradeBtn.classList.add("hidden");
+    if (analyticsUpsell) analyticsUpsell.classList.add("hidden");
+    
+    // Update upgrade button for lower paid plans (Starter/Growth)
+    if (plan !== "Pro" && upgradeBtn) {
+      upgradeBtn.classList.remove("hidden");
+      upgradeBtn.innerHTML = '<i data-lucide="zap"></i><span>Upgrade to Pro</span>';
+      lucide.createIcons();
+    }
+  }
+}
+
+// Global initialization
+document.addEventListener("DOMContentLoaded", () => {
+  checkUserPlan();
+  setEndpointTab("calculate");
+  setupPlayground();
+  initializePanelFromHash();
+  refreshIcons();
+});
+
+window.addEventListener("hashchange", initializePanelFromHash);
 
 // Trend range listeners
 document.querySelectorAll("#trend-range .tab-btn").forEach(btn => {
