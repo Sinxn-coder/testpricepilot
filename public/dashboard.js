@@ -114,11 +114,9 @@ document.querySelectorAll(".tab-btn").forEach((button) => {
 
 
 if (apiDesktop && apiMobile) {
-  if (apiMobile.value && !apiDesktop.value) apiDesktop.value = apiMobile.value;
-  if (apiDesktop.value && !apiMobile.value) apiMobile.value = apiDesktop.value;
-
   let apiDebounce;
   const onKeyInput = () => {
+
     apiMobile.value = apiDesktop.value;
     clearTimeout(apiDebounce);
     apiDebounce = setTimeout(() => {
