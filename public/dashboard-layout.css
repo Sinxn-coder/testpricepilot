@@ -1433,14 +1433,14 @@ tbody tr:last-child td {
 
 /* Curved Graph Line Animation */
 .chart-loader-svg {
-  width: 200px;
-  height: 100px;
+  width: 96%;
+  height: 140px;
   fill: none;
   stroke: var(--accent);
   stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 12px var(--accent-glow));
+  filter: drop-shadow(0 0 20px var(--accent-glow));
 }
 
 .chart-loader-path {
