@@ -1433,25 +1433,26 @@ tbody tr:last-child td {
 
 /* Curved Graph Line Animation */
 .chart-loader-svg {
-  width: 120px;
-  height: 60px;
+  width: 200px;
+  height: 100px;
   fill: none;
   stroke: var(--accent);
-  stroke-width: 3;
+  stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
+  filter: drop-shadow(0 0 12px var(--accent-glow));
 }
 
 .chart-loader-path {
   stroke-dasharray: 200;
   stroke-dashoffset: 200;
-  animation: draw-curve 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: draw-curve 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @keyframes draw-curve {
   0% { stroke-dashoffset: 200; opacity: 0; }
-  20% { opacity: 1; }
-  80% { stroke-dashoffset: 0; opacity: 1; }
+  15% { opacity: 1; }
+  85% { stroke-dashoffset: 0; opacity: 1; }
   100% { stroke-dashoffset: -200; opacity: 0; }
 }
 

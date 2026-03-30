@@ -422,7 +422,6 @@ function showChartLoading() {
       <svg class="chart-loader-svg" viewBox="0 0 120 60">
         <path class="chart-loader-path" d="M10,45 Q35,10 60,45 T110,45" />
       </svg>
-      <p style="margin-top:15px; font-size:0.85rem; color:var(--text-muted);">Analyzing trends...</p>
     </div>
   `;
 }
