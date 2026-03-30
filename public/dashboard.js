@@ -427,7 +427,7 @@ function showChartLoading() {
   `;
 }
 
-async function fetchAnalytics() {
+async function fetchAnalytics(days = 7) {
   const chartWrapper = document.querySelector(".chart-shell");
   const tableWrapper = document.getElementById("analyticsBody");
   
@@ -435,7 +435,7 @@ async function fetchAnalytics() {
   showChartLoading();
   if (tableWrapper) tableWrapper.innerHTML = '<tr><td colspan="5" class="loading-shimmer loading-shimmer-table"></td></tr>';
 
-  const response = await callApi("GET", "/analytics");
+  const response = await callApi("GET", `/analytics?days=${days}`);
   
   if (!response.ok) {
     const errorMsg = response.data.error || 'Server error';
@@ -581,6 +581,16 @@ setEndpointTab("calculate");
 setupPlayground();
 initializePanelFromHash();
 refreshIcons();
+
+// Trend range listeners
+document.querySelectorAll("#trend-range .tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#trend-range .tab-btn").forEach(t => t.classList.remove("active"));
+    btn.classList.add("active");
+    const days = btn.dataset.days;
+    fetchAnalytics(days);
+  });
+});
 
 // Final stable toggle initialization
 syncAndToggle("apiKey", "toggleKey");

@@ -4,6 +4,10 @@ async function getAnalyticsHandler(req, res, next) {
   try {
     const userId = req.authUser.id;
     const supabase = getSupabaseClient();
+    
+    // Parse range (default 7 days)
+    const days = parseInt(req.query.days) || 7;
+    const fetchLimit = Math.min(days * 20, 1000); 
 
     // 1. Get total usage counts (Filtering by CORE pricing optimization endpoints only)
     const { count: totalRequests, error: usageErr } = await supabase
@@ -11,7 +15,6 @@ async function getAnalyticsHandler(req, res, next) {
       .select("id", { count: "exact", head: true })
       .eq("user_id", userId)
       .ilike("endpoint", "%calculate-price%");
-
 
     if (usageErr) throw usageErr;
 
@@ -21,7 +24,7 @@ async function getAnalyticsHandler(req, res, next) {
       .select("base_price, final_price, optimized_final_price, converted, created_at")
       .eq("user_id", userId)
       .order("created_at", { ascending: false })
-      .limit(100);
+      .limit(fetchLimit);
 
     if (pricingErr) throw pricingErr;
 
@@ -44,10 +47,10 @@ async function getAnalyticsHandler(req, res, next) {
       ? (((totalRevenueOptimized - totalBaseRevenue) / totalBaseRevenue) * 100).toFixed(1)
       : 0;
 
-    // 4. Generate Time Series (Last 7 Days)
+    // 4. Generate Time Series
     const timeSeries = [];
     const now = new Date();
-    for (let i = 6; i >= 0; i--) {
+    for (let i = days - 1; i >= 0; i--) {
       const d = new Date(now);
       d.setDate(d.getDate() - i);
       const dateStr = d.toISOString().split("T")[0];
