@@ -39,24 +39,27 @@ function roundToPsych(value, style = 0.99) {
 
 function applyFinalRounding(amount, country, plan = "free") {
   const normalizedPlan = String(plan || "").toLowerCase();
+  const PAID_PLANS = ["starter", "growth", "pro", "enterprise"];
 
-  // 1. FREE PLAN: Always round UP to the next .99 threshold
-  if (normalizedPlan === "free") {
-    const ceil = Math.ceil(amount);
-    return roundTo2(Math.max(0.99, ceil - 0.01));
+  // 1. PAID PLANS (Starter/Growth/Pro): .50 / .99 split threshold
+  if (PAID_PLANS.includes(normalizedPlan)) {
+    const floor = Math.floor(amount);
+    const decimal = amount - floor;
+
+    // Rule: Above .50 -> .99, At or Below .50 -> .50
+    if (decimal > 0.50) {
+      return roundTo2(floor + 0.99);
+    } else {
+      return roundTo2(floor + 0.50);
+    }
   }
 
-  // 2. PAID PLANS (Starter/Growth/Pro): .50 / .99 split threshold
-  const floor = Math.floor(amount);
-  const decimal = amount - floor;
-
-  // Rule: Above .50 -> .99, At or Below .50 -> .50
-  if (decimal > 0.50) {
-    return roundTo2(floor + 0.99);
-  } else {
-    return roundTo2(floor + 0.50);
-  }
+  // 2. DEFAULT / FREE PLAN: Always round UP to the next .99 threshold
+  // This is the fallback for un-paid/free/missing tiers.
+  const ceil = Math.ceil(amount);
+  return roundTo2(Math.max(0.99, ceil - 0.01));
 }
+
 
 
 
