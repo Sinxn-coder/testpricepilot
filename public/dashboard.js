@@ -346,6 +346,14 @@ if (ratesBtn) {
 }
 
 function updateChart(data) {
+  const shell = document.querySelector(".chart-shell");
+  if (shell) {
+    // Ensure canvas exists (it might have been removed by loading/error overlays)
+    if (!document.getElementById("analyticsChart")) {
+      shell.innerHTML = '<canvas id="analyticsChart"></canvas>';
+    }
+  }
+
   const chartEl = document.getElementById("analyticsChart");
   if (!chartEl) return;
   const ctx = chartEl.getContext("2d");
@@ -394,25 +402,49 @@ function updateChart(data) {
   });
 }
 
+function showChartError(msg) {
+  const shell = document.querySelector(".chart-shell");
+  if (!shell) return;
+  shell.innerHTML = `
+    <div class="chart-error-overlay">
+      <i data-lucide="alert-circle"></i>
+      <span>${msg}</span>
+    </div>
+  `;
+  refreshIcons();
+}
+
+function showChartLoading() {
+  const shell = document.querySelector(".chart-shell");
+  if (!shell) return;
+  shell.innerHTML = `
+    <div class="chart-loader-overlay">
+      <svg class="chart-loader-svg" viewBox="0 0 120 60">
+        <path class="chart-loader-path" d="M10,45 Q35,10 60,45 T110,45" />
+      </svg>
+      <p style="margin-top:15px; font-size:0.85rem; color:var(--text-muted);">Analyzing trends...</p>
+    </div>
+  `;
+}
+
 async function fetchAnalytics() {
   const chartWrapper = document.querySelector(".chart-shell");
   const tableWrapper = document.getElementById("analyticsBody");
   
   // Show loading state
-  if (chartWrapper) chartWrapper.classList.add("loading-shimmer");
+  showChartLoading();
   if (tableWrapper) tableWrapper.innerHTML = '<tr><td colspan="5" class="loading-shimmer loading-shimmer-table"></td></tr>';
 
   const response = await callApi("GET", "/analytics");
   
-  // Remove loading state
-  if (chartWrapper) chartWrapper.classList.remove("loading-shimmer");
-
   if (!response.ok) {
-    if (tableWrapper) tableWrapper.innerHTML = `<tr><td colspan="5" class="empty-row">Error fetching analytics: ${response.data.error || 'Server error'}</td></tr>`;
-    console.warn("Analytics unavailable:", response.data.error);
+    const errorMsg = response.data.error || 'Server error';
+    showChartError(`Failed to load trends: ${errorMsg}`);
+    if (tableWrapper) tableWrapper.innerHTML = `<tr><td colspan="5" class="empty-row">Error fetching activity: ${errorMsg}</td></tr>`;
     return;
   }
 
+  // Clear loading state for chart (will be replaced by canvas in updateChart)
   const { summary, recent_activity, time_series } = response.data;
 
   if (summary) {
