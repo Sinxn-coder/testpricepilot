@@ -50,8 +50,32 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+
+      // If the target contains counting elements, trigger them
+      const counters = entry.target.querySelectorAll('.stat-count');
+      counters.forEach(counter => {
+        if (!counter.getAttribute('data-done')) {
+          const target = parseFloat(counter.getAttribute('data-target'));
+          animateValue(counter, 0, target, 1500);
+          counter.setAttribute('data-done', 'true');
+        }
+      });
     }
   });
 }, observerOptions);
+
+function animateValue(obj, start, end, duration) {
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    const value = (progress * (end - start) + start).toFixed(2);
+    obj.innerHTML = `$${value}`;
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    }
+  };
+  window.requestAnimationFrame(step);
+}
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
