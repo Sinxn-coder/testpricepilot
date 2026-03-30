@@ -65,8 +65,8 @@ async function calculatePriceHandler(req, res, next) {
       pre_tax_price: preTaxPrice,
       tax_rate_pct: taxRate,
       tax_amount: taxAmount,
-      original_final_price: taxedPrice,
-      optimized_final_price: optimizedPrice,
+      original_final_price: Math.round(taxedPrice * 100) / 100,
+      optimized_final_price: Math.round(optimizedPrice * 100) / 100,
       currency: currencyCode
     };
 

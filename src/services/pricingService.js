@@ -21,26 +21,16 @@ function roundForUs(value) {
 }
 
 function getCountryMultiplier(countryCode) {
-  const country = String(countryCode || "").toUpperCase();
-  const map = {
-    IN: 0.9,
-    US: 1,
-    GB: 1.05,
-    CA: 1.03
-  };
-  return map[country] ?? 1;
-}
-
-function getSourceMultiplier(source) {
-  const normalized = String(source || "").toLowerCase();
-  if (normalized.includes("facebook")) {
-    return 0.95;
-  }
-  if (normalized.includes("google")) {
-    return 1.01;
-  }
+  // Disabling regional discounts as requested
   return 1;
 }
+
+
+function getSourceMultiplier(source) {
+  // Disabling source discounts as requested
+  return 1;
+}
+
 
 function roundToPsych(value, style = 0.99) {
   const ceil = Math.ceil(value);
@@ -48,37 +38,26 @@ function roundToPsych(value, style = 0.99) {
 }
 
 function applyFinalRounding(amount, country, plan = "free") {
-  const normalizedCountry = String(country || "").toUpperCase();
   const normalizedPlan = String(plan || "").toLowerCase();
 
-  // 1. FREE PLAN: Strictly .99 psychological rounding only
+  // 1. FREE PLAN: Always round UP to the next .99 threshold
   if (normalizedPlan === "free") {
     const ceil = Math.ceil(amount);
     return roundTo2(Math.max(0.99, ceil - 0.01));
   }
 
-  // 2. STARTER PLAN: .50 / .99 split threshold
-  if (normalizedPlan === "starter") {
-    const floor = Math.floor(amount);
-    const decimal = amount - floor;
-    if (decimal > 0.50) {
-      return roundTo2(floor + 0.99);
-    } else {
-      return roundTo2(floor + 0.50);
-    }
-  }
+  // 2. PAID PLANS (Starter/Growth/Pro): .50 / .99 split threshold
+  const floor = Math.floor(amount);
+  const decimal = amount - floor;
 
-  // 3. GROWTH & PRO PLANS: Full Psychological Engine + Regional Logic
-  if (normalizedCountry === "IN") {
-    return roundTo2(roundForIndia(amount));
+  // Rule: Above .50 -> .99, At or Below .50 -> .50
+  if (decimal > 0.50) {
+    return roundTo2(floor + 0.99);
+  } else {
+    return roundTo2(floor + 0.50);
   }
-  if (normalizedCountry === "US") {
-    return roundTo2(roundForUs(amount));
-  }
-  
-  // Default to advanced psychological rounding for other regions in premium tiers
-  return roundToPsych99(amount);
 }
+
 
 
 function optimizePrice({ basePrice, country, source, plan }) {
