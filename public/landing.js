@@ -79,3 +79,13 @@ function animateValue(obj, start, end, duration) {
 }
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// --- Stagger Grid Animations ---
+// We find any cards in grids that use our .reveal system and apply a transition delay 
+// based on their position to create a 'one by one' entrance effect.
+document.querySelectorAll('.steps-grid, .features-grid, .pricing-grid').forEach(grid => {
+  const cards = grid.querySelectorAll('.reveal');
+  cards.forEach((card, index) => {
+    card.style.transitionDelay = `${index * 0.15}s`;
+  });
+});
