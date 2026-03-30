@@ -73,20 +73,9 @@ function setActivePanel(targetId, navItem) {
 }
 
 function setEndpointTab(tabName) {
-  document.querySelectorAll(".tab-btn").forEach((button) => {
-    const active = button.dataset.tab === tabName;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-selected", active ? "true" : "false");
-  });
-
-  document.querySelectorAll(".endpoint-view").forEach((view) => {
-    view.classList.toggle("hidden", view.id !== `tab-${tabName}`);
-  });
-
-  if (calcResponseColumn) {
-    calcResponseColumn.classList.toggle("hidden", tabName !== "calculate");
-  }
+  // Tabs removed from UI, but keeping function for potential future use or simple no-op
 }
+
 
 function syncAndToggle(inputId, toggleId) {
   const input = document.getElementById(inputId);
@@ -261,9 +250,9 @@ function setupPlayground() {
     });
   }
 
-
   updatePlaygroundSnippets();
 }
+
 
 
 async function callApiNoAuth(method, path, body) {
