@@ -1431,29 +1431,37 @@ tbody tr:last-child td {
   text-align: center;
 }
 
-/* Curved Graph Line Animation */
-.chart-loader-svg {
-  width: 96%;
-  height: 140px;
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 20px var(--accent-glow));
+/* Circular Orbit Loading Animation */
+.chart-loader-overlay .dash-loader {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.chart-loader-path {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  animation: draw-curve 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+.loader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: var(--accent);
+  animation: rotate 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  filter: drop-shadow(0 0 8px var(--accent-glow));
 }
 
-@keyframes draw-curve {
-  0% { stroke-dashoffset: 200; opacity: 0; }
-  15% { opacity: 1; }
-  85% { stroke-dashoffset: 0; opacity: 1; }
-  100% { stroke-dashoffset: -200; opacity: 0; }
+.loader-ring:nth-child(2) {
+  inset: 12px;
+  border-top-color: var(--green);
+  animation-direction: reverse;
+  animation-duration: 0.8s;
+  opacity: 0.8;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .chart-error-overlay {

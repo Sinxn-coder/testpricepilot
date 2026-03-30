@@ -419,9 +419,10 @@ function showChartLoading() {
   if (!shell) return;
   shell.innerHTML = `
     <div class="chart-loader-overlay">
-      <svg class="chart-loader-svg" viewBox="0 0 120 60">
-        <path class="chart-loader-path" d="M10,45 Q35,10 60,45 T110,45" />
-      </svg>
+      <div class="dash-loader">
+        <div class="loader-ring"></div>
+        <div class="loader-ring"></div>
+      </div>
     </div>
   `;
 }
