@@ -26,8 +26,10 @@ async function rateLimitMiddleware(req, res, next) {
       .from("usage_logs")
       .select("id", { count: "exact", head: true })
       .eq("user_id", user.id)
+      .ilike("endpoint", "%calculate-price%")
       .gte("created_at", start)
       .lt("created_at", end);
+
 
 
     if (error) {

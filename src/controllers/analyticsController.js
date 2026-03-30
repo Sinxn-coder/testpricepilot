@@ -5,11 +5,13 @@ async function getAnalyticsHandler(req, res, next) {
     const userId = req.authUser.id;
     const supabase = getSupabaseClient();
 
-    // 1. Get total usage counts
+    // 1. Get total usage counts (Filtering by CORE pricing optimization endpoints only)
     const { count: totalRequests, error: usageErr } = await supabase
       .from("usage_logs")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", userId);
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .ilike("endpoint", "%calculate-price%");
+
 
     if (usageErr) throw usageErr;
 

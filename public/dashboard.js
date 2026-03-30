@@ -130,14 +130,24 @@ if (apiDesktop && apiMobile) {
   if (apiMobile.value && !apiDesktop.value) apiDesktop.value = apiMobile.value;
   if (apiDesktop.value && !apiMobile.value) apiMobile.value = apiDesktop.value;
 
-  apiDesktop.addEventListener("input", () => {
+  let apiDebounce;
+  const onKeyInput = () => {
     apiMobile.value = apiDesktop.value;
-  });
+    clearTimeout(apiDebounce);
+    apiDebounce = setTimeout(() => {
+      if (document.getElementById("panel-analytics-hub") && !document.getElementById("panel-analytics-hub").classList.contains("hidden")) {
+        fetchAnalytics();
+      }
+    }, 800);
+  };
 
+  apiDesktop.addEventListener("input", onKeyInput);
   apiMobile.addEventListener("input", () => {
     apiDesktop.value = apiMobile.value;
+    onKeyInput();
   });
 }
+
 
 async function callApi(method, path, body) {
   const key = apiDesktop ? apiDesktop.value.trim() : "";
@@ -450,8 +460,20 @@ function updateChart(data) {
 }
 
 async function fetchAnalytics() {
+  const chartWrapper = document.querySelector(".chart-shell");
+  const tableWrapper = document.getElementById("analyticsBody");
+  
+  // Show loading state
+  if (chartWrapper) chartWrapper.classList.add("loading-shimmer");
+  if (tableWrapper) tableWrapper.innerHTML = '<tr><td colspan="5" class="loading-shimmer loading-shimmer-table"></td></tr>';
+
   const response = await callApi("GET", "/analytics");
+  
+  // Remove loading state
+  if (chartWrapper) chartWrapper.classList.remove("loading-shimmer");
+
   if (!response.ok) {
+    if (tableWrapper) tableWrapper.innerHTML = `<tr><td colspan="5" class="empty-row">Error fetching analytics: ${response.data.error || 'Server error'}</td></tr>`;
     console.warn("Analytics unavailable:", response.data.error);
     return;
   }
@@ -500,26 +522,9 @@ async function fetchAnalytics() {
   }
 }
 
-const trackBtn = document.getElementById("trackBtn");
-if (trackBtn) {
-  trackBtn.addEventListener("click", async () => {
-    const payload = {
-      price_shown: Number(document.getElementById("t-price").value),
-      converted: document.getElementById("t-converted").value === "true",
-      country: document.getElementById("t-country").value,
-      source: "dashboard-test"
-    };
 
-    const response = await callApi("POST", "/track-conversion", payload);
-    const jsonEl = document.getElementById("trackJson");
-    if (jsonEl) {
-      jsonEl.innerHTML = highlightJson(response.data);
-      jsonEl.classList.remove("hidden");
-    }
-    setStatus(document.getElementById("track-status"), response.ok, response.status);
-    fetchAnalytics();
-  });
-}
+/* Legacy track conversion code removed as requested */
+
 
 const signupBtn = document.getElementById("signup-btn");
 const finishSignup = document.getElementById("finish-signup");
