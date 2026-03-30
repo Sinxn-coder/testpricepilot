@@ -20,12 +20,10 @@ const pageTitle = document.getElementById("page-title");
 const pageSubtitle = document.getElementById("page-subtitle");
 const calcResponseColumn = document.getElementById("calc-response-column");
 const calcSnippetEl = document.getElementById("calc-request-snippet");
-const optSnippetEl = document.getElementById("opt-request-snippet");
 const calcLangTag = document.getElementById("calc-lang-tag");
-const optLangTag = document.getElementById("opt-lang-tag");
 
 let currentCalcLang = "curl";
-let currentOptLang = "curl";
+
 
 
 function refreshIcons() {
@@ -230,19 +228,8 @@ function updatePlaygroundSnippets() {
     calcSnippetEl.innerHTML = getSnippet(currentCalcLang, "POST", "/calculate-price", calcBody);
     if (calcLangTag) calcLangTag.textContent = currentCalcLang;
   }
-
-  // Optimize endpoint
-  const optBody = {
-    base_price: Number(document.getElementById("o-basePrice")?.value || 0),
-    country: document.getElementById("o-country")?.value || "US",
-    currency: "USD",
-    source: document.getElementById("o-source")?.value || "direct"
-  };
-  if (optSnippetEl) {
-    optSnippetEl.innerHTML = getSnippet(currentOptLang, "POST", "/optimize-price", optBody);
-    if (optLangTag) optLangTag.textContent = currentOptLang;
-  }
 }
+
 
 function setupPlayground() {
   const inputs = document.querySelectorAll(".params-card input, .params-card select");
@@ -255,15 +242,6 @@ function setupPlayground() {
       document.querySelectorAll("#calc-code-tabs .code-tab").forEach(t => t.classList.remove("active"));
       tab.classList.add("active");
       currentCalcLang = tab.dataset.lang;
-      updatePlaygroundSnippets();
-    });
-  });
-
-  document.querySelectorAll("#opt-code-tabs .code-tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll("#opt-code-tabs .code-tab").forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      currentOptLang = tab.dataset.lang;
       updatePlaygroundSnippets();
     });
   });
@@ -283,20 +261,6 @@ function setupPlayground() {
     });
   }
 
-  const copyOpt = document.getElementById("copy-opt-snippet");
-  if (copyOpt) {
-    copyOpt.addEventListener("click", () => {
-      const text = optSnippetEl.textContent;
-      navigator.clipboard.writeText(text);
-      const icon = copyOpt.querySelector("i");
-      icon.setAttribute("data-lucide", "check");
-      refreshIcons();
-      setTimeout(() => {
-        icon.setAttribute("data-lucide", "copy");
-        refreshIcons();
-      }, 2000);
-    });
-  }
 
   updatePlaygroundSnippets();
 }
@@ -363,24 +327,8 @@ if (calcBtn) {
   });
 }
 
-const optimizeBtn = document.getElementById("optimizeBtn");
-if (optimizeBtn) {
-  optimizeBtn.addEventListener("click", async () => {
-    const payload = {
-      base_price: Number(document.getElementById("o-basePrice").value),
-      country: document.getElementById("o-country").value,
-      currency: "USD",
-      source: document.getElementById("o-source").value
-    };
+/* Legacy optimizeBtn handler removed */
 
-    const response = await callApi("POST", "/optimize-price", payload);
-    const jsonEl = document.getElementById("optimizeJson");
-    const placeholder = document.getElementById("optimizeJsonPlaceholder");
-    if (jsonEl) jsonEl.innerHTML = highlightJson(response.data);
-    if (placeholder) placeholder.classList.add("hidden");
-    document.getElementById("opt-results-wrap")?.classList.remove("hidden");
-  });
-}
 
 const ratesBtn = document.getElementById("ratesBtn");
 if (ratesBtn) {
