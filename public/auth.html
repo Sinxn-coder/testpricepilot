@@ -70,6 +70,20 @@
       display: flex;
       align-items: center;
       gap: 16px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .feature-item i {
+      color: var(--accent);
+      width: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
       margin-bottom: 24px;
       font-size: 1.05rem;
       color: rgba(255, 255, 255, 0.8);
@@ -197,14 +211,21 @@
         </div>
 
         <h1 style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 24px; font-weight: 800; background: linear-gradient(to right, #fff, #97a4c2); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-          Optimized pricing.<br>More revenue.
+          Smarter pricing.<br>Automatic revenue.
         </h1>
-        <p style="color: rgba(255, 255, 255, 0.5); font-size: 1.1rem; max-width: 400px; line-height: 1.6;">
-          Join 2,000+ developers automating tax-aware pricing globaly.
+        <p style="color: rgba(255, 255, 255, 0.6); font-size: 1.15rem; max-width: 480px; line-height: 1.6;">
+          Join 2,000+ companies automating multi-region pricing and tax-aware conversions globally.
         </p>
+
+        <ul class="feature-list">
+          <li class="feature-item"><i data-lucide="zap"></i> Psychology-based Rounding</li>
+          <li class="feature-item"><i data-lucide="globe"></i> Global Tax Compliance</li>
+          <li class="feature-item"><i data-lucide="shield"></i> Enterprise-grade Reliability</li>
+        </ul>
       </div>
 
       <div class="aside-footer">
+        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="shield-check" style="width: 14px; color: var(--green);"></i> Enterprise-Ready</span>
         <span>© 2026 PricePilot</span>
       </div>
     </aside>
