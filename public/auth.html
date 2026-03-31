@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,7 +33,10 @@
     .auth-aside::before {
       content: '';
       position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       background: radial-gradient(circle at 20% 30%, rgba(108, 99, 255, 0.15), transparent 70%);
       pointer-events: none;
     }
@@ -138,7 +142,7 @@
     .auth-tab.active {
       background: var(--surface2);
       color: var(--white);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .form-group {
@@ -210,11 +214,12 @@
           <span class="metric-value">+18% Revenue Uplift</span>
         </div>
 
-        <h1 style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 24px; font-weight: 800; background: linear-gradient(to right, #fff, #97a4c2); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+        <h1
+          style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 24px; font-weight: 800; background: linear-gradient(to right, #fff, #97a4c2); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
           Smarter pricing.<br>Automatic revenue.
         </h1>
         <p style="color: rgba(255, 255, 255, 0.6); font-size: 1.15rem; max-width: 480px; line-height: 1.6;">
-          The toolkit for developers to scale global revenue with automated pricing intelligence.
+          The toolkit for Businesses to scale global revenue with automated pricing intelligence.
         </p>
 
         <ul class="feature-list">
@@ -225,7 +230,8 @@
       </div>
 
       <div class="aside-footer">
-        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="shield-check" style="width: 14px; color: var(--green);"></i> Enterprise-Ready</span>
+        <span style="display: flex; align-items: center; gap: 8px;"><i data-lucide="shield-check"
+            style="width: 14px; color: var(--green);"></i> Enterprise-Ready</span>
         <span>© 2026 PricePilot</span>
       </div>
     </aside>
@@ -235,7 +241,8 @@
       <div class="auth-container">
         <div class="auth-header">
           <h2 id="auth-title" style="font-size: 2rem; margin-bottom: 8px;">Create your account</h2>
-          <p id="auth-subtitle" style="color: var(--text-muted); font-size: 1rem;">Start optimizing your revenue today.</p>
+          <p id="auth-subtitle" style="color: var(--text-muted); font-size: 1rem;">Start optimizing your revenue today.
+          </p>
         </div>
 
         <div class="auth-tabs">
@@ -256,8 +263,9 @@
             <label>Password</label>
             <input type="password" class="form-input" placeholder="Min. 8 characters" required>
           </div>
-          
-          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px; height: 54px; font-size: 1rem; border-radius: 14px;">
+
+          <button type="submit" class="btn btn-primary"
+            style="width: 100%; justify-content: center; margin-top: 10px; height: 54px; font-size: 1rem; border-radius: 14px;">
             <span id="btn-text">Create Account</span>
             <i data-lucide="arrow-right" style="width: 20px; margin-left: 8px;"></i>
           </button>
@@ -285,7 +293,7 @@
       const toggleText = document.getElementById('auth-toggle-text');
 
       tabs.forEach(tab => tab.classList.remove('active'));
-      
+
       if (mode === 'signup') {
         tabs[0].classList.add('active');
         title.innerText = 'Create your account';
@@ -313,4 +321,5 @@
     }
   </script>
 </body>
+
 </html>
