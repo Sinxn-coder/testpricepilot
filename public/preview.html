@@ -399,6 +399,43 @@
     <p class="overlay-copy">Used for authenticated requests in this preview.</p>
   </div>
 
+  <div class="upgrade-modal-overlay" id="upgrade-modal">
+    <div class="upgrade-modal-card">
+      <button class="close-upgrade" id="close-upgrade" aria-label="Close modal">
+        <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+      </button>
+      <div class="upgrade-icon-wrap">
+        <i data-lucide="zap" style="width: 40px; height: 40px;"></i>
+      </div>
+      <h2>Upgrade to a Paid Plan</h2>
+      <p>Your current Individual plan is limited. Upgrade to a professional plan to unlock advanced revenue optimization and priority features.</p>
+      
+      <div class="upgrade-features-list">
+        <div class="upgrade-feature-item">
+          <i data-lucide="check-circle"></i>
+          <span>15k+ Monthly Requests</span>
+        </div>
+        <div class="upgrade-feature-item">
+          <i data-lucide="check-circle"></i>
+          <span>Advanced Pricing Engine</span>
+        </div>
+        <div class="upgrade-feature-item">
+          <i data-lucide="check-circle"></i>
+          <span>Remove Watermark</span>
+        </div>
+        <div class="upgrade-feature-item">
+          <i data-lucide="check-circle"></i>
+          <span>Priority Support</span>
+        </div>
+      </div>
+
+      <div class="upgrade-actions">
+        <button onclick="closeUpgradeModal()" class="btn btn-outline">Maybe Later</button>
+        <a href="plans.html" class="btn btn-primary">See All Plans</a>
+      </div>
+    </div>
+  </div>
+
   <script src="dashboard.js?v=1405"></script>
 </body>
 </html>

@@ -576,29 +576,77 @@ function initializePanelFromHash() {
 }
 
 // --- Plan Management & Upsells ---
+function showUpgradeModal() {
+  const modal = document.getElementById("upgrade-modal");
+  if (modal) modal.classList.add("active");
+  document.body.style.overflow = "hidden"; // Prevent scroll
+}
+
+function closeUpgradeModal() {
+  const modal = document.getElementById("upgrade-modal");
+  if (modal) modal.classList.remove("active");
+  document.body.style.overflow = ""; // Restore scroll
+}
+
 function checkUserPlan() {
   const plan = localStorage.getItem("userPlan") || "Free";
   const displayPlanEl = document.getElementById("display-plan");
   const upgradeBtn = document.getElementById("sidebar-upgrade-btn");
   const analyticsUpsell = document.getElementById("analytics-upsell");
+  const resultHeader = document.getElementById("result-header");
 
   if (displayPlanEl) displayPlanEl.innerText = `${plan} plan`;
 
-  // If on Free plan, show upsells
-  if (plan === "Free") {
-    if (upgradeBtn) upgradeBtn.classList.remove("hidden");
-    if (analyticsUpsell) analyticsUpsell.classList.remove("hidden");
-  } else {
-    // Hide specialized upsells for paid plans
-    if (upgradeBtn) upgradeBtn.classList.add("hidden");
-    if (analyticsUpsell) analyticsUpsell.classList.add("hidden");
-    
-    // Update upgrade button for lower paid plans (Starter/Growth)
-    if (plan !== "Pro" && upgradeBtn) {
-      upgradeBtn.classList.remove("hidden");
-      upgradeBtn.innerHTML = '<i data-lucide="zap"></i><span>Upgrade to Pro</span>';
-      lucide.createIcons();
+  // Handle Watermark for Free Plan
+  if (plan === "Free" && resultHeader) {
+    if (!document.getElementById("free-watermark-note")) {
+      const note = document.createElement("div");
+      note.id = "free-watermark-note";
+      note.style.fontSize = "0.7rem";
+      note.style.color = "var(--accent)";
+      note.style.marginTop = "4px";
+      note.innerText = "● Response includes PricePilot Watermark";
+      resultHeader.parentNode.appendChild(note);
     }
+  }
+
+  // Set up Upgrade Button logic
+  if (upgradeBtn) {
+    upgradeBtn.addEventListener("click", (e) => {
+      if (plan === "Free") {
+        e.preventDefault();
+        showUpgradeModal();
+      }
+    });
+
+    // If on Free plan, show upsells
+    if (plan === "Free") {
+      upgradeBtn.classList.remove("hidden");
+      if (analyticsUpsell) analyticsUpsell.classList.remove("hidden");
+    } else {
+      // Hide specialized upsells for paid plans
+      upgradeBtn.classList.add("hidden");
+      if (analyticsUpsell) analyticsUpsell.classList.add("hidden");
+      
+      // Update upgrade button for lower paid plans (Starter/Growth)
+      if (plan !== "Pro") {
+        upgradeBtn.classList.remove("hidden");
+        upgradeBtn.innerHTML = '<i data-lucide="zap"></i><span>Upgrade to Pro</span>';
+        upgradeBtn.href = "plans.html"; // Direct to plans for paid tiers
+        lucide.createIcons();
+      }
+    }
+  }
+
+  // Close modal via backdrop
+  const modal = document.getElementById("upgrade-modal");
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeUpgradeModal();
+    });
+    
+    const closeBtn = document.getElementById("close-upgrade");
+    if (closeBtn) closeBtn.onclick = closeUpgradeModal;
   }
 }
 
