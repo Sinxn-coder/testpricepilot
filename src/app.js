@@ -7,9 +7,17 @@ const pricingRoutes = require("./routes/pricingRoutes");
 const authRoutes = require("./routes/authRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const loggerMiddleware = require("./middleware/loggerMiddleware");
+const loadManager = require("./utils/loadManager");
 const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
 
 const app = express();
+
+// --- Tracking Active Requests for Prioritization ---
+app.use((req, res, next) => {
+  loadManager.increment();
+  res.on("finish", () => loadManager.decrement());
+  next();
+});
 
 // --- Connectivity & Security Configuration ---
 

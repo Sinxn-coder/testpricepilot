@@ -1,10 +1,10 @@
 const { getSupabaseClient } = require("../config/supabase");
 
 const PLAN_LIMITS = {
-  free: 500,
-  starter: 5000,
-  growth: 20000,
-  pro: 100000
+  free: 1500,
+  starter: 15000,
+  growth: 50000,
+  pro: 1000000
 };
 
 function getMonthWindow() {
