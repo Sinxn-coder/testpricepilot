@@ -28,7 +28,7 @@ async function signupHandler(req, res, next) {
       .maybeSingle();
 
     if (existingUser) {
-      return res.status(409).json({ error: "An account with this email already exists." });
+      return res.status(409).json({ error: "This email is already associated with an API key. Re-use your existing key or contact support for a reset." });
     }
 
     // 2. Generate and hash the raw key

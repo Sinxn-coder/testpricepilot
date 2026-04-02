@@ -509,6 +509,11 @@ if (signupBtn) {
     signupBtn.innerHTML = '<i data-lucide="loader" class="spin"></i><span>Generating Credentials...</span>';
     refreshIcons();
 
+    const errorAlert = document.getElementById("signup-error-alert");
+    const errorText = document.getElementById("signup-error-text");
+
+    if (errorAlert) errorAlert.classList.add("hidden");
+
     const response = await callApiNoAuth("POST", "/auth/signup", { email });
 
     signupBtn.disabled = false;
@@ -516,7 +521,12 @@ if (signupBtn) {
     refreshIcons();
 
     if (!response.ok) {
-      alert(response.data.error || "Signup failed");
+      if (errorAlert && errorText) {
+        errorText.textContent = response.data.error || "Signup failed";
+        errorAlert.classList.remove("hidden");
+      } else {
+        alert(response.data.error || "Signup failed");
+      }
       return;
     }
 
