@@ -223,9 +223,9 @@
         </p>
 
         <ul class="feature-list">
-          <li class="feature-item" style="margin-bottom: 12px;"><i data-lucide="zap"></i> Psychology-based Rounding</li>
-          <li class="feature-item" style="margin-bottom: 12px;"><i data-lucide="globe"></i> Global Tax Compliance</li>
-          <li class="feature-item" style="margin-bottom: 12px;"><i data-lucide="shield"></i> Enterprise-grade Reliability</li>
+          <li class="feature-item" style="margin-bottom: 12px;"><i data-lucide="sparkles"></i> Psychology-Driven Price Optimization</li>
+          <li class="feature-item" style="margin-bottom: 12px;"><i data-lucide="shield-check"></i> Margin-Safe Smart Adjustments</li>
+          <li class="feature-item" style="margin-bottom: 12px;"><i data-lucide="zap"></i> Built for High Conversion Checkout</li>
         </ul>
       </div>
 
@@ -317,6 +317,7 @@
       const title = document.getElementById('auth-title');
       const subtitle = document.getElementById('auth-subtitle');
       const btnText = document.getElementById('btn-text');
+      const authBtn = btnText.parentElement; // The button itself
       const nameField = document.getElementById('name-field');
       const toggleText = document.getElementById('auth-toggle-text');
 
@@ -327,6 +328,7 @@
         title.innerText = 'Create your account';
         subtitle.innerText = 'Start optimizing your revenue today.';
         btnText.innerText = 'Create Account';
+        authBtn.className = 'btn btn-glow'; // Apply glow on signup
         nameField.style.display = 'block';
         toggleText.innerHTML = 'Already have an account? <a href="#" onclick="switchTab(\'login\')">Log In</a>';
       } else {
@@ -334,6 +336,7 @@
         title.innerText = 'Welcome back';
         subtitle.innerText = 'Log in to manage your pricing.';
         btnText.innerText = 'Log In';
+        authBtn.className = 'btn btn-primary'; // Standard on login
         nameField.style.display = 'none';
         toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="switchTab(\'signup\')">Sign Up</a>';
       }
