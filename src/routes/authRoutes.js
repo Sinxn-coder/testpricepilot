@@ -1,3 +1,4 @@
+const express = require("express");
 const { signupHandler, recoverHandler } = require("../controllers/authController");
 
 const router = express.Router();
