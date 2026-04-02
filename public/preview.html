@@ -355,10 +355,7 @@
             <div id="signup-form-body">
               <div id="signup-error-alert" class="error-banner-modern hidden">
                 <i data-lucide="alert-circle"></i>
-                <div style="flex: 1;">
-                  <div id="signup-error-text" style="margin-bottom: 8px;">API key could not be generated.</div>
-                  <button class="btn btn-outline-mini" id="reset-key-btn" style="font-size: 0.75rem; padding: 6px 12px; border-color: rgba(255, 123, 135, 0.4); color: var(--red);">Reset Key</button>
-                </div>
+                <div id="signup-error-text">API key could not be generated.</div>
               </div>
               <div class="field">
                 <label for="signup-email">Environment Owner Email</label>
@@ -373,6 +370,9 @@
                   <span>Generate Key</span>
                 </button>
               </div>
+              <p class="field-help" style="margin-top: 16px; font-size: 0.85rem; color: var(--text-muted);">
+                Lost your key? <a href="#" id="recover-key-link" style="color: var(--accent); font-weight: 600; text-decoration: none;">Recover it via email</a>
+              </p>
             </div>
 
             <div id="signup-result-body" class="hidden">

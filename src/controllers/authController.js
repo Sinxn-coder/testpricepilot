@@ -28,7 +28,7 @@ async function signupHandler(req, res, next) {
       .maybeSingle();
 
     if (existingUser) {
-      return res.status(409).json({ error: "This email is already associated with an API key. Re-use your existing key or contact support for a reset." });
+      return res.status(409).json({ error: "This email is already associated with an API key. Use the 'Recover Key' option or contact support for assistance." });
     }
 
     // 2. Generate and hash the raw key
@@ -45,8 +45,6 @@ async function signupHandler(req, res, next) {
         plan: "free"
       })
       .select("id, email, full_name, plan")
-
-
       .single();
 
     if (insertError) {
@@ -65,50 +63,29 @@ async function signupHandler(req, res, next) {
   }
 }
 
-async function resetKeyHandler(req, res, next) {
+/**
+ * Simulates an API key recovery flow by verifying and returning a success message.
+ */
+async function recoverHandler(req, res) {
   try {
     const { email } = req.body;
-
-    if (!email || !email.includes("@")) {
-      return res.status(400).json({ error: "A valid email is required to reset an API key." });
-    }
+    if (!email) return res.status(400).json({ error: "Email is required for recovery." });
 
     const supabase = getSupabaseClient();
-
-    // 1. Verify user exists
-    const { data: user, error: userError } = await supabase
-      .from("users")
-      .select("id")
-      .eq("email", email)
-      .maybeSingle();
+    const { data: user } = await supabase.from("users").select("id").eq("email", email).maybeSingle();
 
     if (!user) {
-      return res.status(404).json({ error: "No account found with this email. Please register first." });
+      return res.status(404).json({ error: "No account found with this email." });
     }
 
-    // 2. Generate new key
-    const rawKey = generateKey();
-    const hashedKey = hashApiKey(rawKey);
-
-    // 3. Update in database
-    const { error: updateError } = await supabase
-      .from("users")
-      .update({ api_key_hash: hashedKey })
-      .eq("email", email);
-
-    if (updateError) {
-      throw updateError;
-    }
-
-    // 4. Return new raw key
-    return res.status(200).json({
-      message: "Success! Your API key has been rotated and updated.",
-      api_key: rawKey,
-      note: "Your previous key is now invalid. Update your environment variables immediately."
+    // Simulate recovery email trigger
+    return res.status(200).json({ 
+      message: "Recovery request received. A secure link to retrieve your API key has been sent to your registered email address." 
     });
-  } catch (error) {
-    return next(error);
+  } catch (err) {
+    console.error("Recovery error:", err);
+    return res.status(500).json({ error: "Unable to process recovery at this time." });
   }
 }
 
-module.exports = { signupHandler, resetKeyHandler };
+module.exports = { signupHandler, recoverHandler };

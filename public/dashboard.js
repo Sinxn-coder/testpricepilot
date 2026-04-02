@@ -496,6 +496,53 @@ async function fetchAnalytics(days = 7) {
 const signupBtn = document.getElementById("signup-btn");
 const finishSignup = document.getElementById("finish-signup");
 const copyApiKeyBtn = document.getElementById("copy-api-key");
+const recoverLink = document.getElementById("recover-key-link");
+if (recoverLink) {
+  recoverLink.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("signup-email").value.trim();
+    if (!email) {
+      alert("Please enter your registered email address above first.");
+      return;
+    }
+
+    const errorAlert = document.getElementById("signup-error-alert");
+    const errorText = document.getElementById("signup-error-text");
+    if (errorAlert) errorAlert.classList.add("hidden");
+
+    recoverLink.textContent = "Processing...";
+    recoverLink.style.pointerEvents = "none";
+
+    const response = await callApiNoAuth("POST", "/auth/recover", { email });
+
+    recoverLink.textContent = "Recover it via email";
+    recoverLink.style.pointerEvents = "auto";
+
+    if (!response.ok) {
+      if (errorAlert && errorText) {
+        errorText.textContent = response.data.error || "Recovery failed";
+        errorAlert.classList.remove("hidden");
+        errorAlert.style.background = "rgba(255, 123, 135, 0.1)"; // Keep red for error
+        errorAlert.style.color = "var(--red)";
+        errorAlert.style.borderColor = "var(--red)";
+      } else {
+        alert(response.data.error || "Recovery failed");
+      }
+      return;
+    }
+
+    // Success state
+    if (errorAlert && errorText) {
+      errorText.textContent = response.data.message;
+      errorAlert.classList.remove("hidden");
+      errorAlert.style.background = "rgba(34, 211, 165, 0.1)"; // Success green
+      errorAlert.style.color = "var(--green)";
+      errorAlert.style.borderColor = "var(--green)";
+    } else {
+      alert(response.data.message);
+    }
+  });
+}
 
 if (signupBtn) {
   signupBtn.addEventListener("click", async () => {
@@ -524,6 +571,8 @@ if (signupBtn) {
       if (errorAlert && errorText) {
         errorText.textContent = response.data.error || "Signup failed";
         errorAlert.classList.remove("hidden");
+        errorAlert.style.background = "rgba(255, 123, 135, 0.1)"; 
+        errorAlert.style.color = "var(--red)";
       } else {
         alert(response.data.error || "Signup failed");
       }
@@ -681,63 +730,6 @@ document.querySelectorAll("#trend-range .tab-btn").forEach(btn => {
   });
 });
 
-// --- Final Auth Helpers ---
-const resetBtn = document.getElementById("reset-key-btn");
-if (resetBtn) {
-  resetBtn.addEventListener("click", async () => {
-    const email = document.getElementById("signup-email").value.trim();
-    if (!email) {
-      alert("Email is required for reset");
-      return;
-    }
-
-    resetBtn.disabled = true;
-    const oldText = resetBtn.textContent;
-    resetBtn.textContent = "Resetting...";
-
-    const response = await callApiNoAuth("POST", "/auth/reset-key", { email });
-
-    resetBtn.disabled = false;
-    resetBtn.textContent = oldText;
-
-    if (!response.ok) {
-      alert(response.data.error || "Reset failed");
-      return;
-    }
-
-    // Reuse the success display
-    document.getElementById("signup-error-alert")?.classList.add("hidden");
-    document.getElementById("signup-form-body")?.classList.add("hidden");
-    const resultBody = document.getElementById("signup-result-body");
-    if (resultBody) {
-      resultBody.classList.remove("hidden");
-      // Scroll to result
-      resultBody.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-    
-    // Update labels for reset context
-    const banner = document.querySelector(".success-banner-modern strong");
-    if (banner) banner.textContent = "Key Rotated Successfully";
-    
-    const keyDisplay = document.getElementById("new-api-key");
-    if (keyDisplay) {
-      keyDisplay.textContent = response.data.api_key;
-      keyDisplay.style.color = "#fff"; 
-    }
-
-    // Sync to global inputs
-    if (apiDesktop) {
-      apiDesktop.value = response.data.api_key;
-      apiDesktop.type = "text";
-    }
-    if (apiMobile) {
-      apiMobile.value = response.data.api_key;
-      apiMobile.type = "text";
-    }
-    refreshIcons();
-  });
-}
-
-// Final Stable Toggle Initialization
+// Final stable toggle initialization
 syncAndToggle("apiKey", "toggleKey");
 syncAndToggle("api-key-mobile", "toggle-key-mobile");
