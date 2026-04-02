@@ -681,6 +681,63 @@ document.querySelectorAll("#trend-range .tab-btn").forEach(btn => {
   });
 });
 
-// Final stable toggle initialization
+// --- Final Auth Helpers ---
+const resetBtn = document.getElementById("reset-key-btn");
+if (resetBtn) {
+  resetBtn.addEventListener("click", async () => {
+    const email = document.getElementById("signup-email").value.trim();
+    if (!email) {
+      alert("Email is required for reset");
+      return;
+    }
+
+    resetBtn.disabled = true;
+    const oldText = resetBtn.textContent;
+    resetBtn.textContent = "Resetting...";
+
+    const response = await callApiNoAuth("POST", "/auth/reset-key", { email });
+
+    resetBtn.disabled = false;
+    resetBtn.textContent = oldText;
+
+    if (!response.ok) {
+      alert(response.data.error || "Reset failed");
+      return;
+    }
+
+    // Reuse the success display
+    document.getElementById("signup-error-alert")?.classList.add("hidden");
+    document.getElementById("signup-form-body")?.classList.add("hidden");
+    const resultBody = document.getElementById("signup-result-body");
+    if (resultBody) {
+      resultBody.classList.remove("hidden");
+      // Scroll to result
+      resultBody.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Update labels for reset context
+    const banner = document.querySelector(".success-banner-modern strong");
+    if (banner) banner.textContent = "Key Rotated Successfully";
+    
+    const keyDisplay = document.getElementById("new-api-key");
+    if (keyDisplay) {
+      keyDisplay.textContent = response.data.api_key;
+      keyDisplay.style.color = "#fff"; 
+    }
+
+    // Sync to global inputs
+    if (apiDesktop) {
+      apiDesktop.value = response.data.api_key;
+      apiDesktop.type = "text";
+    }
+    if (apiMobile) {
+      apiMobile.value = response.data.api_key;
+      apiMobile.type = "text";
+    }
+    refreshIcons();
+  });
+}
+
+// Final Stable Toggle Initialization
 syncAndToggle("apiKey", "toggleKey");
 syncAndToggle("api-key-mobile", "toggle-key-mobile");

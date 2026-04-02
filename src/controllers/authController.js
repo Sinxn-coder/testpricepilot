@@ -65,4 +65,50 @@ async function signupHandler(req, res, next) {
   }
 }
 
-module.exports = { signupHandler };
+async function resetKeyHandler(req, res, next) {
+  try {
+    const { email } = req.body;
+
+    if (!email || !email.includes("@")) {
+      return res.status(400).json({ error: "A valid email is required to reset an API key." });
+    }
+
+    const supabase = getSupabaseClient();
+
+    // 1. Verify user exists
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("email", email)
+      .maybeSingle();
+
+    if (!user) {
+      return res.status(404).json({ error: "No account found with this email. Please register first." });
+    }
+
+    // 2. Generate new key
+    const rawKey = generateKey();
+    const hashedKey = hashApiKey(rawKey);
+
+    // 3. Update in database
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ api_key_hash: hashedKey })
+      .eq("email", email);
+
+    if (updateError) {
+      throw updateError;
+    }
+
+    // 4. Return new raw key
+    return res.status(200).json({
+      message: "Success! Your API key has been rotated and updated.",
+      api_key: rawKey,
+      note: "Your previous key is now invalid. Update your environment variables immediately."
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+module.exports = { signupHandler, resetKeyHandler };
