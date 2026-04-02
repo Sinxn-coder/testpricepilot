@@ -482,8 +482,10 @@ footer {
 
 .logo-track {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   width: max-content;
-  gap: 60px;
+  gap: 80px;
   animation: logo-scroll 40s linear infinite;
   align-items: center;
 }
@@ -492,6 +494,7 @@ footer {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
   font-family: var(--font-mono);
   color: var(--text-muted);
   font-weight: 600;
