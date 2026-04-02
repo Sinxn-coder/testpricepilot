@@ -2456,3 +2456,228 @@ tbody tr:last-child td {
   font-weight: 700;
   border-radius: 14px;
 }
+
+/* --- Master-Grade Access Panel Styles --- */
+.panel-hero-head {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.panel-icon-badge {
+  width: 64px;
+  height: 64px;
+  background: var(--accent-soft);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-strong);
+}
+
+.panel-icon-badge i {
+  width: 32px;
+  height: 32px;
+}
+
+.panel-hero-head h2 {
+  font-size: 1.8rem;
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+
+.panel-hero-head p {
+  color: var(--text-muted);
+}
+
+.security-status-bar {
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  padding: 14px 24px;
+  border-radius: 16px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--green);
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+
+@keyframes pulse-glow {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.status-meta {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.master-access-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 32px;
+  align-items: start;
+}
+
+.plan-badge-mini {
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--border-strong);
+  border-radius: 100px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon i {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+  width: 16px;
+  height: 16px;
+}
+
+.input-with-icon input {
+  padding-left: 48px;
+}
+
+.btn-glow {
+  background: var(--accent);
+  box-shadow: 0 8px 16px rgba(108, 99, 255, 0.4);
+}
+
+.success-banner-modern {
+  background: var(--accent-soft);
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-left: 4px solid var(--accent);
+}
+
+.success-banner-modern i {
+  width: 32px;
+  height: 32px;
+  color: var(--accent);
+}
+
+.key-display-master {
+  background: var(--bg);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--border-strong);
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.key-title {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.key-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.key-inner code {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.4rem;
+  word-break: break-all;
+}
+
+.icon-btn-master {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.icon-btn-master:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.professional-check-list {
+  list-style: none;
+}
+
+.professional-check-list li {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.professional-check-list li:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+}
+
+.check-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 32px;
+}
+
+.check-icon i {
+  width: 18px;
+  height: 18px;
+}
+
+.check-icon.secure { background: rgba(34, 211, 165, 0.1); color: var(--green); }
+.check-icon.warning { background: rgba(255, 123, 135, 0.1); color: var(--red); }
+.check-icon.info { background: rgba(108, 99, 255, 0.1); color: var(--accent); }
+
+@media (max-width: 1024px) {
+  .master-access-layout {
+    grid-template-columns: 1fr;
+  }
+}

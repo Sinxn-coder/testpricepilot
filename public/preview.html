@@ -324,59 +324,106 @@
       </section>
 
       <section id="panel-settings" class="panel hidden tool-panel">
-        <div class="plain-panel-head">
-          <h2>Access</h2>
+        <div class="panel-hero-head">
+          <div class="panel-icon-badge">
+            <i data-lucide="shield-check" style="color: var(--green);"></i>
+          </div>
+          <div>
+            <h2>API Access Control</h2>
+            <p>Manage your production keys and security compliance.</p>
+          </div>
         </div>
 
-        <div class="analytics-layout minimal-layout">
-          <div class="workbench-card">
+        <div class="security-status-bar">
+          <span class="status-indicator">
+            <span class="pulse"></span>
+            Production Active
+          </span>
+          <div class="status-meta">
+            <i data-lucide="lock"></i>
+            TLS 1.3 Encryption Active
+          </div>
+        </div>
+
+        <div class="analytics-layout master-access-layout">
+          <div class="workbench-card key-card-premium">
             <div class="tool-head">
-              <h3>Generate Key</h3>
+              <h3>Create Secret Key</h3>
+              <div class="plan-badge-mini" id="plan-badge-access">Free Tier</div>
             </div>
 
             <div id="signup-form-body">
               <div class="field">
-                <label for="signup-email">Developer Email</label>
-                <input type="email" id="signup-email" placeholder="you@company.com">
+                <label for="signup-email">Environment Owner Email</label>
+                <div class="input-with-icon">
+                  <i data-lucide="mail"></i>
+                  <input type="email" id="signup-email" placeholder="owner@company.com">
+                </div>
               </div>
               <div class="action-row start">
-                <button class="btn" id="signup-btn">
-                  <i data-lucide="zap"></i>
-                  <span>Generate</span>
+                <button class="btn btn-glow" id="signup-btn">
+                  <i data-lucide="plus-circle"></i>
+                  <span>Generate Key</span>
                 </button>
               </div>
             </div>
 
             <div id="signup-result-body" class="hidden">
-              <div class="success-banner">
-                <div class="success-icon">
-                  <i data-lucide="check"></i>
-                </div>
+              <div class="success-banner-modern">
+                <i data-lucide="shield-check"></i>
                 <div>
-                  <strong>Key ready</strong>
+                  <strong>Environment Secured</strong>
+                  <p>API Key generated and active across all regions.</p>
                 </div>
               </div>
-              <div class="key-display">
-                <code id="new-api-key"></code>
-                <button class="icon-btn" type="button" id="copy-api-key" aria-label="Copy API key">
-                  <i data-lucide="copy" style="width: 16px;"></i>
-                </button>
+              <div class="key-display-master">
+                <div class="key-title">Production Key</div>
+                <div class="key-inner">
+                  <code id="new-api-key"></code>
+                  <button class="icon-btn-master" type="button" id="copy-api-key" aria-label="Copy API key">
+                    <i data-lucide="copy"></i>
+                  </button>
+                </div>
               </div>
               <div class="action-row start">
-                <button class="btn outline" id="finish-signup">Done</button>
+                <button class="btn btn-outline" id="finish-signup">Done</button>
               </div>
             </div>
           </div>
 
           <div class="workbench-card">
             <div class="tool-head">
-              <h3>Security</h3>
+              <h3>Compliance & Security</h3>
             </div>
-            <ul class="note-list">
-              <li><i data-lucide="shield"></i><span>Keep keys on the server.</span></li>
-              <li><i data-lucide="server"></i><span>Route API calls through your backend.</span></li>
-              <li><i data-lucide="refresh-cw"></i><span>Rotate keys after exposure.</span></li>
-              <li><i data-lucide="lock"></i><span>Use environment secrets in deploys.</span></li>
+            <ul class="professional-check-list">
+              <li>
+                <div class="check-icon secure"><i data-lucide="shield-check"></i></div>
+                <div>
+                  <strong>Server-Side Only</strong>
+                  <span>Always keep keys on the server. Never expose in frontend code.</span>
+                </div>
+              </li>
+              <li>
+                <div class="check-icon warning"><i data-lucide="shield-alert"></i></div>
+                <div>
+                  <strong>Backend Proxy</strong>
+                  <span>Route all client-side API calls through your private backend.</span>
+                </div>
+              </li>
+              <li>
+                <div class="check-icon info"><i data-lucide="refresh-cw"></i></div>
+                <div>
+                  <strong>Regular Rotation</strong>
+                  <span>Rotate keys every 90 days or immediately if exposed.</span>
+                </div>
+              </li>
+              <li>
+                <div class="check-icon info"><i data-lucide="lock"></i></div>
+                <div>
+                  <strong>Environment Secrets</strong>
+                  <span>Store keys in encrypted environment variables like `.env`.</span>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
