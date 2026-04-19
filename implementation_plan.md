@@ -23,3 +23,4 @@ We will add new utility classes to `dashboard-layout.css`.
 - **[TODO]** Implement new 'Access' panel structure in `preview.html`.
 - **[TODO]** Create security status bar and key-card CSS.
 - **[TODO]** Polish animations and icon integration.
+

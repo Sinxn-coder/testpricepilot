@@ -12,6 +12,7 @@
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="three.min.js"></script>
 </head>
 
 <body>
@@ -49,8 +50,7 @@
   <section class="hero reveal">
     <div class="container">
       <h1 class="gradient-text">Global Pricing,<br>Optimized in Real Time</h1>
-      <p>After tax, prices turn into awkward numbers like $10.78 — quietly hurting conversions. PricePilot refines them
-        into clean, high-performing prices that increase revenue.</p>
+      <p>Automatically optimize how your prices appear to customers in each region — using proven pricing patterns that increase conversions.</p>
       <div class="hero-btns" style="margin-bottom: 24px; display: flex; justify-content: center; gap: 16px;">
         <a href="auth.html" class="btn btn-primary">Start Increasing Conversions <i data-lucide="arrow-right"
             style="width: 16px; margin-left: 8px;"></i></a>
@@ -65,31 +65,74 @@
     </div>
   </section>
 
-  <!-- --- How it Works --- -->
-  <section id="how-it-works">
+  <!-- --- Why Better Pricing Increases Revenue --- -->
+  <section id="how-it-works" style="padding-bottom: 60px;">
     <div class="container">
-      <h2 style="text-align: center; margin-bottom: 12px;">How PricePilot Makes You More Money</h2>
-      <p style="text-align: center; color: var(--text-muted); max-width: 500px; margin: 0 auto 48px;">Three simple steps
-        to turn messy prices into revenue-driving prices.</p>
+      <h2 style="text-align: center; margin-bottom: 12px;">Why Better Pricing Increases Revenue</h2>
+      <p style="text-align: center; color: var(--text-muted); max-width: 600px; margin: 0 auto 0;">You do not need more traffic to grow. Small improvements in how prices are shown can lead to more purchases from the same visitors.</p>
+    </div>
 
+    <!-- 3D Globe Visual -->
+    <div class="globe-section reveal">
+      <div class="globe-wrapper">
+        <canvas id="globe-canvas"></canvas>
+        <!-- Floating Currency Cards -->
+        <div class="currency-card" id="card-usd">
+          <span class="cc-symbol">$</span>
+          <div class="cc-info"><span class="cc-label">USD · USA</span><span class="cc-price">$29.99</span></div>
+        </div>
+        <div class="currency-card" id="card-eur">
+          <span class="cc-symbol">€</span>
+          <div class="cc-info"><span class="cc-label">EUR · Europe</span><span class="cc-price">€27.99</span></div>
+        </div>
+        <div class="currency-card" id="card-gbp">
+          <span class="cc-symbol">£</span>
+          <div class="cc-info"><span class="cc-label">GBP · UK</span><span class="cc-price">£24.99</span></div>
+        </div>
+        <div class="currency-card" id="card-jpy">
+          <span class="cc-symbol">¥</span>
+          <div class="cc-info"><span class="cc-label">JPY · Japan</span><span class="cc-price">¥3,299</span></div>
+        </div>
+        <div class="currency-card" id="card-inr">
+          <span class="cc-symbol">₹</span>
+          <div class="cc-info"><span class="cc-label">INR · India</span><span class="cc-price">₹2,499</span></div>
+        </div>
+        <div class="currency-card" id="card-aud">
+          <span class="cc-symbol">$</span>
+          <div class="cc-info"><span class="cc-label">AUD · Australia</span><span class="cc-price">$44.99</span></div>
+        </div>
+        <div class="currency-card" id="card-cad">
+          <span class="cc-symbol">$</span>
+          <div class="cc-info"><span class="cc-label">CAD · Canada</span><span class="cc-price">$39.99</span></div>
+        </div>
+        <div class="currency-card" id="card-brl">
+          <span class="cc-symbol">R$</span>
+          <div class="cc-info"><span class="cc-label">BRL · Brazil</span><span class="cc-price">R$149,00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
       <div class="steps-grid">
         <div class="card reveal">
-          <span class="step-number">STEP 01</span>
-          <h3>Plug into your checkout</h3>
-          <p style="color: var(--text-muted); margin-top: 12px;">Add PricePilot to your store or backend in minutes with
-            a simple API.</p>
+          <div class="feature-icon" style="margin-bottom: 16px;"><i data-lucide="users"></i></div>
+          <h3>Same traffic</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Your store already gets visitors. The goal is to convert more of them.</p>
         </div>
         <div class="card reveal">
-          <span class="step-number">STEP 02</span>
-          <h3>Detect final price</h3>
-          <p style="color: var(--text-muted); margin-top: 12px;">We take your final price (after tax, fees, or
-            adjustments) — no complexity for you.</p>
+          <div class="feature-icon" style="margin-bottom: 16px;"><i data-lucide="tag"></i></div>
+          <h3>Better price perception</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Cleaner, more familiar prices feel easier to trust and easier to buy.</p>
         </div>
         <div class="card reveal">
-          <span class="step-number">STEP 03</span>
-          <h3>Refine and Optimize</h3>
-          <p style="color: var(--text-muted); margin-top: 12px;">We refine your final price into clean, conversion-optimized pricing — based on proven behavioral patterns.</p>
+          <div class="feature-icon" style="margin-bottom: 16px;"><i data-lucide="trending-up"></i></div>
+          <h3>More revenue</h3>
+          <p style="color: var(--text-muted); margin-top: 12px;">Even a small lift in conversion can increase total revenue without increasing ad spend.</p>
         </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 48px;" class="reveal">
+        <p style="font-weight: 700; font-size: 1.25rem; color: var(--accent);">Same product. Same traffic. Better pricing. More revenue.</p>
       </div>
     </div>
   </section>
@@ -337,6 +380,7 @@
     </div>
   </footer>
 
+  <script src="globe.js"></script>
   <script src="landing.js"></script>
 
 </body>
