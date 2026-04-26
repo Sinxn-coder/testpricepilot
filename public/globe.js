@@ -361,8 +361,8 @@
 
     window.addEventListener('scroll', () => {
       // Globe rotation target based on scroll height
-      // Increased multiplier to make 360 rotation more achievable, meaning more rapid spinning when scrolling
-      targetScrollRotY = window.scrollY * 0.0035;
+      // Reduced multiplier to make the rotation much slower during scroll
+      targetScrollRotY = window.scrollY * 0.0005;
     });
 
     /* ─── Cards 3D Orbit anchors ─── */

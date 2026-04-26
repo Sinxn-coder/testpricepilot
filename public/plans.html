@@ -127,7 +127,7 @@
           <li><i data-lucide="check"></i> API access</li>
           <li><i data-lucide="info" style="color: var(--accent);"></i> Includes watermark</li>
         </ul>
-        <button onclick="selectPlan('Free')" class="btn btn-outline" style="width: 100%; justify-content: center;">Get Started Free</button>
+        <button data-plan="Free" class="btn btn-outline plan-select-btn" style="width: 100%; justify-content: center;">Get Started Free</button>
       </div>
 
       <!-- Starter -->
@@ -142,7 +142,7 @@
           <li><i data-lucide="check"></i> Remove branding</li>
           <li><i data-lucide="check"></i> Email support</li>
         </ul>
-        <button onclick="selectPlan('Starter')" class="btn btn-outline" style="width: 100%; justify-content: center;">Choose Starter</button>
+        <button data-plan="Starter" class="btn btn-outline plan-select-btn" style="width: 100%; justify-content: center;">Choose Starter</button>
       </div>
 
       <!-- Growth -->
@@ -161,7 +161,7 @@
           <li><i data-lucide="check"></i> Regional pricing</li>
           <li><i data-lucide="check"></i> A/B testing</li>
         </ul>
-        <button onclick="selectPlan('Growth')" class="btn btn-primary" style="width: 100%; justify-content: center;">Choose Growth</button>
+        <button data-plan="Growth" class="btn btn-primary plan-select-btn" style="width: 100%; justify-content: center;">Choose Growth</button>
       </div>
 
       <!-- Pro -->
@@ -176,7 +176,7 @@
           <li><i data-lucide="check"></i> Webhooks</li>
           <li><i data-lucide="check"></i> Priority support</li>
         </ul>
-        <button onclick="selectPlan('Pro')" class="btn btn-outline" style="width: 100%; justify-content: center;">Choose Pro</button>
+        <button data-plan="Pro" class="btn btn-outline plan-select-btn" style="width: 100%; justify-content: center;">Choose Pro</button>
       </div>
     </div>
 
@@ -193,6 +193,15 @@
       localStorage.setItem('userPlan', plan);
       window.location.href = 'preview.html?setup_complete=true';
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.plan-select-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const plan = e.currentTarget.getAttribute('data-plan');
+          selectPlan(plan);
+        });
+      });
+    });
   </script>
 </body>
 </html>

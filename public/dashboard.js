@@ -705,7 +705,10 @@ function checkUserPlan() {
     });
     
     const closeBtn = document.getElementById("close-upgrade");
-    if (closeBtn) closeBtn.onclick = closeUpgradeModal;
+    if (closeBtn) closeBtn.addEventListener("click", closeUpgradeModal);
+    
+    const cancelBtn = document.getElementById("cancel-upgrade");
+    if (cancelBtn) cancelBtn.addEventListener("click", closeUpgradeModal);
   }
 }
 
