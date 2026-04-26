@@ -224,7 +224,12 @@ h1, h2, h3 {
 .hero {
   position: relative;
   text-align: center;
-  padding: 180px 0 100px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 0;
 }
 
 .hero::before {
