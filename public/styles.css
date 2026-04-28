@@ -715,15 +715,15 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 40px;
-  min-height: 500px;
-  padding: 40px 0;
+  gap: 20px;
+  height: 420px; /* Controlled height */
+  padding: 20px 0;
 }
 
 .flow-column {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
   z-index: 2;
 }
 
@@ -731,13 +731,14 @@ footer {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 16px 20px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-weight: 600;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-size: 0.9rem;
 }
 
 .flow-card:hover {
@@ -748,22 +749,22 @@ footer {
 
 .main-source {
   flex-direction: column;
-  padding: 32px;
+  padding: 20px;
   text-align: center;
   border: 2px solid var(--accent);
 }
 
 .flow-card-label {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .flow-card-val {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: var(--white);
-  margin: 8px 0;
+  margin: 4px 0;
 }
 
 .flow-card-tag {
