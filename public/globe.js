@@ -127,68 +127,50 @@
 
     const earthTex = new THREE.CanvasTexture(texCanvas);
 
-    // --- CUSTOM SHADER FOR DIGITAL LIQUID OCEANS ---
-    const earthShader = {
-      uniforms: {
-        uTime:    { value: 0 },
-        uLandTex: { value: earthTex },
-        uColorOcean: { value: new THREE.Color(0x0a0c12) },
-        uColorGrid:  { value: new THREE.Color(0x6c63ff) },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vNormal;
-        void main() {
-          vUv = uv;
-          vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform float uTime;
-        uniform sampler2D uLandTex;
-        uniform vec3 uColorOcean;
-        uniform vec3 uColorGrid;
-        varying vec2 vUv;
-        varying vec3 vNormal;
-
-        void main() {
-          vec4 land = texture2D(uLandTex, vUv);
-          
-          // Detect land based on hatching color (approximate)
-          // The hatching is purple (0.42, 0.38, 1.0) on a dark base
-          float isLand = smoothstep(0.1, 0.3, land.a + land.b * 0.5);
-
-          // Create moving grid
-          float gridFreq = 80.0;
-          float gridShift = uTime * 0.05;
-          float gx = abs(sin((vUv.x + gridShift) * gridFreq * 2.0));
-          float gy = abs(sin((vUv.y + gridShift) * gridFreq));
-          float grid = smoothstep(0.92, 0.98, gx) + smoothstep(0.92, 0.98, gy);
-          
-          // Subtle scanline
-          float scanline = smoothstep(0.8, 1.0, sin(vUv.y * 300.0 - uTime * 2.0));
-          
-          // Mix colors
-          vec3 ocean = mix(uColorOcean, uColorGrid, grid * 0.15 + scanline * 0.08);
-          
-          // Add rim lighting effect
-          float rim = 1.0 - max(dot(vNormal, vec3(0.0, 0.0, 1.0)), 0.0);
-          ocean += uColorGrid * pow(rim, 3.0) * 0.4;
-
-          vec3 finalColor = mix(ocean, land.rgb, isLand);
-          
-          gl_FragColor = vec4(finalColor, 1.0);
-        }
-      `
-    };
-
-    const earthMat = new THREE.ShaderMaterial({
-      uniforms: earthShader.uniforms,
-      vertexShader: earthShader.vertexShader,
-      fragmentShader: earthShader.fragmentShader,
-      transparent: true,
+    const earthMat = new THREE.MeshPhongMaterial({
+      map:         earthTex,
+      color:       0x0d0630,
+      emissive:    new THREE.Color(0x1a0840),
+      emissiveIntensity: 0.35,
+      specular:    new THREE.Color(0x2a255a), 
+      shininess:   8, 
+      transparent: false,
     });
+
+    // Custom Shader for "Digital Liquid" Oceans
+    earthMat.onBeforeCompile = (shader) => {
+      shader.uniforms.uTime = { value: 0 };
+      shader.fragmentShader = `
+        uniform float uTime;
+        ${shader.fragmentShader}
+      `.replace(
+        '#include <map_fragment>',
+        `
+        #include <map_fragment>
+        
+        float landMask = texture2D(map, vUv).r;
+        
+        if (landMask < 0.02) {
+            // OCEAN: High-density horizontal scan-lines
+            float scanline = sin(vUv.y * 1500.0 - uTime * 4.0);
+            float wave = step(0.85, scanline);
+            
+            float grid = sin(vUv.x * 2000.0);
+            float point = step(0.98, grid);
+            
+            vec3 oceanColor = vec3(0.05, 0.1, 0.4); 
+            diffuseColor.rgb += oceanColor * wave * 0.6;
+            diffuseColor.rgb += oceanColor * point * 0.3;
+        } else {
+            // LAND: Subtle moving hatching energy
+            float hatch = sin((vUv.x + vUv.y) * 1200.0 + uTime * 2.0);
+            float energy = step(0.9, hatch);
+            diffuseColor.rgb += vec3(0.4, 0.3, 1.0) * energy * 0.2;
+        }
+        `
+      );
+      earthMat.userData.shader = shader;
+    };
 
     const earthMesh = new THREE.Mesh(earthGeo, earthMat);
     globe.add(earthMesh);
@@ -471,9 +453,9 @@
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      // Update shader time
-      if (earthMat.uniforms) {
-        earthMat.uniforms.uTime.value = t;
+      /* update shader time */
+      if (earthMat.userData.shader) {
+        earthMat.userData.shader.uniforms.uTime.value = t;
       }
 
       /* handle smooth scroll rotation + momentum */
