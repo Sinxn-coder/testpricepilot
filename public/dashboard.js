@@ -60,7 +60,7 @@ function setActivePanel(targetId, navItem) {
   const hashMap = {
     "panel-pricing": "pricing",
     "panel-analytics-hub": "analytics",
-    "panel-market": "tax",
+    "panel-market": "market",
     "panel-settings": "settings"
   };
   const nextHash = hashMap[targetId];
