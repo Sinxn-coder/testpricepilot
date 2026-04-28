@@ -32,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const opts = [1, 2, 3, 4, 5].map(i => document.getElementById(`opt-${i}`));
     const svg = document.getElementById('flow-svg');
     
+    // 0. Capture ACCURATE positions before any transforms/hiding
+    const svgRect = svg.getBoundingClientRect();
+    const sRect = sourceCard.getBoundingClientRect();
+    const marketRects = markets.map(m => m.getBoundingClientRect());
+    const optRects = opts.map(o => o.getBoundingClientRect());
+
     // Hide everything initially
     svg.innerHTML = '';
     sourceCard.style.opacity = '0';
@@ -48,13 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
     await wait(800);
 
     // 2. Draw Lines to Markets
-    const svgRect = svg.getBoundingClientRect();
-    const sRect = sourceCard.getBoundingClientRect();
     const startX = sRect.right - svgRect.left;
     const startY = sRect.top + (sRect.height / 2) - svgRect.top;
 
     const firstLines = markets.map((mCard, i) => {
-      const mRect = mCard.getBoundingClientRect();
+      const mRect = marketRects[i];
       const mLeftX = mRect.left - svgRect.left;
       const mY = mRect.top + (mRect.height / 2) - svgRect.top;
       return createLine(svg, startX, startY, mLeftX, mY, false);
@@ -63,13 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Animate lines to markets (Simultaneous start)
     await Promise.all(firstLines.map(line => {
       return new Promise(resolve => {
-        // Double check length after a tiny delay to ensure browser has rendered path
         setTimeout(() => {
           const length = line.getTotalLength() || 1000;
           line.style.strokeDasharray = length;
           line.style.strokeDashoffset = length;
           
-          // Trigger animation in next frame
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
@@ -94,12 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Draw Lines to Optimized
     const secondLines = markets.map((mCard, i) => {
-      const mRect = mCard.getBoundingClientRect();
+      const mRect = marketRects[i];
       const mRightX = mRect.right - svgRect.left;
       const mY = mRect.top + (mRect.height / 2) - svgRect.top;
 
-      const oCard = opts[i];
-      const oRect = oCard.getBoundingClientRect();
+      const oRect = optRects[i];
       const oLeftX = oRect.left - svgRect.left;
       const oY = oRect.top + (oRect.height / 2) - svgRect.top;
       
