@@ -279,74 +279,6 @@
     });
 
     /* ─────────────────────────────────────────────────────────── *
-     *  PRICE RAIN (COINS)
-     * ─────────────────────────────────────────────────────────── */
-    const coins = [];
-    const coinGeo = new THREE.CylinderGeometry(0.045, 0.045, 0.012, 24);
-    const coinFaceGeo = new THREE.CircleGeometry(0.045, 24);
-    
-    // Premium Gold Material
-    const coinMat = new THREE.MeshPhongMaterial({ 
-      color: 0xffd700, 
-      specular: 0xffffff, 
-      shininess: 80,
-      emissive: 0x332200 
-    });
-
-    // Create a texture for the coin face ($)
-    const coinCanvas = document.createElement('canvas');
-    coinCanvas.width = 64;
-    coinCanvas.height = 64;
-    const cCtx = coinCanvas.getContext('2d');
-    cCtx.fillStyle = '#ffd700';
-    cCtx.fillRect(0,0,64,64);
-    cCtx.fillStyle = '#000';
-    cCtx.font = 'bold 44px Arial';
-    cCtx.textAlign = 'center';
-    cCtx.textBaseline = 'middle';
-    cCtx.fillText('$', 32, 34);
-    const coinTex = new THREE.CanvasTexture(coinCanvas);
-    const coinFaceMat = new THREE.MeshPhongMaterial({ map: coinTex, shininess: 100 });
-
-    function createCoin() {
-      const group = new THREE.Group();
-      
-      // Rim
-      const rim = new THREE.Mesh(coinGeo, coinMat);
-      rim.rotation.x = Math.PI / 2;
-      group.add(rim);
-
-      // Faces
-      const face1 = new THREE.Mesh(coinFaceGeo, coinFaceMat);
-      face1.position.z = 0.007;
-      group.add(face1);
-
-      const face2 = new THREE.Mesh(coinFaceGeo, coinFaceMat);
-      face2.position.z = -0.007;
-      face2.rotation.y = Math.PI;
-      group.add(face2);
-
-      // Random starting pos above globe
-      group.position.set(
-        (Math.random() - 0.5) * 2.5,
-        2.5 + Math.random() * 2,
-        (Math.random() - 0.5) * 1.5
-      );
-      
-      // Random rotation
-      group.rotation.set(Math.random() * 10, Math.random() * 10, Math.random() * 10);
-      
-      // Animation data
-      group.userData = {
-        vy: -0.015 - Math.random() * 0.02,
-        vr: new THREE.Vector3(Math.random()*0.05, Math.random()*0.05, Math.random()*0.05)
-      };
-
-      scene.add(group);
-      coins.push(group);
-    }
-
-    /* ─────────────────────────────────────────────────────────── *
      *  COUNTRY BORDERS
      * ─────────────────────────────────────────────────────────── */
     fetch('/countries.json')
@@ -520,31 +452,6 @@
           child.material.opacity = 0.4 + Math.sin(t * 2.5 + child.id) * 0.3;
         }
       });
-
-      /* animate coins */
-      if (Math.random() < 0.02 && coins.length < 15) createCoin();
-      
-      for (let i = coins.length - 1; i >= 0; i--) {
-        const c = coins[i];
-        c.position.y += c.userData.vy;
-        c.rotation.x += c.userData.vr.x;
-        c.rotation.y += c.userData.vr.y;
-        c.rotation.z += c.userData.vr.z;
-
-        // Check distance to globe center
-        const dist = c.position.length();
-        if (dist < R) {
-          // Landing effect: simple flash or scale out
-          scene.remove(c);
-          coins.splice(i, 1);
-          
-          // Trigger a small pulse on the globe shell
-          dotMat.opacity = 1.0; 
-        } else if (c.position.y < -2) {
-          scene.remove(c);
-          coins.splice(i, 1);
-        }
-      }
 
       renderer.render(scene, camera);
 
