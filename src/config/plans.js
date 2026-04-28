@@ -6,52 +6,58 @@
 const PLANS = {
   FREE: {
     id: "free",
-    name: "Individual (Free)",
-    requestLimit: 1500,
+    name: "Free Plan",
+    requestLimit: 10000,
     roundingStyles: [0.99], 
     features: {
-      advancedTax: true,
+      advancedTax: false,
       removeBranding: false,
       support: "community",
-      watermark: true
+      watermark: true,
+      dashboard: "limited"
     }
   },
   STARTER: {
     id: "starter",
-    name: "Starter",
-    requestLimit: 15000,
+    name: "Starter Plan",
+    requestLimit: 150000,
     roundingStyles: [0.99, 0.95, 0.90],
     features: {
       advancedTax: true,
       removeBranding: true,
-      support: "email"
+      support: "email",
+      analytics: "basic"
     }
   },
   GROWTH: {
     id: "growth",
-    name: "Growth",
-    requestLimit: 50000,
+    name: "Growth Plan",
+    requestLimit: 500000,
     roundingStyles: [0.99, 0.95, 0.90, 0.49, 0.00], 
     features: {
       advancedTax: true,
       removeBranding: true,
       support: "priority",
       regionalPricing: true,
-      abTesting: true
+      abTesting: true,
+      bulkOptimization: true,
+      analytics: "advanced"
     }
   },
   PRO: {
     id: "pro",
-    name: "Pro",
-    requestLimit: 1000000, // Representing 1M+ or "Unlimited" scope
+    name: "Pro Plan",
+    requestLimit: 10000000, // Representing "Unlimited"
     roundingStyles: [0.99, 0.95, 0.90, 0.49, 0.00], 
     features: {
       advancedTax: true,
       removeBranding: true,
-      support: "premium",
+      support: "sla",
       regionalPricing: true,
       webhooks: true,
-      customRules: true
+      customRules: true,
+      abTestingAdvanced: true,
+      regionControl: true
     }
   }
 };
