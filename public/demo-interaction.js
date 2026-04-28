@@ -76,7 +76,10 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(() => {
               line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
               line.style.strokeDashoffset = '0';
-              setTimeout(resolve, 1500);
+              setTimeout(() => {
+                line.classList.add('marching');
+                resolve();
+              }, 1500);
             });
           });
         }, 10);
@@ -119,7 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(() => {
               line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
               line.style.strokeDashoffset = '0';
-              setTimeout(resolve, 1500);
+              setTimeout(() => {
+                line.classList.add('marching');
+                resolve();
+              }, 1500);
             });
           });
         }, 10);

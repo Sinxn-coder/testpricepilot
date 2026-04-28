@@ -819,7 +819,10 @@ footer {
 .flow-line.active {
   opacity: 0.8;
   stroke: var(--green);
-  stroke-dashoffset: 1000;
+  /* MARCHING ANTS ANIMATION will be added via JS after growth */
+}
+
+.flow-line.marching {
   animation: flowLineDash 30s linear infinite;
 }
 
