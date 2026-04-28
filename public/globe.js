@@ -127,15 +127,69 @@
 
     const earthTex = new THREE.CanvasTexture(texCanvas);
 
-    const earthMat = new THREE.MeshPhongMaterial({
-      map:         earthTex,
-      color:       0x0d0630,
-      emissive:    new THREE.Color(0x1a0840),
-      emissiveIntensity: 0.35,
-      specular:    new THREE.Color(0x2a255a), // Reduced specular highlight
-      shininess:   8, // Softer sheen
-      transparent: false,
+    // --- CUSTOM SHADER FOR DIGITAL LIQUID OCEANS ---
+    const earthShader = {
+      uniforms: {
+        uTime:    { value: 0 },
+        uLandTex: { value: earthTex },
+        uColorOcean: { value: new THREE.Color(0x0a0c12) },
+        uColorGrid:  { value: new THREE.Color(0x6c63ff) },
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        varying vec3 vNormal;
+        void main() {
+          vUv = uv;
+          vNormal = normalize(normalMatrix * normal);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        uniform sampler2D uLandTex;
+        uniform vec3 uColorOcean;
+        uniform vec3 uColorGrid;
+        varying vec2 vUv;
+        varying vec3 vNormal;
+
+        void main() {
+          vec4 land = texture2D(uLandTex, vUv);
+          
+          // Detect land based on hatching color (approximate)
+          // The hatching is purple (0.42, 0.38, 1.0) on a dark base
+          float isLand = smoothstep(0.1, 0.3, land.a + land.b * 0.5);
+
+          // Create moving grid
+          float gridFreq = 80.0;
+          float gridShift = uTime * 0.05;
+          float gx = abs(sin((vUv.x + gridShift) * gridFreq * 2.0));
+          float gy = abs(sin((vUv.y + gridShift) * gridFreq));
+          float grid = smoothstep(0.92, 0.98, gx) + smoothstep(0.92, 0.98, gy);
+          
+          // Subtle scanline
+          float scanline = smoothstep(0.8, 1.0, sin(vUv.y * 300.0 - uTime * 2.0));
+          
+          // Mix colors
+          vec3 ocean = mix(uColorOcean, uColorGrid, grid * 0.15 + scanline * 0.08);
+          
+          // Add rim lighting effect
+          float rim = 1.0 - max(dot(vNormal, vec3(0.0, 0.0, 1.0)), 0.0);
+          ocean += uColorGrid * pow(rim, 3.0) * 0.4;
+
+          vec3 finalColor = mix(ocean, land.rgb, isLand);
+          
+          gl_FragColor = vec4(finalColor, 1.0);
+        }
+      `
+    };
+
+    const earthMat = new THREE.ShaderMaterial({
+      uniforms: earthShader.uniforms,
+      vertexShader: earthShader.vertexShader,
+      fragmentShader: earthShader.fragmentShader,
+      transparent: true,
     });
+
     const earthMesh = new THREE.Mesh(earthGeo, earthMat);
     globe.add(earthMesh);
 
@@ -175,39 +229,7 @@
       new THREE.SphereGeometry(R * 1.18, 64, 64),
       new THREE.MeshBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.03, side: THREE.BackSide })
     );
-    const atm3 = new THREE.Mesh(
-      new THREE.SphereGeometry(R * 1.02, 64, 64),
-      new THREE.MeshBasicMaterial({ color: 0xa78bfa, transparent: true, opacity: 0.15, side: THREE.BackSide })
-    );
-    globe.add(atm1, atm2, atm3);
-
-    /* ─────────────────────────────────────────────────────────── *
-     *  STARFIELD BACKGROUND
-     * ─────────────────────────────────────────────────────────── */
-    const starGeo = new THREE.BufferGeometry();
-    const starCount = 800;
-    const starPts = [];
-    for (let i = 0; i < starCount; i++) {
-      const dist = 5 + Math.random() * 5;
-      const phi = Math.random() * Math.PI * 2;
-      const costheta = Math.random() * 2 - 1;
-      const theta = Math.acos(costheta);
-      starPts.push(
-        dist * Math.sin(theta) * Math.cos(phi),
-        dist * Math.sin(theta) * Math.sin(phi),
-        dist * Math.cos(theta)
-      );
-    }
-    starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPts, 3));
-    const starMat = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.02,
-      transparent: true,
-      opacity: 0.4,
-      sizeAttenuation: true
-    });
-    const stars = new THREE.Points(starGeo, starMat);
-    scene.add(stars);
+    globe.add(atm1, atm2);
 
     /* ─────────────────────────────────────────────────────────── *
      *  LAT / LON GRID LINES
@@ -373,10 +395,6 @@
     let currentScrollRotY = 0;
     let baseRotationY = 0;
 
-    let mousePos = { x: 0, y: 0 };
-    let targetMouseRot = { x: 0, y: 0 };
-    let currentMouseRot = { x: 0, y: 0 };
-
     function onDown(x, y) { dragging = true; prev = { x, y }; vel = { x: 0, y: 0 }; }
     function onMove(x, y) {
       if (!dragging) return;
@@ -389,15 +407,7 @@
     function onUp() { dragging = false; }
 
     canvas.addEventListener('mousedown',  e => onDown(e.clientX, e.clientY));
-    window.addEventListener('mousemove',  e => {
-      onMove(e.clientX, e.clientY);
-      // Magnetic effect calculation
-      const { w, h } = getSize();
-      mousePos.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mousePos.y = -(e.clientY / window.innerHeight) * 2 + 1;
-      targetMouseRot.x = mousePos.y * 0.15;
-      targetMouseRot.y = mousePos.x * 0.15;
-    });
+    window.addEventListener('mousemove',  e => onMove(e.clientX, e.clientY));
     window.addEventListener('mouseup',    onUp);
     canvas.addEventListener('touchstart', e => { e.preventDefault(); onDown(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
     canvas.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
@@ -461,6 +471,11 @@
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
+      // Update shader time
+      if (earthMat.uniforms) {
+        earthMat.uniforms.uTime.value = t;
+      }
+
       /* handle smooth scroll rotation + momentum */
       if (!dragging) {
         vel.x *= 0.90;
@@ -470,17 +485,7 @@
       }
 
       currentScrollRotY += (targetScrollRotY - currentScrollRotY) * 0.06;
-      
-      // Smooth mouse follow
-      currentMouseRot.x += (targetMouseRot.x - currentMouseRot.x) * 0.05;
-      currentMouseRot.y += (targetMouseRot.y - currentMouseRot.y) * 0.05;
-
-      globe.rotation.x = currentMouseRot.x; // apply mouse x tilt
-      globe.rotation.y = baseRotationY + currentScrollRotY + currentMouseRot.y;
-
-      // Slowly rotate stars in opposite direction for parallax
-      stars.rotation.y -= 0.0005;
-      stars.rotation.x += 0.0002;
+      globe.rotation.y = baseRotationY + currentScrollRotY;
 
       /* pulsing dots */
       dotMat.opacity = 0.55 + Math.sin(t * 0.9) * 0.15;
