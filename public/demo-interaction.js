@@ -32,18 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const opts = [1, 2, 3, 4, 5].map(i => document.getElementById(`opt-${i}`));
     const svg = document.getElementById('flow-svg');
     
-    // 0. Capture ACCURATE positions before any transforms/hiding
-    const svgRect = svg.getBoundingClientRect();
-    const sRect = sourceCard.getBoundingClientRect();
-    const marketRects = markets.map(m => m.getBoundingClientRect());
-    const optRects = opts.map(o => o.getBoundingClientRect());
-
-    // Hide everything initially
-    svg.innerHTML = '';
+    // 0. Force final transform state (invisible) to get ACCURATE final positions
     sourceCard.style.opacity = '0';
+    sourceCard.style.transform = 'scale(1)';       // final scale
+    markets.forEach(m => { m.style.opacity = '0'; m.style.transform = 'translateX(0)'; });   // final pos
+    opts.forEach(o    => { o.style.opacity = '0';  o.style.transform = 'translateX(0)'; });   // final pos
+
+    // Wait one frame so the browser recalculates layout with final transforms
+    await new Promise(r => requestAnimationFrame(r));
+
+    // Capture positions in their TRUE final positions
+    const svgRect = svg.getBoundingClientRect();
+    const sRect   = sourceCard.getBoundingClientRect();
+    const marketRects = markets.map(m => m.getBoundingClientRect());
+    const optRects    = opts.map(o    => o.getBoundingClientRect());
+
+    // Now apply the "entrance" hidden state for animation
+    svg.innerHTML = '';
     sourceCard.style.transform = 'scale(0.8)';
-    markets.forEach(m => { m.style.opacity = '0'; m.style.transform = 'translateX(-20px)'; });
-    opts.forEach(o => { o.style.opacity = '0'; o.style.transform = 'translateX(-20px)'; });
+    markets.forEach(m => { m.style.transform = 'translateX(-20px)'; });
+    opts.forEach(o    => { o.style.transform = 'translateX(-20px)'; });
 
     // 1. Show Source Card
     await wait(100);
