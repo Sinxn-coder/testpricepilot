@@ -60,8 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
       return createLine(svg, startX, startY, mLeftX, mY, false);
     });
 
-    // Animate lines to markets
-    await Promise.all(firstLines.map(line => animateLine(line, 1500)));
+    // Animate lines to markets (Simultaneous start)
+    await Promise.all(firstLines.map(line => {
+      line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
+      return new Promise(resolve => {
+        requestAnimationFrame(() => {
+          line.style.strokeDashoffset = '0';
+          setTimeout(resolve, 1500);
+        });
+      });
+    }));
 
     // 3. Show Market Cards
     markets.forEach((m, i) => {
@@ -69,10 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
         m.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
         m.style.opacity = '1';
         m.style.transform = 'translateX(0)';
-      }, i * 100);
+      }, i * 50); // Faster stagger
     });
 
-    await wait(1000);
+    await wait(800);
 
     // 4. Draw Lines to Optimized
     const secondLines = markets.map((mCard, i) => {
@@ -88,8 +96,16 @@ document.addEventListener('DOMContentLoaded', () => {
       return createLine(svg, mRightX, mY, oLeftX, oY, true);
     });
 
-    // Animate lines to optimized
-    await Promise.all(secondLines.map(line => animateLine(line, 1500)));
+    // Animate lines to optimized (Simultaneous start)
+    await Promise.all(secondLines.map(line => {
+      line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
+      return new Promise(resolve => {
+        requestAnimationFrame(() => {
+          line.style.strokeDashoffset = '0';
+          setTimeout(resolve, 1500);
+        });
+      });
+    }));
 
     // 5. Show Optimized Cards
     opts.forEach((o, i) => {
@@ -103,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
           o.style.boxShadow = '0 0 20px var(--green-glow)';
           setTimeout(() => o.style.boxShadow = '', 1000);
         }, 600);
-      }, i * 100);
+      }, i * 50); // Faster stagger
     });
   }
 
@@ -117,28 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
     path.setAttribute('class', `flow-line ${isActive ? 'active' : ''}`);
     
     // Setup for animation
-    const length = 1000; // Large enough default if getTotalLength fails early
-    path.style.strokeDasharray = length;
-    path.style.strokeDashoffset = length;
-    
     svg.appendChild(path);
-    
-    // Get real length
     const realLength = path.getTotalLength();
     path.style.strokeDasharray = realLength;
     path.style.strokeDashoffset = realLength;
     
     return path;
-  }
-
-  function animateLine(line, duration) {
-    return new Promise(resolve => {
-      line.style.transition = `stroke-dashoffset ${duration}ms ease-in-out`;
-      setTimeout(() => {
-        line.style.strokeDashoffset = '0';
-        setTimeout(resolve, duration);
-      }, 50);
-    });
   }
 
   function wait(ms) {
