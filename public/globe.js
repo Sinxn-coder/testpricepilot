@@ -132,46 +132,10 @@
       color:       0x0d0630,
       emissive:    new THREE.Color(0x1a0840),
       emissiveIntensity: 0.35,
-      specular:    new THREE.Color(0x2a255a), 
-      shininess:   8, 
+      specular:    new THREE.Color(0x2a255a), // Reduced specular highlight
+      shininess:   8, // Softer sheen
       transparent: false,
     });
-
-    // Custom Shader for "Digital Liquid" Oceans
-    earthMat.onBeforeCompile = (shader) => {
-      shader.uniforms.uTime = { value: 0 };
-      shader.fragmentShader = `
-        uniform float uTime;
-        ${shader.fragmentShader}
-      `.replace(
-        '#include <map_fragment>',
-        `
-        #include <map_fragment>
-        
-        float landMask = texture2D(map, vUv).r;
-        
-        if (landMask < 0.02) {
-            // OCEAN: High-density horizontal scan-lines
-            float scanline = sin(vUv.y * 1500.0 - uTime * 4.0);
-            float wave = step(0.85, scanline);
-            
-            float grid = sin(vUv.x * 2000.0);
-            float point = step(0.98, grid);
-            
-            vec3 oceanColor = vec3(0.05, 0.1, 0.4); 
-            diffuseColor.rgb += oceanColor * wave * 0.6;
-            diffuseColor.rgb += oceanColor * point * 0.3;
-        } else {
-            // LAND: Subtle moving hatching energy
-            float hatch = sin((vUv.x + vUv.y) * 1200.0 + uTime * 2.0);
-            float energy = step(0.9, hatch);
-            diffuseColor.rgb += vec3(0.4, 0.3, 1.0) * energy * 0.2;
-        }
-        `
-      );
-      earthMat.userData.shader = shader;
-    };
-
     const earthMesh = new THREE.Mesh(earthGeo, earthMat);
     globe.add(earthMesh);
 
@@ -315,6 +279,74 @@
     });
 
     /* ─────────────────────────────────────────────────────────── *
+     *  PRICE RAIN (COINS)
+     * ─────────────────────────────────────────────────────────── */
+    const coins = [];
+    const coinGeo = new THREE.CylinderGeometry(0.045, 0.045, 0.012, 24);
+    const coinFaceGeo = new THREE.CircleGeometry(0.045, 24);
+    
+    // Premium Gold Material
+    const coinMat = new THREE.MeshPhongMaterial({ 
+      color: 0xffd700, 
+      specular: 0xffffff, 
+      shininess: 80,
+      emissive: 0x332200 
+    });
+
+    // Create a texture for the coin face ($)
+    const coinCanvas = document.createElement('canvas');
+    coinCanvas.width = 64;
+    coinCanvas.height = 64;
+    const cCtx = coinCanvas.getContext('2d');
+    cCtx.fillStyle = '#ffd700';
+    cCtx.fillRect(0,0,64,64);
+    cCtx.fillStyle = '#000';
+    cCtx.font = 'bold 44px Arial';
+    cCtx.textAlign = 'center';
+    cCtx.textBaseline = 'middle';
+    cCtx.fillText('$', 32, 34);
+    const coinTex = new THREE.CanvasTexture(coinCanvas);
+    const coinFaceMat = new THREE.MeshPhongMaterial({ map: coinTex, shininess: 100 });
+
+    function createCoin() {
+      const group = new THREE.Group();
+      
+      // Rim
+      const rim = new THREE.Mesh(coinGeo, coinMat);
+      rim.rotation.x = Math.PI / 2;
+      group.add(rim);
+
+      // Faces
+      const face1 = new THREE.Mesh(coinFaceGeo, coinFaceMat);
+      face1.position.z = 0.007;
+      group.add(face1);
+
+      const face2 = new THREE.Mesh(coinFaceGeo, coinFaceMat);
+      face2.position.z = -0.007;
+      face2.rotation.y = Math.PI;
+      group.add(face2);
+
+      // Random starting pos above globe
+      group.position.set(
+        (Math.random() - 0.5) * 2.5,
+        2.5 + Math.random() * 2,
+        (Math.random() - 0.5) * 1.5
+      );
+      
+      // Random rotation
+      group.rotation.set(Math.random() * 10, Math.random() * 10, Math.random() * 10);
+      
+      // Animation data
+      group.userData = {
+        vy: -0.015 - Math.random() * 0.02,
+        vr: new THREE.Vector3(Math.random()*0.05, Math.random()*0.05, Math.random()*0.05)
+      };
+
+      scene.add(group);
+      coins.push(group);
+    }
+
+    /* ─────────────────────────────────────────────────────────── *
      *  COUNTRY BORDERS
      * ─────────────────────────────────────────────────────────── */
     fetch('/countries.json')
@@ -453,11 +485,6 @@
       requestAnimationFrame(animate);
       const t = clock.getElapsedTime();
 
-      /* update shader time */
-      if (earthMat.userData.shader) {
-        earthMat.userData.shader.uniforms.uTime.value = t;
-      }
-
       /* handle smooth scroll rotation + momentum */
       if (!dragging) {
         vel.x *= 0.90;
@@ -493,6 +520,31 @@
           child.material.opacity = 0.4 + Math.sin(t * 2.5 + child.id) * 0.3;
         }
       });
+
+      /* animate coins */
+      if (Math.random() < 0.02 && coins.length < 15) createCoin();
+      
+      for (let i = coins.length - 1; i >= 0; i--) {
+        const c = coins[i];
+        c.position.y += c.userData.vy;
+        c.rotation.x += c.userData.vr.x;
+        c.rotation.y += c.userData.vr.y;
+        c.rotation.z += c.userData.vr.z;
+
+        // Check distance to globe center
+        const dist = c.position.length();
+        if (dist < R) {
+          // Landing effect: simple flash or scale out
+          scene.remove(c);
+          coins.splice(i, 1);
+          
+          // Trigger a small pulse on the globe shell
+          dotMat.opacity = 1.0; 
+        } else if (c.position.y < -2) {
+          scene.remove(c);
+          coins.splice(i, 1);
+        }
+      }
 
       renderer.render(scene, camera);
 
