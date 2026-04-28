@@ -709,3 +709,136 @@ footer {
   .cc-label  { font-size: 0.6rem; }
 }
 
+/* --- Flow Visualization --- */
+.flow-viz-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  min-height: 500px;
+  padding: 40px 0;
+}
+
+.flow-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 2;
+}
+
+.flow-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.flow-card:hover {
+  border-color: var(--accent);
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(108, 99, 255, 0.2);
+}
+
+.main-source {
+  flex-direction: column;
+  padding: 32px;
+  text-align: center;
+  border: 2px solid var(--accent);
+}
+
+.flow-card-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.flow-card-val {
+  font-size: 2.5rem;
+  color: var(--white);
+  margin: 8px 0;
+}
+
+.flow-card-tag {
+  font-size: 0.65rem;
+  background: rgba(108, 99, 255, 0.2);
+  color: var(--accent);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
+.market-card {
+  font-size: 1rem;
+  background: var(--surface);
+}
+
+.opt-card {
+  flex-direction: column;
+  align-items: flex-start;
+  border-color: rgba(34, 211, 165, 0.3);
+}
+
+.opt-price {
+  font-size: 1.1rem;
+  color: var(--green);
+}
+
+.opt-tag {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.flow-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.flow-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 8, 4;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+
+.flow-line.active {
+  opacity: 0.8;
+  stroke: var(--green);
+  stroke-dashoffset: 1000;
+  animation: flowLineDash 30s linear infinite;
+}
+
+@keyframes flowLineDash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .flow-viz-wrapper {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .flow-line {
+    display: none;
+  }
+}
+

@@ -254,8 +254,8 @@
   </section>
 
   <!-- --- Live Example --- -->
-  <section style="background: var(--surface);" class="reveal">
-    <div class="container">
+  <section id="regional-demo" style="background: var(--surface); position: relative; overflow: hidden;" class="reveal">
+    <div class="container" id="demo-initial">
       <h2 style="text-align: center; margin-bottom: 48px;">Regional Price Perception</h2>
 
       <div class="demo-card">
@@ -287,9 +287,78 @@
       <div style="text-align: center; margin-top: 32px;">
         <p style="color: var(--text-muted); font-weight: 600; font-size: 1.1rem; max-width: 600px; margin: 0 auto 32px;">
           Increase conversions without changing your product or traffic.</p>
-        <a href="#how-it-works" class="btn btn-primary" style="padding: 18px 40px; font-size: 1.1rem; box-shadow: 0 0 40px var(--accent-glow);">
+        <button id="btn-see-more" class="btn btn-primary" style="padding: 18px 40px; font-size: 1.1rem; box-shadow: 0 0 40px var(--accent-glow);">
           See what Price Pilot do
-        </a>
+        </button>
+      </div>
+    </div>
+
+    <!-- --- Expanded Flow View --- -->
+    <div class="container hidden" id="demo-expanded" style="opacity: 0; transform: translateY(20px); transition: all 0.6s ease;">
+      <h2 style="text-align: center; margin-bottom: 64px;">Global Price Engine in Action</h2>
+      
+      <div class="flow-viz-wrapper">
+        <svg class="flow-svg" id="flow-svg"></svg>
+        
+        <div class="flow-column source-col">
+          <div class="flow-card main-source" id="source-price">
+            <span class="flow-card-label">Your Global Price</span>
+            <span class="flow-card-val">$49.00</span>
+            <span class="flow-card-tag">Base Price</span>
+          </div>
+        </div>
+
+        <div class="flow-column market-col">
+          <div class="flow-card market-card" id="market-1">
+             <img src="https://flagcdn.com/gb.svg" width="20" alt="UK">
+             <span>£38.42</span>
+          </div>
+          <div class="flow-card market-card" id="market-2">
+             <img src="https://flagcdn.com/in.svg" width="20" alt="IN">
+             <span>₹4,082</span>
+          </div>
+          <div class="flow-card market-card" id="market-3">
+             <img src="https://flagcdn.com/br.svg" width="20" alt="BR">
+             <span>R$243.12</span>
+          </div>
+          <div class="flow-card market-card" id="market-4">
+             <img src="https://flagcdn.com/jp.svg" width="20" alt="JP">
+             <span>¥7,342</span>
+          </div>
+          <div class="flow-card market-card" id="market-5">
+             <img src="https://flagcdn.com/de.svg" width="20" alt="DE">
+             <span>€45.18</span>
+          </div>
+        </div>
+
+        <div class="flow-column optimized-col">
+          <div class="flow-card opt-card" id="opt-1">
+             <span class="opt-price">£39.99</span>
+             <span class="opt-tag">Optimized</span>
+          </div>
+          <div class="flow-card opt-card" id="opt-2">
+             <span class="opt-price">₹3,999</span>
+             <span class="opt-tag">Optimized</span>
+          </div>
+          <div class="flow-card opt-card" id="opt-3">
+             <span class="opt-price">R$249.00</span>
+             <span class="opt-tag">Optimized</span>
+          </div>
+          <div class="flow-card opt-card" id="opt-4">
+             <span class="opt-price">¥7,500</span>
+             <span class="opt-tag">Optimized</span>
+          </div>
+          <div class="flow-card opt-card" id="opt-5">
+             <span class="opt-price">€44.99</span>
+             <span class="opt-tag">Optimized</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 64px;">
+        <button id="btn-demo-back" class="btn btn-outline" style="font-size: 0.9rem;">
+          <i data-lucide="arrow-left" style="width: 16px; margin-right: 8px;"></i> Go Back
+        </button>
       </div>
     </div>
   </section>
@@ -420,6 +489,7 @@
 
   <script src="globe.js"></script>
   <script src="landing.js"></script>
+  <script src="demo-interaction.js"></script>
 
 </body>
 
