@@ -62,12 +62,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Animate lines to markets (Simultaneous start)
     await Promise.all(firstLines.map(line => {
-      line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
       return new Promise(resolve => {
-        requestAnimationFrame(() => {
-          line.style.strokeDashoffset = '0';
-          setTimeout(resolve, 1500);
-        });
+        // Double check length after a tiny delay to ensure browser has rendered path
+        setTimeout(() => {
+          const length = line.getTotalLength() || 1000;
+          line.style.strokeDasharray = length;
+          line.style.strokeDashoffset = length;
+          
+          // Trigger animation in next frame
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
+              line.style.strokeDashoffset = '0';
+              setTimeout(resolve, 1500);
+            });
+          });
+        }, 10);
       });
     }));
 
@@ -77,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         m.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
         m.style.opacity = '1';
         m.style.transform = 'translateX(0)';
-      }, i * 50); // Faster stagger
+      }, i * 50);
     });
 
     await wait(800);
@@ -98,12 +108,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Animate lines to optimized (Simultaneous start)
     await Promise.all(secondLines.map(line => {
-      line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
       return new Promise(resolve => {
-        requestAnimationFrame(() => {
-          line.style.strokeDashoffset = '0';
-          setTimeout(resolve, 1500);
-        });
+        setTimeout(() => {
+          const length = line.getTotalLength() || 1000;
+          line.style.strokeDasharray = length;
+          line.style.strokeDashoffset = length;
+          
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              line.style.transition = `stroke-dashoffset 1500ms ease-in-out`;
+              line.style.strokeDashoffset = '0';
+              setTimeout(resolve, 1500);
+            });
+          });
+        }, 10);
       });
     }));
 
@@ -119,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
           o.style.boxShadow = '0 0 20px var(--green-glow)';
           setTimeout(() => o.style.boxShadow = '', 1000);
         }, 600);
-      }, i * 50); // Faster stagger
+      }, i * 50);
     });
   }
 
@@ -132,12 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
     path.setAttribute('d', d);
     path.setAttribute('class', `flow-line ${isActive ? 'active' : ''}`);
     
-    // Setup for animation
-    svg.appendChild(path);
-    const realLength = path.getTotalLength();
-    path.style.strokeDasharray = realLength;
-    path.style.strokeDashoffset = realLength;
+    // Initial hidden state
+    path.style.strokeDasharray = '2000';
+    path.style.strokeDashoffset = '2000';
     
+    svg.appendChild(path);
     return path;
   }
 
