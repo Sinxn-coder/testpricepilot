@@ -739,6 +739,9 @@ footer {
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   font-size: 0.9rem;
+  /* Start hidden for animation */
+  opacity: 0;
+  transform: translateX(-20px);
 }
 
 .flow-card:hover {
@@ -752,6 +755,7 @@ footer {
   padding: 20px;
   text-align: center;
   border: 2px solid var(--accent);
+  transform: scale(0.8);
 }
 
 .flow-card-label {
