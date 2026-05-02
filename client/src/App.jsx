@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AuthPage from "./AuthPage.jsx";
+import { appPath, currentRoute } from "./paths.js";
 
 const icon = (name, style = {}) => <i data-lucide={name} style={style} />;
 
@@ -9,7 +10,7 @@ const pricingPlans = [
     price: "Free",
     text: "Perfect for testing the waters.",
     cta: "Get Started Free",
-    href: "/auth",
+    href: appPath("auth"),
     features: ["10,000 requests / month", "Basic optimization", "Limited dashboard", "Branding included"],
   },
   {
@@ -18,7 +19,7 @@ const pricingPlans = [
     suffix: "/mo",
     text: "Perfect for growing projects.",
     cta: "Go Starter",
-    href: "/auth",
+    href: appPath("auth"),
     features: ["150,000 requests / month", "Fast API access", "Remove branding", "Basic analytics", "Email support"],
   },
   {
@@ -27,7 +28,7 @@ const pricingPlans = [
     suffix: "/mo",
     text: "The main revenue engine for businesses.",
     cta: "Choose Growth",
-    href: "/preview.html",
+    href: appPath("preview.html"),
     popular: true,
     features: ["500,000 requests / month", "Advanced analytics", "Bulk optimization", "Multi-region optimization", "Basic A/B testing"],
   },
@@ -37,7 +38,7 @@ const pricingPlans = [
     suffix: "/mo",
     text: "Scale globally with zero limits.",
     cta: "Get Pro",
-    href: "/auth",
+    href: appPath("auth"),
     features: ["Unlimited requests*", "Custom pricing rules", "Advanced A/B testing", "Region-based control", "Priority support & SLA"],
   },
 ];
@@ -54,11 +55,11 @@ const currencyCards = [
 ];
 
 const mobileLinks = [
-  ["About Us", "/about.html"],
-  ["Contact Us", "/contact.html"],
+  ["About Us", appPath("about.html")],
+  ["Contact Us", appPath("contact.html")],
   ["Features", "#features"],
-  ["My Account", "/auth"],
-  ["Get Started for Free", "/auth"],
+  ["My Account", appPath("auth")],
+  ["Get Started for Free", appPath("auth")],
 ];
 
 function useLandingEffects() {
@@ -83,7 +84,7 @@ function useLandingEffects() {
     document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 
     const globeScript = document.createElement("script");
-    globeScript.src = "/globe.js";
+    globeScript.src = appPath("globe.js");
     globeScript.async = true;
     document.body.appendChild(globeScript);
 
@@ -108,13 +109,13 @@ function Header() {
     <>
       <header id="header">
         <div className="container header-container">
-          <a href="/" className="logo-wrap">
+          <a href={appPath()} className="logo-wrap">
             {icon("compass", { color: "var(--accent)" })} PricePilot
           </a>
           <nav className="nav-desktop">
             <a href="#features" className="nav-link">Features</a>
-            <a href="/auth" className="nav-link" style={{ fontSize: "0.9rem" }}>My Account</a>
-            <a href="/auth" className="btn btn-outline" style={{ padding: "8px 16px", fontSize: "0.85rem" }}>Get Started for Free</a>
+            <a href={appPath("auth")} className="nav-link" style={{ fontSize: "0.9rem" }}>My Account</a>
+            <a href={appPath("auth")} className="btn btn-outline" style={{ padding: "8px 16px", fontSize: "0.85rem" }}>Get Started for Free</a>
           </nav>
           <button className="menu-btn" id="menu-btn" onClick={() => setOpen(value => !value)} aria-label="Toggle menu">
             {icon(open ? "x" : "menu")}
@@ -145,7 +146,7 @@ function Hero() {
         <h1 className="gradient-text">Global Pricing,<br />Optimized in Real Time</h1>
         <p>Automatically optimize how your prices appear to customers in each region using proven pricing patterns that increase conversions.</p>
         <div className="hero-btns" style={{ marginBottom: 24, display: "flex", justifyContent: "center", gap: 16 }}>
-          <a href="/auth" className="btn btn-primary">Start Increasing Conversions {icon("arrow-right", { width: 16, marginLeft: 8 })}</a>
+          <a href={appPath("auth")} className="btn btn-primary">Start Increasing Conversions {icon("arrow-right", { width: 16, marginLeft: 8 })}</a>
           <a href="#how-it-works" className="btn btn-outline" style={{ border: "1px solid var(--border)", background: "rgba(255, 255, 255, 0.05)", backdropFilter: "blur(10px)" }}>How it Works</a>
         </div>
         <div className="trust-line" style={{ color: "var(--text-muted)", fontSize: "0.9rem", display: "flex", justifyContent: "center", alignItems: "center", gap: 8 }}>
@@ -602,7 +603,7 @@ function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <a href="/" className="logo-wrap">{icon("compass", { color: "var(--accent)" })} PricePilot</a>
+            <a href={appPath()} className="logo-wrap">{icon("compass", { color: "var(--accent)" })} PricePilot</a>
             <div className="social-links">
               {["twitter", "youtube", "instagram", "facebook"].map(name => <a href="#" className="social-icon" aria-label={name} key={name}>{icon(name)}</a>)}
             </div>
@@ -613,22 +614,22 @@ function Footer() {
               <li><a href="#how-it-works">SaaS Platforms</a></li>
               <li><a href="#features">E-commerce Stores</a></li>
               <li><a href="#features">Global Expansion</a></li>
-              <li><a href="/preview.html">A/B Testing <span className="badge badge-beta">Beta</span></a></li>
+              <li><a href={appPath("preview.html")}>A/B Testing <span className="badge badge-beta">Beta</span></a></li>
             </ul>
           </div>
           <div className="footer-col">
             <h4>Company</h4>
             <ul className="footer-links">
-              <li><a href="/about.html">About Us</a></li>
-              <li><a href="/contact.html">Contact</a></li>
-              <li><a href="/privacy.html">Privacy Policy</a></li>
-              <li><a href="/terms.html">Terms of Service</a></li>
+              <li><a href={appPath("about.html")}>About Us</a></li>
+              <li><a href={appPath("contact.html")}>Contact</a></li>
+              <li><a href={appPath("privacy.html")}>Privacy Policy</a></li>
+              <li><a href={appPath("terms.html")}>Terms of Service</a></li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
           <p className="copyright">&copy; 2026 PricePilot API. All rights reserved.</p>
-          <div className="footer-bottom-links"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="#">Cookie Settings</a></div>
+          <div className="footer-bottom-links"><a href={appPath("privacy.html")}>Privacy</a><a href={appPath("terms.html")}>Terms</a><a href="#">Cookie Settings</a></div>
         </div>
       </div>
     </footer>
@@ -652,7 +653,7 @@ function HomePage() {
           <div className="container" style={{ textAlign: "center" }}>
             <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", marginBottom: 24 }}>Stop losing conversions to ugly pricing</h2>
             <p style={{ color: "var(--text-muted)", fontSize: "1.2rem", maxWidth: 600, margin: "0 auto 48px" }}>Your customers notice pricing more than you think.<br />Fix it automatically with PricePilot.</p>
-            <a href="/auth" className="btn btn-primary" style={{ padding: "18px 40px", fontSize: "1.1rem" }}>Get Started for Free</a>
+            <a href={appPath("auth")} className="btn btn-primary" style={{ padding: "18px 40px", fontSize: "1.1rem" }}>Get Started for Free</a>
           </div>
         </section>
       </main>
@@ -662,7 +663,7 @@ function HomePage() {
 }
 
 export default function App() {
-  const path = window.location.pathname;
+  const path = currentRoute();
 
   if (path === "/auth" || path === "/auth.html") {
     return <AuthPage />;

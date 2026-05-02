@@ -8,6 +8,7 @@ import {
 } from "@firebase/auth";
 import { auth, googleProvider } from "./firebase";
 import { storeAuthSession } from "./authToken";
+import { appPath } from "./paths.js";
 import "./auth.css";
 
 const icon = (name, style = {}) => <i data-lucide={name} style={style} />;
@@ -49,7 +50,7 @@ export default function AuthPage() {
     await storeCurrentUserToken();
     setStatus("Signed in. Redirecting...");
     window.setTimeout(() => {
-      window.location.href = destination;
+      window.location.href = appPath(destination);
     }, 450);
   };
 
@@ -65,10 +66,10 @@ export default function AuthPage() {
         if (name.trim()) {
           await updateProfile(result.user, { displayName: name.trim() });
         }
-        await finishAuth("/plans.html?new_user=true");
+        await finishAuth("plans.html?new_user=true");
       } else {
         await signInWithEmailAndPassword(auth, email, password);
-        await finishAuth("/preview.html");
+        await finishAuth("preview.html");
       }
     } catch (authError) {
       setError(authError.message || "Authentication failed.");
@@ -84,7 +85,7 @@ export default function AuthPage() {
 
     try {
       await signInWithPopup(auth, googleProvider);
-      await finishAuth("/preview.html");
+      await finishAuth("preview.html");
     } catch (authError) {
       setError(authError.message || "Google login failed.");
     } finally {
@@ -98,7 +99,7 @@ export default function AuthPage() {
     <div className="auth-page">
       <aside className="auth-aside">
         <div>
-          <a href="/" className="logo-wrap auth-logo">
+          <a href={appPath()} className="logo-wrap auth-logo">
             {icon("compass", { color: "var(--accent)", width: 32, height: 32 })} PricePilot
           </a>
           <div className="metric-badge">

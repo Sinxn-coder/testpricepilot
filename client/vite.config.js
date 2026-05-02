@@ -2,8 +2,12 @@ const { defineConfig } = require("vite");
 const react = require("@vitejs/plugin-react");
 const path = require("path");
 
+const githubRepoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
+const base = process.env.GITHUB_ACTIONS && githubRepoName ? `/${githubRepoName}/` : "/";
+
 module.exports = defineConfig({
   root: __dirname,
+  base,
   publicDir: path.resolve(__dirname, "../public"),
   plugins: [
     {
