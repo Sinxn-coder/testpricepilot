@@ -6,6 +6,7 @@ const path = require("path");
 const pricingRoutes = require("./routes/pricingRoutes");
 const authRoutes = require("./routes/authRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
+const firebaseAuthMiddleware = require("./middleware/firebaseAuthMiddleware");
 const loggerMiddleware = require("./middleware/loggerMiddleware");
 const loadManager = require("./utils/loadManager");
 const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
@@ -72,8 +73,13 @@ app.get("/preview", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/preview.html"));
 });
 
+app.get("/protected-test", firebaseAuthMiddleware, (req, res) => {
+  res.status(200).json({ user: req.user, dbUser: req.dbUser });
+});
+
 app.use("/auth", authRoutes);
 app.use("/analytics", analyticsRoutes);
+app.use("/v1", pricingRoutes);
 app.use("/", pricingRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);

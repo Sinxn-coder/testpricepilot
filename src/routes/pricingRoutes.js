@@ -5,21 +5,23 @@ const {
 } = require("../controllers/pricingController");
 const { calculatePriceHandler } = require("../controllers/calculatePriceController");
 const { taxRatesHandler } = require("../controllers/taxRatesController");
-const authMiddleware = require("../middleware/authMiddleware");
+const firebaseAuthMiddleware = require("../middleware/firebaseAuthMiddleware");
 const usageMiddleware = require("../middleware/usageMiddleware");
 const priorityMiddleware = require("../middleware/priorityMiddleware");
 const rateLimitMiddleware = require("../middleware/rateLimitMiddleware");
 
 const router = express.Router();
 
+router.use(firebaseAuthMiddleware);
+
 // Existing endpoints (unchanged)
-router.post("/optimize-price", authMiddleware, usageMiddleware, priorityMiddleware, rateLimitMiddleware, optimizePriceHandler);
-router.post("/track-conversion", authMiddleware, usageMiddleware, priorityMiddleware, rateLimitMiddleware, trackConversionHandler);
+router.post("/optimize-price", usageMiddleware, priorityMiddleware, rateLimitMiddleware, optimizePriceHandler);
+router.post("/track-conversion", usageMiddleware, priorityMiddleware, rateLimitMiddleware, trackConversionHandler);
 
 // Spec-required: tax-aware pricing with margin protection
-router.post("/calculate-price", authMiddleware, usageMiddleware, priorityMiddleware, rateLimitMiddleware, calculatePriceHandler);
+router.post("/calculate-price", usageMiddleware, priorityMiddleware, rateLimitMiddleware, calculatePriceHandler);
 
-// Public: list all supported country tax rates (no auth)
+// List all supported country tax rates.
 router.get("/tax-rates", taxRatesHandler);
 
 module.exports = router;

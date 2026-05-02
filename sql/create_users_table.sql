@@ -7,8 +7,9 @@ create extension if not exists "uuid-ossp";
 -- This table stores core user profiles, API keys, and subscription status.
 create table if not exists public.users (
   id uuid primary key default uuid_generate_v4(),
+  firebase_uid text unique,
   email text unique not null,
-  api_key_hash text unique not null,
+  api_key_hash text unique,
   api_key_preview text,
   plan text not null default 'free' check (plan in ('free', 'starter', 'growth', 'pro', 'enterprise')),
   
@@ -55,4 +56,5 @@ create policy "Users can view own profile"
 
 -- 6. Indices for performance
 create index if not exists idx_users_email on public.users(email);
+create index if not exists idx_users_firebase_uid on public.users(firebase_uid);
 create index if not exists idx_users_api_key_hash on public.users(api_key_hash);

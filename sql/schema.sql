@@ -4,9 +4,10 @@ create extension if not exists "pgcrypto";
 
 create table if not exists public.users (
   id uuid primary key default gen_random_uuid(),
+  firebase_uid text unique,
   email text unique not null,
   plan text not null default 'free' check (plan in ('free', 'paid')),
-  api_key text not null,
+  api_key text,
   created_at timestamptz not null default now()
 );
 

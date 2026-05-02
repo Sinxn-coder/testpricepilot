@@ -7,22 +7,33 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "frontend:dev": "vite --config client/vite.config.js",
+    "frontend:build": "vite build --config client/vite.config.js",
+    "frontend:preview": "vite preview --config client/vite.config.js",
     "gen:key": "node -e \"const { randomBytes } = require('crypto'); console.log('pp_live_' + randomBytes(24).toString('hex'));\""
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
+    "@firebase/app": "^0.14.11",
+    "@firebase/auth": "^1.13.0",
     "@supabase/supabase-js": "^2.57.4",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "firebase": "^12.12.1",
+    "firebase-admin": "^13.8.0",
     "helmet": "^8.1.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
     "nodemon": "^3.1.10",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "three": "^0.134.0",
     "topojson-client": "^3.1.0",
+    "vite": "^8.0.10",
     "world-atlas": "^2.0.2"
   }
 }

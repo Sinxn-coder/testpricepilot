@@ -17,6 +17,15 @@ function getMonthWindow() {
 async function rateLimitMiddleware(req, res, next) {
   try {
     const user = req.authUser;
+    if (!user || !user.id) {
+      req.rateLimit = {
+        plan: "free",
+        limit: PLAN_LIMITS.free,
+        used: 0
+      };
+      return next();
+    }
+
     const plan = user.plan || "free";
     const requestLimit = PLAN_LIMITS[plan] ?? PLAN_LIMITS.free;
     const { start, end } = getMonthWindow();

@@ -12,7 +12,7 @@ async function usageMiddleware(req, res, next) {
 
   try {
     const user = req.authUser;
-    if (!user) return; // Only log authenticated requests
+    if (!user || !user.id) return; // Only log authenticated requests linked to a DB user
 
     const supabase = getSupabaseClient();
     

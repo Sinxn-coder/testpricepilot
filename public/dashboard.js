@@ -15,6 +15,35 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
   ? ''
   : 'https://testpricepilot.onrender.com'; // TODO: User should replace this if different
 
+const FIREBASE_ID_TOKEN_KEY = "pricepilot.firebaseIdToken";
+
+function getFirebaseIdToken() {
+  try {
+    return localStorage.getItem(FIREBASE_ID_TOKEN_KEY);
+  } catch (_) {
+    return null;
+  }
+}
+
+function createApiHeaders() {
+  const token = getFirebaseIdToken();
+  const headers = { "Content-Type": "application/json" };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  return { headers, token };
+}
+
+function missingFirebaseTokenResponse() {
+  return {
+    ok: false,
+    status: 401,
+    data: { error: "Firebase ID token is missing. Log in again to continue." }
+  };
+}
+
 const pageTitle = document.getElementById("page-title");
 
 const pageSubtitle = document.getElementById("page-subtitle");
@@ -135,18 +164,9 @@ if (apiDesktop && apiMobile) {
 
 
 async function callApi(method, path, body) {
-  const key = apiDesktop ? apiDesktop.value.trim() : "";
-  const headers = { "Content-Type": "application/json" };
+  const { headers, token } = createApiHeaders();
 
-  if (!key) {
-    return {
-      ok: false,
-      status: 401,
-      data: { error: "API key is missing. Enter it in the top bar or mobile key panel." }
-    };
-  }
-
-  headers.Authorization = `Bearer ${key}`;
+  if (!token) return missingFirebaseTokenResponse();
 
   const opts = { method, headers };
   if (body) opts.body = JSON.stringify(body);
@@ -169,7 +189,7 @@ function getSnippet(lang, method, path, body) {
 
   if (lang === "curl") {
     return `<span class="sh-keyword">curl</span> -X <span class="sh-string">${method}</span> <span class="sh-string">"${fullUrl}"</span> \\
-  -H <span class="sh-string">"Authorization: Bearer YOUR_API_KEY"</span> \\
+  -H <span class="sh-string">"Authorization: Bearer YOUR_FIREBASE_ID_TOKEN"</span> \\
   -H <span class="sh-string">"Content-Type: application/json"</span> \\
   -d <span class="sh-string">'${JSON.stringify(body)}'</span>`;
   }
@@ -178,7 +198,7 @@ function getSnippet(lang, method, path, body) {
     return `<span class="sh-keyword">const</span> <span class="sh-param">response</span> = <span class="sh-keyword">await</span> <span class="sh-function">fetch</span>(<span class="sh-string">"${fullUrl}"</span>, {
   <span class="sh-param">method</span>: <span class="sh-string">"${method}"</span>,
   <span class="sh-param">headers</span>: {
-    <span class="sh-string">"Authorization"</span>: <span class="sh-string">"Bearer YOUR_API_KEY"</span>,
+    <span class="sh-string">"Authorization"</span>: <span class="sh-string">"Bearer YOUR_FIREBASE_ID_TOKEN"</span>,
     <span class="sh-string">"Content-Type"</span>: <span class="sh-string">"application/json"</span>
   },
   <span class="sh-param">body</span>: <span class="sh-function">JSON.stringify</span>(${jsonBody})
@@ -192,7 +212,7 @@ function getSnippet(lang, method, path, body) {
 
 <span class="sh-param">url</span> = <span class="sh-string">"${fullUrl}"</span>
 <span class="sh-param">headers</span> = {
-    <span class="sh-string">"Authorization"</span>: <span class="sh-string">"Bearer YOUR_API_KEY"</span>,
+    <span class="sh-string">"Authorization"</span>: <span class="sh-string">"Bearer YOUR_FIREBASE_ID_TOKEN"</span>,
     <span class="sh-string">"Content-Type"</span>: <span class="sh-string">"application/json"</span>
 }
 <span class="sh-param">data</span> = ${JSON.stringify(body, null, 4).replace(/true/g, "True").replace(/false/g, "False")}
@@ -251,20 +271,6 @@ function setupPlayground() {
   updatePlaygroundSnippets();
 }
 
-
-
-async function callApiNoAuth(method, path, body) {
-  const opts = { method, headers: { "Content-Type": "application/json" } };
-  if (body) opts.body = JSON.stringify(body);
-
-  try {
-    const res = await fetch(`${API_BASE_URL}${path}`, opts);
-    const data = await res.json().catch(() => ({ error: "Invalid server response" }));
-    return { ok: res.ok, data };
-  } catch (err) {
-    return { ok: false, data: { error: err.message } };
-  }
-}
 
 
 function highlightJson(json) {
@@ -513,7 +519,7 @@ if (recoverLink) {
     recoverLink.textContent = "Processing...";
     recoverLink.style.pointerEvents = "none";
 
-    const response = await callApiNoAuth("POST", "/auth/recover", { email });
+    const response = await callApi("POST", "/auth/recover", { email });
 
     recoverLink.textContent = "Recover it via email";
     recoverLink.style.pointerEvents = "auto";
@@ -561,7 +567,7 @@ if (signupBtn) {
 
     if (errorAlert) errorAlert.classList.add("hidden");
 
-    const response = await callApiNoAuth("POST", "/auth/signup", { email });
+    const response = await callApi("POST", "/auth/signup", { email });
 
     signupBtn.disabled = false;
     signupBtn.innerHTML = '<i data-lucide="zap"></i><span>Generate New API Key</span>';
