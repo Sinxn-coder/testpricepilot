@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AuthPage from "./AuthPage.jsx";
-import { appPath, currentRoute } from "./paths.js";
+import { appHashPath, appPath, currentRoute } from "./paths.js";
 
 const icon = (name, style = {}) => <i data-lucide={name} style={style} />;
 
@@ -10,7 +10,7 @@ const pricingPlans = [
     price: "Free",
     text: "Perfect for testing the waters.",
     cta: "Get Started Free",
-    href: appPath("auth"),
+    href: appHashPath("auth"),
     features: ["10,000 requests / month", "Basic optimization", "Limited dashboard", "Branding included"],
   },
   {
@@ -19,7 +19,7 @@ const pricingPlans = [
     suffix: "/mo",
     text: "Perfect for growing projects.",
     cta: "Go Starter",
-    href: appPath("auth"),
+    href: appHashPath("auth"),
     features: ["150,000 requests / month", "Fast API access", "Remove branding", "Basic analytics", "Email support"],
   },
   {
@@ -38,7 +38,7 @@ const pricingPlans = [
     suffix: "/mo",
     text: "Scale globally with zero limits.",
     cta: "Get Pro",
-    href: appPath("auth"),
+    href: appHashPath("auth"),
     features: ["Unlimited requests*", "Custom pricing rules", "Advanced A/B testing", "Region-based control", "Priority support & SLA"],
   },
 ];
@@ -58,8 +58,8 @@ const mobileLinks = [
   ["About Us", appPath("about.html")],
   ["Contact Us", appPath("contact.html")],
   ["Features", "#features"],
-  ["My Account", appPath("auth")],
-  ["Get Started for Free", appPath("auth")],
+  ["My Account", appHashPath("auth")],
+  ["Get Started for Free", appHashPath("auth")],
 ];
 
 function useLandingEffects() {
@@ -114,8 +114,8 @@ function Header() {
           </a>
           <nav className="nav-desktop">
             <a href="#features" className="nav-link">Features</a>
-            <a href={appPath("auth")} className="nav-link" style={{ fontSize: "0.9rem" }}>My Account</a>
-            <a href={appPath("auth")} className="btn btn-outline" style={{ padding: "8px 16px", fontSize: "0.85rem" }}>Get Started for Free</a>
+            <a href={appHashPath("auth")} className="nav-link" style={{ fontSize: "0.9rem" }}>My Account</a>
+            <a href={appHashPath("auth")} className="btn btn-outline" style={{ padding: "8px 16px", fontSize: "0.85rem" }}>Get Started for Free</a>
           </nav>
           <button className="menu-btn" id="menu-btn" onClick={() => setOpen(value => !value)} aria-label="Toggle menu">
             {icon(open ? "x" : "menu")}
@@ -146,7 +146,7 @@ function Hero() {
         <h1 className="gradient-text">Global Pricing,<br />Optimized in Real Time</h1>
         <p>Automatically optimize how your prices appear to customers in each region using proven pricing patterns that increase conversions.</p>
         <div className="hero-btns" style={{ marginBottom: 24, display: "flex", justifyContent: "center", gap: 16 }}>
-          <a href={appPath("auth")} className="btn btn-primary">Start Increasing Conversions {icon("arrow-right", { width: 16, marginLeft: 8 })}</a>
+          <a href={appHashPath("auth")} className="btn btn-primary">Start Increasing Conversions {icon("arrow-right", { width: 16, marginLeft: 8 })}</a>
           <a href="#how-it-works" className="btn btn-outline" style={{ border: "1px solid var(--border)", background: "rgba(255, 255, 255, 0.05)", backdropFilter: "blur(10px)" }}>How it Works</a>
         </div>
         <div className="trust-line" style={{ color: "var(--text-muted)", fontSize: "0.9rem", display: "flex", justifyContent: "center", alignItems: "center", gap: 8 }}>
@@ -653,7 +653,7 @@ function HomePage() {
           <div className="container" style={{ textAlign: "center" }}>
             <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.5rem)", marginBottom: 24 }}>Stop losing conversions to ugly pricing</h2>
             <p style={{ color: "var(--text-muted)", fontSize: "1.2rem", maxWidth: 600, margin: "0 auto 48px" }}>Your customers notice pricing more than you think.<br />Fix it automatically with PricePilot.</p>
-            <a href={appPath("auth")} className="btn btn-primary" style={{ padding: "18px 40px", fontSize: "1.1rem" }}>Get Started for Free</a>
+            <a href={appHashPath("auth")} className="btn btn-primary" style={{ padding: "18px 40px", fontSize: "1.1rem" }}>Get Started for Free</a>
           </div>
         </section>
       </main>

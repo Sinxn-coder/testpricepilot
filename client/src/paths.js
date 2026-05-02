@@ -11,7 +11,17 @@ export function appPath(path = "") {
   return `${base}${cleanPath}`;
 }
 
+export function appHashPath(route = "") {
+  const base = APP_BASE.endsWith("/") ? APP_BASE : `${APP_BASE}/`;
+  const cleanRoute = route.replace(/^#?\//, "");
+  return `${base}#/${cleanRoute}`;
+}
+
 export function currentRoute() {
+  if (window.location.hash.startsWith("#/")) {
+    return `/${window.location.hash.slice(2)}`;
+  }
+
   const basePath = new URL(APP_BASE, window.location.origin).pathname;
   let path = window.location.pathname;
 

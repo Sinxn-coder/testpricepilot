@@ -16,7 +16,7 @@ module.exports = defineConfig({
         server.middlewares.use((req, res, next) => {
           if (req.url === "/index.html" || req.url === "/auth.html") {
             res.statusCode = 302;
-            res.setHeader("Location", req.url === "/auth.html" ? "/auth" : "/");
+            res.setHeader("Location", req.url === "/auth.html" ? "/#/auth" : "/");
             res.end();
             return;
           }
