@@ -579,18 +579,28 @@ function DeveloperHub() {
         </div>
         <div className="code-block rotated">
           <p style={{ marginBottom: 12, fontSize: "0.8rem", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>// Start optimizing prices with just a few lines of code.</p>
-          <pre>{`async function getOptimizedPrice(base, country) {
-  const res = await fetch('/calculate-price', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer YOUR_FIREBASE_ID_TOKEN',
-      'Content-Type': 'application/json'
+          <pre>
+<span className="code-comment">// Professional SaaS Integration Example</span>{`
+`}<span className="code-keyword">async function</span>{` `}<span className="code-keyword">getOptimizedPrice</span>{`(base, country) {
+  `}<span className="code-keyword">const</span>{` res = `}<span className="code-keyword">await</span>{` fetch(`}<span className="code-string">'/calculate-price'</span>{`, {
+    method: `}<span className="code-string">'POST'</span>{`,
+    headers: { 
+      `}<span className="code-string">'Authorization'</span>{`: `}<span className="code-string">'Bearer YOUR_API_KEY'</span>{`,
+      `}<span className="code-string">'Content-Type'</span>{`: `}<span className="code-string">'application/json'</span>{`
     },
-    body: JSON.stringify({ base_price: base, country })
+    body: JSON.stringify({
+      base_price: base,
+      country: country,
+      currency: `}<span className="code-string">'USD'</span>{`,
+      min_margin: `}<span className="code-num">0.2</span>{`
+    })
   });
 
-  return await res.json();
-}`}</pre>
+  `}<span className="code-keyword">return await</span>{` res.json();
+}
+
+`}<span className="code-comment">// Output: {`{ optimized_final_price: 10.99, ... }`}</span>
+          </pre>
         </div>
       </div>
     </section>
