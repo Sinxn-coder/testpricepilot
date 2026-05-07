@@ -673,7 +673,21 @@ function HomePage() {
 }
 
 export default function App() {
-  const path = currentRoute();
+  const [path, setPath] = useState(currentRoute());
+
+  useEffect(() => {
+    const handleRouteUpdate = () => {
+      setPath(currentRoute());
+    };
+
+    window.addEventListener("popstate", handleRouteUpdate);
+    window.addEventListener("hashchange", handleRouteUpdate);
+
+    return () => {
+      window.removeEventListener("popstate", handleRouteUpdate);
+      window.removeEventListener("hashchange", handleRouteUpdate);
+    };
+  }, []);
 
   if (path === "/auth" || path === "/auth.html") {
     return <AuthPage />;

@@ -283,6 +283,24 @@
   font-size: 0.9rem;
 }
 
+.resend-btn {
+  display: block;
+  margin: 12px auto 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.resend-btn:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
 @media (max-width: 1024px) {
   .auth-aside {
     display: none;

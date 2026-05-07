@@ -5,9 +5,11 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   updateProfile,
+  sendEmailVerification,
+  signOut
 } from "@firebase/auth";
 import { auth, googleProvider } from "./firebase";
-import { storeAuthSession } from "./authToken";
+import { storeAuthSession, clearAuthSession } from "./authToken";
 import { appPath } from "./paths.js";
 import "./auth.css";
 
@@ -36,7 +38,10 @@ export default function AuthPage() {
     window.lucide?.createIcons();
 
     return onAuthStateChanged(auth, async user => {
-      if (!user) return;
+      if (!user) {
+        clearAuthSession();
+        return;
+      }
       const token = await user.getIdToken();
       storeAuthSession(user, token);
     });
@@ -66,9 +71,19 @@ export default function AuthPage() {
         if (name.trim()) {
           await updateProfile(result.user, { displayName: name.trim() });
         }
-        await finishAuth("plans.html?new_user=true");
+        await sendEmailVerification(result.user);
+        await signOut(auth);
+        setStatus("Account created! Please check your email to verify.");
+        setEmail("");
+        setPassword("");
+        setMode("login");
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        if (!result.user.emailVerified) {
+          await signOut(auth);
+          setError("Please verify your email address before logging in.");
+          return;
+        }
         await finishAuth("preview.html");
       }
     } catch (authError) {
@@ -155,6 +170,30 @@ export default function AuthPage() {
               <span>{loading ? "Please wait..." : isSignup ? "Create Account" : "Log In"}</span>
               {icon("arrow-right", { width: 20, marginLeft: 8 })}
             </button>
+
+            {error === "Please verify your email address before logging in." && !isSignup && (
+              <button 
+                type="button" 
+                className="btn btn-link resend-btn" 
+                onClick={async () => {
+                  try {
+                    setLoading(true);
+                    // To resend, we need to sign in again to get the user object
+                    const result = await signInWithEmailAndPassword(auth, email, password);
+                    await sendEmailVerification(result.user);
+                    await signOut(auth);
+                    setStatus("Verification email resent! Please check your inbox.");
+                    setError("");
+                  } catch (err) {
+                    setError("Failed to resend email: " + err.message);
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+              >
+                Resend verification email?
+              </button>
+            )}
           </form>
 
           <div className="auth-divider">
