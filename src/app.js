@@ -61,13 +61,7 @@ app.use(loggerMiddleware);
 app.get("/config.js", (req, res) => {
   res.type("application/javascript");
   const firebaseConfig = {
-    apiKey: "AIzaSyA-PbcvN6FJ8rQ0UlmD4TxowvywfMGNWUI",
-    authDomain: "pricepilot-project.firebaseapp.com",
-    projectId: "pricepilot-project",
-    storageBucket: "pricepilot-project.firebasestorage.app",
-    messagingSenderId: "984013274648",
-    appId: "1:984013274648:web:ddeb93f41baff6b115cd6d",
-  };
+  const firebaseConfig = env.firebaseClientConfig;
   res.send(`
     window.API_BASE_URL = "${env.apiBaseUrl || ''}";
     window.FIREBASE_CONFIG = ${JSON.stringify(firebaseConfig)};
