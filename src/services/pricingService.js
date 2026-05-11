@@ -1,84 +1,96 @@
+const env = require("../config/env");
+
 function roundTo2(value) {
-  return Number(value.toFixed(2));
+  return Number(Number(value).toFixed(2));
 }
 
-function roundToPsych99(value) {
-  const ceil = Math.ceil(value);
-  return roundTo2(Math.max(0.99, ceil - 0.01));
-}
-
-function roundForIndia(value) {
-  if (value < 1000) {
-    return Math.round(value / 100) * 100 - 1;
-  }
-  return Math.round(value / 500) * 500 - 1;
-}
-
-function roundForUs(value) {
-  const floor = Math.floor(value);
-  const cents = floor % 2 === 0 ? 0.99 : 0.95;
-  return roundTo2(Math.max(0.99, floor + cents));
-}
-
-function getCountryMultiplier(countryCode) {
-  // Disabling regional discounts as requested
-  return 1;
-}
-
-
-function getSourceMultiplier(source) {
-  // Disabling source discounts as requested
-  return 1;
-}
-
-
-function roundToPsych(value, style = 0.99) {
-  const ceil = Math.ceil(value);
-  return roundTo2(Math.max(style, ceil - (1 - style)));
-}
-
-function applyFinalRounding(amount, country, plan = "free") {
+/**
+ * Local Fallback Logic (Legacy)
+ * Used if the pricing engine is unavailable or times out.
+ */
+function localOptimizeFallback({ basePrice, plan = "free" }) {
   const normalizedPlan = String(plan || "").toLowerCase();
   const PAID_PLANS = ["starter", "growth", "pro", "enterprise"];
 
-  // 1. PAID PLANS (Starter/Growth/Pro): .50 / .99 split threshold
+  let finalPrice;
   if (PAID_PLANS.includes(normalizedPlan)) {
-    const floor = Math.floor(amount);
-    const decimal = amount - floor;
-
-    // Rule: Above .50 -> .99, At or Below .50 -> .50
-    if (decimal > 0.50) {
-      return roundTo2(floor + 0.99);
-    } else {
-      return roundTo2(floor + 0.50);
-    }
+    const floor = Math.floor(basePrice);
+    const decimal = basePrice - floor;
+    finalPrice = decimal > 0.50 ? (floor + 0.99) : (floor + 0.50);
+  } else {
+    const ceil = Math.ceil(basePrice);
+    finalPrice = Math.max(0.99, ceil - 0.01);
   }
 
-  // 2. DEFAULT / FREE PLAN: Always round UP to the next .99 threshold
-  // This is the fallback for un-paid/free/missing tiers.
-  const ceil = Math.ceil(amount);
-  return roundTo2(Math.max(0.99, ceil - 0.01));
-}
-
-
-
-
-function optimizePrice({ basePrice, country, source, plan }) {
-  const countryMultiplier = getCountryMultiplier(country);
-  const sourceMultiplier = getSourceMultiplier(source);
-
-  const afterCountry = basePrice * countryMultiplier;
-  const afterSource = afterCountry * sourceMultiplier;
-  const finalPrice = applyFinalRounding(afterSource, country, plan);
-
   return {
-    finalPrice,
+    finalPrice: roundTo2(finalPrice),
     originalPrice: roundTo2(basePrice),
     adjustments: {
-      country_adjustment: roundTo2(afterCountry - basePrice),
-      source_adjustment: roundTo2(afterSource - afterCountry)
-    }
+      country_adjustment: 0,
+      source_adjustment: roundTo2(finalPrice - basePrice)
+    },
+    engine: "local_fallback"
   };
+}
+
+/**
+ * Calls the engine-main Pricing Engine
+ */
+async function optimizePrice({ basePrice, country, currency, source, plan }) {
+  if (!env.pricingEngineUrl) {
+    return localOptimizeFallback({ basePrice, plan });
+  }
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), env.pricingEngineTimeoutMs);
+
+  try {
+    const response = await fetch(`${env.pricingEngineUrl}/v1/optimize-price`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": env.pricingEngineApiKey || "",
+      },
+      body: JSON.stringify({
+        after_tax_price: basePrice,
+        country: country,
+        currency: currency || "USD",
+        segment: source || "web_v1",
+        metadata: { plan }
+      }),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      console.warn(`Pricing Engine returned ${response.status}. Falling back to local logic.`);
+      return localOptimizeFallback({ basePrice, plan });
+    }
+
+    const data = await response.json();
+    
+    // Map engine response back to SaaS expected format
+    return {
+      finalPrice: roundTo2(data.optimized_price || data.after_tax_price),
+      originalPrice: roundTo2(data.after_tax_price || basePrice),
+      adjustments: {
+        country_adjustment: 0, // Engine doesn't return breakout yet
+        source_adjustment: roundTo2((data.optimized_price || basePrice) - basePrice)
+      },
+      engine: "engine-main",
+      strategy: data.strategy
+    };
+
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === "AbortError") {
+      console.error(`Pricing Engine timed out after ${env.pricingEngineTimeoutMs}ms`);
+    } else {
+      console.error("Pricing Engine error:", err.message);
+    }
+    return localOptimizeFallback({ basePrice, plan });
+  }
 }
 
 module.exports = {

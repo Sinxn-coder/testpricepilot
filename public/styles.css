@@ -555,8 +555,8 @@ footer {
 
 /* --- Mobile Responsiveness --- */
 @media (max-width: 992px) {
-  .nav-desktop { display: none; }
-  .menu-btn { display: block; }
+  .nav-desktop { display: none !important; }
+  .menu-btn { display: block !important; }
   
   .dev-hub-grid {
     grid-template-columns: 1fr;

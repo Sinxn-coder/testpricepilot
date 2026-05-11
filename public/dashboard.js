@@ -1,5 +1,17 @@
-let analyticsChart;
+// --- FIREBASE INITIALIZATION ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+const firebaseConfig = window.FIREBASE_CONFIG;
+if (!firebaseConfig) {
+  console.error("Firebase config not found! Ensure config.js is loaded.");
+}
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const FIREBASE_ID_TOKEN_KEY = "pricepilot.firebaseIdToken";
+
+let analyticsChart;
 const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("sidebar-overlay");
 const menuToggle = document.getElementById("menu-toggle");
@@ -10,12 +22,22 @@ const apiDesktop = document.getElementById("apiKey");
 const apiMobile = document.getElementById("api-key-mobile");
 
 // --- API CONFIGURATION ---
-// IMPORTANT: Replace this with your actual Render URL (e.g., https://your-app.onrender.com)
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? ''
-  : 'https://testpricepilot.onrender.com'; // TODO: User should replace this if different
+const API_BASE_URL = window.API_BASE_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8080' : 'https://testpricepilot.onrender.com');
 
-const FIREBASE_ID_TOKEN_KEY = "pricepilot.firebaseIdToken";
+// Auth state listener to keep token fresh
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const idToken = await user.getIdToken();
+    localStorage.setItem(FIREBASE_ID_TOKEN_KEY, idToken);
+    console.log("[Auth] Session active");
+  } else {
+    console.log("[Auth] No session found");
+    // Optionally redirect to login if we're on a protected page
+    if (window.location.pathname.includes('preview.html')) {
+       // window.location.href = 'auth.html'; 
+    }
+  }
+});
 
 function getFirebaseIdToken() {
   try {
@@ -725,6 +747,20 @@ document.addEventListener("DOMContentLoaded", () => {
   setupPlayground();
   initializePanelFromHash();
   refreshIcons();
+
+  const logoutBtn = document.getElementById("logout-btn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        localStorage.removeItem(FIREBASE_ID_TOKEN_KEY);
+        localStorage.removeItem("pricepilot.apiKey");
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error("Logout failed:", err);
+      }
+    });
+  }
 });
 
 window.addEventListener("hashchange", initializePanelFromHash);

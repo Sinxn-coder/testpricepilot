@@ -10,6 +10,7 @@ const firebaseAuthMiddleware = require("./middleware/firebaseAuthMiddleware");
 const loggerMiddleware = require("./middleware/loggerMiddleware");
 const loadManager = require("./utils/loadManager");
 const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
+const env = require("./config/env");
 
 const app = express();
 
@@ -22,12 +23,11 @@ app.use((req, res, next) => {
 
 // --- Connectivity & Security Configuration ---
 
-// Enable CORS for frontend on GitHub Pages
-const allowedOrigin = "https://sinxn-coder.github.io";
+// Enable Dynamic CORS
+const allowedOrigins = env.corsAllowedOrigins.split(",").map(o => o.trim());
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow local development and specific GitHub Pages domain
-    if (!origin || origin.startsWith(allowedOrigin) || origin.includes("localhost") || origin.includes("127.0.0.1")) {
+    if (!origin || allowedOrigins.includes(origin) || origin.includes("localhost") || origin.includes("127.0.0.1")) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -41,10 +41,14 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        "script-src": ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
-        "script-src-elem": ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
-        "img-src": ["'self'", "data:", "https://*"],
-        "connect-src": ["'self'", "https://formspree.io", "https://unpkg.com", "https://*.supabase.co", "https://*.onrender.com", "https://cdn.jsdelivr.net"],
+        "default-src": ["'self'", "https://*.firebaseio.com", "https://*.googleapis.com"],
+        "script-src": ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "https://www.gstatic.com", "https://*.firebaseapp.com", "'unsafe-inline'"],
+        "script-src-elem": ["'self'", "https://unpkg.com", "https://cdn.jsdelivr.net", "https://www.gstatic.com", "https://*.firebaseapp.com", "'unsafe-inline'"],
+        "img-src": ["'self'", "data:", "https://*", "blob:"],
+        "connect-src": ["'self'", "https://formspree.io", "https://unpkg.com", "https://*.supabase.co", "https://*.onrender.com", "https://cdn.jsdelivr.net", "https://*.googleapis.com", "https://*.firebaseio.com", "https://*.firebaseauth.com"],
+        "frame-src": ["'self'", "https://*.firebaseapp.com", "https://*.firebaseauth.com"],
+        "style-src": ["'self'", "https://fonts.googleapis.com", "https://cdn.jsdelivr.net", "'unsafe-inline'"],
+        "font-src": ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net"],
       },
     },
   })
@@ -52,6 +56,25 @@ app.use(
 
 app.use(express.json({ limit: "100kb" }));
 app.use(loggerMiddleware);
+
+// Serve Dynamic Config for Frontend
+app.get("/config.js", (req, res) => {
+  res.type("application/javascript");
+  const firebaseConfig = {
+    apiKey: "AIzaSyA-PbcvN6FJ8rQ0UlmD4TxowvywfMGNWUI",
+    authDomain: "pricepilot-project.firebaseapp.com",
+    projectId: "pricepilot-project",
+    storageBucket: "pricepilot-project.firebasestorage.app",
+    messagingSenderId: "984013274648",
+    appId: "1:984013274648:web:ddeb93f41baff6b115cd6d",
+  };
+  res.send(`
+    window.API_BASE_URL = "${env.apiBaseUrl || ''}";
+    window.FIREBASE_CONFIG = ${JSON.stringify(firebaseConfig)};
+  `);
+});
+
+// Ensure /js/pricepilot.js and others are served before catch-all routes
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("/health", (req, res) => {
@@ -69,8 +92,16 @@ app.get("/terms", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/terms.html"));
 });
 
-app.get("/preview", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/preview.html"));
+app.get("/auth", (req, res) => res.sendFile(path.join(__dirname, "../public/auth.html")));
+app.get("/contact", (req, res) => res.sendFile(path.join(__dirname, "../public/contact.html")));
+app.get("/about", (req, res) => res.sendFile(path.join(__dirname, "../public/about.html")));
+app.get("/plans", (req, res) => res.sendFile(path.join(__dirname, "../public/plans.html")));
+app.get("/privacy", (req, res) => res.sendFile(path.join(__dirname, "../public/privacy.html")));
+app.get("/terms", (req, res) => res.sendFile(path.join(__dirname, "../public/terms.html")));
+app.get("/preview", (req, res) => res.sendFile(path.join(__dirname, "../public/preview.html")));
+
+app.get("/auth.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/auth.html"));
 });
 
 app.get("/protected-test", firebaseAuthMiddleware, (req, res) => {
@@ -79,8 +110,17 @@ app.get("/protected-test", firebaseAuthMiddleware, (req, res) => {
 
 app.use("/auth", authRoutes);
 app.use("/analytics", analyticsRoutes);
-app.use("/v1", pricingRoutes);
-app.use("/", pricingRoutes);
+app.use("/api/v1", pricingRoutes);
+app.use("/api", pricingRoutes);
+
+// Catch-all for API endpoints under root (must be after all static and specific routes)
+// Removing app.use("/", pricingRoutes) to prevent interference with static files.
+// Use explicit routes for root if needed.
+app.post("/calculate-price", pricingRoutes);
+app.get("/tax-rates", pricingRoutes);
+app.post("/optimize-price", pricingRoutes);
+app.post("/track-conversion", pricingRoutes);
+
 app.use(notFoundHandler);
 app.use(errorHandler);
 

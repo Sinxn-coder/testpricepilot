@@ -1,14 +1,15 @@
 const { getFirebaseAuth } = require("../config/firebaseAdmin");
 const { getSupabaseClient } = require("../config/supabase");
 
+// Simple short-lived cache to reduce DB load for repeat requests
+// Key: firebaseUid, Value: { authUser, expiresAt }
+const userCache = new Map();
+const CACHE_TTL = 60 * 1000; // 60 seconds
+const MAX_CACHE_SIZE = 1000;
+
 function extractBearerToken(authorizationHeader = "") {
   const [scheme, token] = authorizationHeader.split(" ");
-
-  if (scheme !== "Bearer" || !token) {
-    return null;
-  }
-
-  return token;
+  return (scheme === "Bearer" && token) ? token : null;
 }
 
 async function resolveAuthUser(decodedToken) {
@@ -21,90 +22,82 @@ async function resolveAuthUser(decodedToken) {
     throw error;
   }
 
-  const supabase = getSupabaseClient();
-  const userColumns = "id, firebase_uid, email, plan, created_at";
+  // 1. Check Cache First
+  const cached = userCache.get(firebaseUid);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.authUser;
+  }
 
-  const { data: firebaseUser, error: firebaseLookupError } = await supabase
+  const supabase = getSupabaseClient();
+  const userColumns = "id, firebase_uid, email, plan, is_blocked, block_reason, created_at";
+
+  // 2. Optimized Lookup: Try UID first
+  let { data: user, error: lookupError } = await supabase
     .from("users")
     .select(userColumns)
     .eq("firebase_uid", firebaseUid)
     .maybeSingle();
 
-  if (firebaseLookupError) {
-    throw firebaseLookupError;
-  }
+  if (lookupError) throw lookupError;
 
-  if (firebaseUser) {
-    return {
-      id: firebaseUser.id,
-      firebaseUid: firebaseUser.firebase_uid,
-      email: firebaseUser.email,
-      plan: firebaseUser.plan || "free",
-      createdAt: firebaseUser.created_at,
-      record: firebaseUser
-    };
-  }
-
-  const { data: emailUser, error: emailLookupError } = await supabase
-    .from("users")
-    .select(userColumns)
-    .eq("email", email)
-    .maybeSingle();
-
-  if (emailLookupError) {
-    throw emailLookupError;
-  }
-
-  if (emailUser) {
-    if (emailUser.firebase_uid && emailUser.firebase_uid !== firebaseUid) {
-      const error = new Error("Email is already linked to a different Firebase user");
-      error.statusCode = 401;
-      throw error;
-    }
-
-    const { data: linkedUser, error: linkError } = await supabase
+  // 3. Fallback to Email if UID not linked yet
+  if (!user) {
+    const { data: emailUser, error: emailErr } = await supabase
       .from("users")
-      .update({ firebase_uid: firebaseUid })
-      .eq("id", emailUser.id)
       .select(userColumns)
-      .single();
+      .eq("email", email)
+      .maybeSingle();
 
-    if (linkError) {
-      throw linkError;
+    if (emailErr) throw emailErr;
+
+    if (emailUser) {
+      // Link Firebase UID to existing email user
+      const { data: linkedUser, error: linkError } = await supabase
+        .from("users")
+        .update({ firebase_uid: firebaseUid })
+        .eq("id", emailUser.id)
+        .select(userColumns)
+        .single();
+      
+      if (linkError) throw linkError;
+      user = linkedUser;
+    } else {
+      // New user
+      const { data: newUser, error: insertError } = await supabase
+        .from("users")
+        .insert({ firebase_uid: firebaseUid, email, plan: "free" })
+        .select(userColumns)
+        .single();
+
+      if (insertError) throw insertError;
+      user = newUser;
     }
-
-    return {
-      id: linkedUser.id,
-      firebaseUid: linkedUser.firebase_uid,
-      email: linkedUser.email,
-      plan: linkedUser.plan || "free",
-      createdAt: linkedUser.created_at,
-      record: linkedUser
-    };
   }
 
-  const { data: newUser, error: insertError } = await supabase
-    .from("users")
-    .insert({
-      firebase_uid: firebaseUid,
-      email,
-      plan: "free"
-    })
-    .select(userColumns)
-    .single();
-
-  if (insertError) {
-    throw insertError;
+  // 4. Check if user is blocked
+  if (user.is_blocked) {
+    const error = new Error(user.block_reason || "Your account has been suspended for abuse.");
+    error.statusCode = 403;
+    throw error;
   }
 
-  return {
-    id: newUser.id,
-    firebaseUid: newUser.firebase_uid,
-    email: newUser.email,
-    plan: newUser.plan || "free",
-    createdAt: newUser.created_at,
-    record: newUser
+  const authUser = {
+    id: user.id,
+    firebaseUid: user.firebase_uid,
+    email: user.email,
+    plan: user.plan || "free",
+    createdAt: user.created_at,
+    record: user
   };
+
+  // 4. Update Cache (with basic size management)
+  if (userCache.size >= MAX_CACHE_SIZE) {
+    const firstKey = userCache.keys().next().value;
+    userCache.delete(firstKey);
+  }
+  userCache.set(firebaseUid, { authUser, expiresAt: Date.now() + CACHE_TTL });
+
+  return authUser;
 }
 
 async function firebaseAuthMiddleware(req, res, next) {
@@ -115,22 +108,17 @@ async function firebaseAuthMiddleware(req, res, next) {
   }
 
   try {
+    // Note: getFirebaseAuth().verifyIdToken(token) is already heavily cached by the SDK internally
     req.user = await getFirebaseAuth().verifyIdToken(token);
-  } catch (error) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
-  try {
     const authUser = await resolveAuthUser(req.user);
+    
     req.authUser = authUser;
     req.dbUser = authUser.record;
 
     return next();
   } catch (error) {
-    if (error.statusCode === 401) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-    return next(error);
+    const status = error.statusCode || 401;
+    return res.status(status).json({ error: "Unauthorized" });
   }
 }
 

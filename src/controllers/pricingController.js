@@ -6,22 +6,6 @@ const {
   validateTrackConversionPayload
 } = require("../utils/validation");
 
-async function writeUsageLog(req, endpoint, statusCode = 200) {
-  const supabase = getSupabaseClient();
-  const { error } = await supabase.from("usage_logs").insert({
-    user_id: req.authUser.id,
-    endpoint,
-    method: req.method,
-    status_code: statusCode,
-    request_count: 1,
-    ip_address: req.ip || req.headers["x-forwarded-for"] || "127.0.0.1",
-    user_agent: req.headers["user-agent"]
-  });
-  if (error) {
-    console.error("Usage log error:", error.message);
-  }
-}
-
 async function optimizePriceHandler(req, res, next) {
   try {
     const supabase = getSupabaseClient();
@@ -36,11 +20,13 @@ async function optimizePriceHandler(req, res, next) {
 
     const result =
       cached ||
-      optimizePrice({
+      (await optimizePrice({
         basePrice: base_price,
         country,
-        source
-      });
+        currency,
+        source,
+        plan: req.authUser?.plan || "free"
+      }));
 
     if (!cached) {
       setCachedResult(cacheKey, result);
@@ -61,8 +47,6 @@ async function optimizePriceHandler(req, res, next) {
     if (pricingError) {
       console.error("Pricing log error:", pricingError.message);
     }
-
-    await writeUsageLog(req, "/optimize-price");
 
     return res.status(200).json({
       final_price: result.finalPrice,
@@ -100,8 +84,6 @@ async function trackConversionHandler(req, res, next) {
     if (error) {
        console.error("Conversion log error:", error.message);
     }
-
-    await writeUsageLog(req, "/track-conversion", 201);
 
     return res.status(201).json({
       success: true,

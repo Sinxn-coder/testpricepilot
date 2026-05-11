@@ -49,11 +49,12 @@ async function calculatePriceHandler(req, res, next) {
     // 6. Apply TAX to the price-after-margin
     const { taxAmount, taxedPrice } = applyTax(preTaxPrice, taxRate);
 
-    // 7. Apply psychological pricing & tier logic
-    const { finalPrice: optimizedPrice } = optimizePrice({
+    // 7. Apply psychological pricing & tier logic via engine-main
+    const { finalPrice: optimizedPrice } = await optimizePrice({
       basePrice: taxedPrice,
       country: countryCode,
-      source: "api_v1",
+      currency: currencyCode,
+      source: "web_v1",
       plan: req.authUser?.plan || "free"
     });
 

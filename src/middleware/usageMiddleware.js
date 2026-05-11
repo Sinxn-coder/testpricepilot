@@ -24,6 +24,7 @@ async function usageMiddleware(req, res, next) {
       request_count: 1,
       ip_address: req.ip || req.headers["x-forwarded-for"] || req.socket.remoteAddress,
       user_agent: req.headers["user-agent"],
+      domain: req.detectedDomain || null,
       created_at: new Date().toISOString()
     };
 
