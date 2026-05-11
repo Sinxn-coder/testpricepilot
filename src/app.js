@@ -38,7 +38,6 @@ app.use(cors({
 
 app.use(
   helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
@@ -61,7 +60,6 @@ app.use(loggerMiddleware);
 // Serve Dynamic Config for Frontend
 app.get("/config.js", (req, res) => {
   res.type("application/javascript");
-  const firebaseConfig = {
   const firebaseConfig = env.firebaseClientConfig;
   res.send(`
     window.API_BASE_URL = "${env.apiBaseUrl || ''}";
@@ -79,14 +77,6 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-app.get("/privacy", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/privacy.html"));
-});
-
-app.get("/terms", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/terms.html"));
-});
-
 app.get("/auth", (req, res) => res.sendFile(path.join(__dirname, "../public/auth.html")));
 app.get("/contact", (req, res) => res.sendFile(path.join(__dirname, "../public/contact.html")));
 app.get("/about", (req, res) => res.sendFile(path.join(__dirname, "../public/about.html")));
@@ -94,10 +84,7 @@ app.get("/plans", (req, res) => res.sendFile(path.join(__dirname, "../public/pla
 app.get("/privacy", (req, res) => res.sendFile(path.join(__dirname, "../public/privacy.html")));
 app.get("/terms", (req, res) => res.sendFile(path.join(__dirname, "../public/terms.html")));
 app.get("/preview", (req, res) => res.sendFile(path.join(__dirname, "../public/preview.html")));
-
-app.get("/auth.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/auth.html"));
-});
+app.get("/auth.html", (req, res) => res.sendFile(path.join(__dirname, "../public/auth.html")));
 
 app.get("/protected-test", firebaseAuthMiddleware, (req, res) => {
   res.status(200).json({ user: req.user, dbUser: req.dbUser });
