@@ -118,11 +118,49 @@
     }, 200);
   }
 
+  /**
+   * Watches for DOM changes (like variant switching) and re-runs optimization.
+   */
+  function observePriceChanges() {
+    if (!window.MutationObserver) return;
+
+    const observer = new MutationObserver((mutations) => {
+      let shouldReRun = false;
+      for (const mutation of mutations) {
+        if (mutation.type === 'childList' || mutation.type === 'characterData') {
+          const target = mutation.target.parentElement || mutation.target;
+          // Skip if we already optimized this element recently
+          if (target.hasAttribute && target.hasAttribute('data-pp-optimized')) continue;
+          
+          if (target.innerText && (target.innerText.includes('$') || target.innerText.includes('£') || target.innerText.includes('€'))) {
+            shouldReRun = true;
+            break;
+          }
+        }
+      }
+
+      if (shouldReRun) {
+        clearTimeout(window.pp_debounce);
+        window.pp_debounce = setTimeout(init, 500);
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+  }
+
   // Run on load
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', () => {
+      init();
+      observePriceChanges();
+    });
   } else {
     init();
+    observePriceChanges();
   }
 
 })();

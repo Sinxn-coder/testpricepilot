@@ -38,6 +38,9 @@ async function optimizePriceHandler(req, res, next) {
 
     if (!cached) {
       setCachedResult(cacheKey, result);
+      console.log(`[PricePilot] Optimized price for ${country} via engine: ${result.finalPrice}`);
+    } else {
+      console.log(`[PricePilot] Serving cached optimization for ${country}`);
     }
 
     const { error: pricingError } = await supabase.from("pricing_logs").insert({
