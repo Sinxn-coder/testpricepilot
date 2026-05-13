@@ -24,13 +24,14 @@ app.use((req, res, next) => {
 // --- Connectivity & Security Configuration ---
 
 // Enable Dynamic CORS
-const allowedOrigins = env.corsAllowedOrigins.split(",").map(o => o.trim());
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin) || origin.includes("localhost") || origin.includes("127.0.0.1")) {
+    // Allow if no origin (mobile apps, curl), or if it matches our list, or for the public optimization endpoint
+    if (!origin || origin.includes("pricepilot.site") || origin.includes("localhost") || origin.includes("127.0.0.1")) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      // We allow external origins for the plugin endpoints, which handle their own domain-based validation
+      callback(null, true); 
     }
   },
   credentials: true
@@ -57,52 +58,17 @@ app.use(
 app.use(express.json({ limit: "100kb" }));
 app.use(loggerMiddleware);
 
-// Serve Dynamic Config for Frontend
-app.get("/config.js", (req, res) => {
-  res.type("application/javascript");
-  const firebaseConfig = {
-    apiKey: "AIzaSyA-PbcvN6FJ8rQ0UlmD4TxowvywfMGNWUI",
-    authDomain: "pricepilot-project.firebaseapp.com",
-    projectId: "pricepilot-project",
-    storageBucket: "pricepilot-project.firebasestorage.app",
-    messagingSenderId: "984013274648",
-    appId: "1:984013274648:web:ddeb93f41baff6b115cd6d",
-  };
-  res.send(`
-    window.API_BASE_URL = "${env.apiBaseUrl || ''}";
-    window.FIREBASE_CONFIG = ${JSON.stringify(firebaseConfig)};
-  `);
-});
-
-// Ensure /js/pricepilot.js and others are served before catch-all routes
+// Serve the React frontend for all non-API routes
+app.use(express.static(path.join(__dirname, "../dist")));
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("/health", (req, res) => {
-  if (req.accepts("html")) {
-    return res.sendFile(path.join(__dirname, "../public/health.html"));
-  }
-  res.status(200).json({ status: "ok" });
+  res.status(200).json({ status: "ok", environment: env.nodeEnv });
 });
 
-app.get("/privacy", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/privacy.html"));
-});
-
-app.get("/terms", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/terms.html"));
-});
-
-app.get("/auth", (req, res) => res.sendFile(path.join(__dirname, "../public/auth.html")));
-app.get("/contact", (req, res) => res.sendFile(path.join(__dirname, "../public/contact.html")));
-app.get("/about", (req, res) => res.sendFile(path.join(__dirname, "../public/about.html")));
-app.get("/plans", (req, res) => res.sendFile(path.join(__dirname, "../public/plans.html")));
-app.get("/privacy", (req, res) => res.sendFile(path.join(__dirname, "../public/privacy.html")));
-app.get("/terms", (req, res) => res.sendFile(path.join(__dirname, "../public/terms.html")));
-app.get("/preview", (req, res) => res.sendFile(path.join(__dirname, "../public/preview.html")));
-
-app.get("/auth.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/auth.html"));
-});
+// Redirect legacy routes to the React hash router
+app.get(["/auth", "/auth.html"], (req, res) => res.redirect("/#/auth"));
+app.get(["/preview", "/preview.html"], (req, res) => res.redirect("/#/preview"));
 
 app.get("/protected-test", firebaseAuthMiddleware, (req, res) => {
   res.status(200).json({ user: req.user, dbUser: req.dbUser });

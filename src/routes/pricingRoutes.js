@@ -11,19 +11,18 @@ const priorityMiddleware = require("../middleware/priorityMiddleware");
 const rateLimitMiddleware = require("../middleware/rateLimitMiddleware");
 const domainAbuseMiddleware = require("../middleware/domainAbuseMiddleware");
 
+const authMiddleware = require("../middleware/authMiddleware");
+
 const router = express.Router();
 
-// router.use(firebaseAuthMiddleware); // Removed global auth to prevent interference with root-mounted routing
 router.use(domainAbuseMiddleware);
 
-// Existing endpoints (unchanged)
-router.post("/optimize-price", firebaseAuthMiddleware, usageMiddleware, priorityMiddleware, rateLimitMiddleware, optimizePriceHandler);
-router.post("/track-conversion", firebaseAuthMiddleware, usageMiddleware, priorityMiddleware, rateLimitMiddleware, trackConversionHandler);
+// --- Plugin Endpoints (Uses API Key) ---
+router.post("/optimize-price", authMiddleware, usageMiddleware, priorityMiddleware, rateLimitMiddleware, optimizePriceHandler);
+router.post("/track-conversion", authMiddleware, usageMiddleware, priorityMiddleware, rateLimitMiddleware, trackConversionHandler);
 
-// Spec-required: tax-aware pricing with margin protection
+// --- Dashboard Endpoints (Uses Firebase Auth) ---
 router.post("/calculate-price", firebaseAuthMiddleware, usageMiddleware, priorityMiddleware, rateLimitMiddleware, calculatePriceHandler);
-
-// List all supported country tax rates.
 router.get("/tax-rates", firebaseAuthMiddleware, taxRatesHandler);
 
 module.exports = router;

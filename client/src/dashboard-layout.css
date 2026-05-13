@@ -108,3 +108,25 @@
 .dashboard-root .stat-card .value.green {
   color: var(--green);
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .dashboard-root .sidebar {
+    width: 0;
+    min-width: 0;
+    transform: translateX(-100%);
+  }
+  .dashboard-root .sidebar.open {
+    width: var(--sidebar-w-expanded);
+    transform: translateX(0);
+  }
+  .dashboard-root .main {
+    margin-left: 0 !important;
+  }
+  .dashboard-root .content {
+    padding: 20px;
+  }
+  .dashboard-root .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
