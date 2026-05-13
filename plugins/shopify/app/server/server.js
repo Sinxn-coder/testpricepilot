@@ -43,9 +43,23 @@ app.get("/api/auth/callback", async (req, res) => {
     const { session } = callback;
     console.log(`App installed on: ${session.shop}`);
 
-    // --- Domain Auto-Registration ---
-    // Here we would call the PricePilot backend to register this shop domain
-    // fetch(`${process.env.API_BASE_URL}/api/register-shop`, { ... })
+    // --- Automatic Domain Registration in PricePilot Registry ---
+    try {
+      const { getSupabaseClient } = require("../../../../saas finance/src/config/supabase");
+      const supabase = getSupabaseClient();
+      
+      // Register the shop domain in our registry
+      await supabase.from("domain_registry").upsert({
+        domain: session.shop,
+        last_seen_at: new Date().toISOString(),
+        is_verified: true // Shopify OAuth acts as verification
+      });
+      
+      console.log(`Domain ${session.shop} registered successfully.`);
+    } catch (regErr) {
+      console.error("Failed to auto-register domain:", regErr.message);
+      // We don't block the install, but log the error
+    }
 
     const host = req.query.host;
     res.redirect(`/?shop=${session.shop}&host=${host}`);
