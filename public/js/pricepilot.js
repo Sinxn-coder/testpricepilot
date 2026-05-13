@@ -90,7 +90,8 @@
       body: JSON.stringify({
         base_price: basePrice,
         currency: currencySymbol || 'USD',
-        country: 'DETECT', // Backend can detect via IP if preferred
+        country: 'DETECT',
+        source: 'js_connector',
         shop_domain: window.location.hostname
       })
     });

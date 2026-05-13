@@ -14,8 +14,16 @@ async function optimizePriceHandler(req, res, next) {
       return res.status(400).json({ error: "Validation failed", details: errors });
     }
 
-    const { base_price, country, currency, source } = req.body;
-    const cacheKey = buildCacheKey(req.body);
+    let { base_price, country, currency, source } = req.body;
+    
+    // Handle 'DETECT' fallback (Real detection would use a GeoIP library)
+    if (country === 'DETECT') {
+      country = req.headers['x-vercel-ip-country'] || req.headers['x-forwarded-for-country'] || 'US';
+    }
+
+    if (!source) source = 'web_v1';
+
+    const cacheKey = buildCacheKey({ base_price, country, currency, source });
     const cached = getCachedResult(cacheKey);
 
     const result =

@@ -17,8 +17,8 @@ function validateOptimizePricePayload(payload) {
     errors.push("currency is required and must be a string");
   }
 
-  if (!payload.source || typeof payload.source !== "string") {
-    errors.push("source is required and must be a string");
+  if (payload.source && typeof payload.source !== "string") {
+    errors.push("source must be a string");
   }
 
   if (payload.user_id && typeof payload.user_id !== "string") {
@@ -39,8 +39,8 @@ function validateTrackConversionPayload(payload) {
     errors.push("converted must be a boolean");
   }
 
-  if (!payload.source || typeof payload.source !== "string") {
-    errors.push("source is required and must be a string");
+  if (payload.source && typeof payload.source !== "string") {
+    errors.push("source must be a string");
   }
 
   if (!payload.country || typeof payload.country !== "string") {
