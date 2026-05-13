@@ -68,9 +68,10 @@ async function domainAbuseMiddleware(req, res, next) {
       
       return res.status(403).json({
         error: "Domain ownership conflict",
-        message: "This domain is already registered to another PricePilot account. If you believe this is an error, please contact support.",
+        message: `This domain (${domain}) is already registered to another PricePilot account. If you believe this is an error, please contact support.`,
         code: "DOMAIN_OWNERSHIP_CONFLICT",
-        domain: domain
+        domain: domain,
+        suggested_action: "Ensure your request origin matches the domain registered in your dashboard."
       });
     }
 

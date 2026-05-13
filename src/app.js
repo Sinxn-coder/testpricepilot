@@ -77,6 +77,10 @@ app.get("/health", (req, res) => {
 app.get(["/auth", "/auth.html"], (req, res) => res.redirect("/#/auth"));
 app.get(["/preview", "/preview.html"], (req, res) => res.redirect("/#/preview"));
 
+app.get("/debug-sentry", (req, res) => {
+  throw new Error("Sentry Debug Error: PricePilot Operational Test");
+});
+
 app.get("/protected-test", firebaseAuthMiddleware, (req, res) => {
   res.status(200).json({ user: req.user, dbUser: req.dbUser });
 });

@@ -162,6 +162,34 @@ export default function Dashboard() {
           {activePanel === 'panel-pricing' && (
             <section className="panel">
               <div className="playground-wrapper">
+                <div className="status-overview-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '24px' }}>
+                  <div className="stat-card" style={{ border: '1px solid var(--border-strong)' }}>
+                    <div className="card-header" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <i data-lucide="shield-check" style={{ color: 'var(--green)' }}></i>
+                      <h3>System Connectivity</h3>
+                    </div>
+                    <div className="card-body">
+                      <div className="status-item" style={{ marginTop: '10px' }}>
+                        <span className="dot" style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: 'var(--green)', marginRight: '8px' }}></span>
+                        <span style={{ fontSize: '0.9rem' }}>API Engine: <b>Operational</b></span>
+                      </div>
+                      <div className="status-item" style={{ marginTop: '8px' }}>
+                        <span className="dot" style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: 'var(--green)', marginRight: '8px' }}></span>
+                        <span style={{ fontSize: '0.9rem' }}>Domain Registry: <b>Active</b></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="stat-card" style={{ border: '1px solid var(--border-strong)' }}>
+                     <h3>Onboarding Progress</h3>
+                     <div className="checklist" style={{ marginTop: '12px' }}>
+                       <div style={{ fontSize: '0.85rem', marginBottom: '6px', color: 'var(--text-muted)' }}>✅ Account Created</div>
+                       <div style={{ fontSize: '0.85rem', marginBottom: '6px', color: apiKey ? 'var(--text)' : 'var(--text-muted)' }}>{apiKey ? "✅ API Key Generated" : "⏳ Generate API Key"}</div>
+                       <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>⏳ Store Connection Pending</div>
+                     </div>
+                  </div>
+                </div>
+
                 <div className="params-card">
                   <div className="card-header"><h3>REQUEST PARAMETERS</h3></div>
                   <div className="card-body">
