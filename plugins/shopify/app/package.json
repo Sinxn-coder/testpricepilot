@@ -9,5 +9,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "@shopify/shopify-api": "^13.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
 }
