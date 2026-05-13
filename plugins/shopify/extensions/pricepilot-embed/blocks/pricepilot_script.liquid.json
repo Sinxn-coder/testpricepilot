@@ -1,0 +1,10 @@
+{
+  "name": "PricePilot Connector",
+  "target": "head",
+  "stylesheet": "pricepilot.css",
+  "javascript": "pricepilot-loader.js",
+  "settings": [
+    { "type": "text", "id": "api_key", "label": "PricePilot API Key", "default": "" },
+    { "type": "text", "id": "api_url", "label": "API Base URL", "default": "https://api.pricepilot.site" }
+  ]
+}

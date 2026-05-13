@@ -1,0 +1,28 @@
+{% if block.settings.api_key != blank %}
+  <script>
+    window.PricePilotKey = "{{ block.settings.api_key }}";
+    window.PricePilotBaseUrl = "{{ block.settings.api_url | default: 'https://api.pricepilot.site' }}";
+  </script>
+  <script src="{{ block.settings.api_url | default: 'https://api.pricepilot.site' }}/js/pricepilot.js" async></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "PricePilot Optimizer",
+  "target": "head",
+  "settings": [
+    {
+      "type": "text",
+      "id": "api_key",
+      "label": "API Key",
+      "info": "Get your key from pricepilot.site"
+    },
+    {
+      "type": "text",
+      "id": "api_url",
+      "label": "API Base URL",
+      "default": "https://api.pricepilot.site"
+    }
+  ]
+}
+{% endschema %}
