@@ -33,10 +33,37 @@ These lightweight connectors allow you to integrate PricePilot with your Shopify
 5. Enter your API Key in the settings field.
 6. Click **Save**.
 
-### **Developer Setup (CLI):**
-1. Navigate to `plugins/shopify`.
-2. Run `shopify app deploy`.
-3. The Theme App Extension will be pushed to your Shopify Partner dashboard.
+### **Shopify App Setup (Developer):**
+To run this app properly, you need a **Shopify Partner Account**.
+
+1. **Partner Dashboard**:
+   - Create a new App in your Partner Dashboard.
+   - Set **App URL** to your hosted URL (or ngrok URL).
+   - Set **Allowed Redirection URL** to `[App URL]/api/auth/callback`.
+
+2. **Environment Variables (.env)**:
+   ```env
+   SHOPIFY_API_KEY=your_api_key
+   SHOPIFY_API_SECRET=your_api_secret
+   SHOPIFY_APP_URL=https://your-app-url.com
+   API_BASE_URL=https://api.pricepilot.site
+   ```
+
+3. **Running Locally**:
+   - Navigate to `plugins/shopify/app`.
+   - Run `node server/server.js`.
+   - Use the Shopify CLI to tunnel: `shopify app dev`.
+
+4. **Deploying the Extension**:
+   - Run `shopify app deploy`.
+   - This pushes the **Theme App Extension** (the liquid block) to your app.
+
+### **Installation Flow:**
+1. Merchant clicks "Install" from your App URL.
+2. OAuth flow authorizes the app with minimal scopes.
+3. Merchant is redirected to the **Embedded Settings Page**.
+4. Merchant enters their PricePilot API Key.
+5. Merchant enables the **App Embed** in the Shopify Theme Editor.
 
 ---
 
