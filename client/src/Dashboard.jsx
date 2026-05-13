@@ -29,8 +29,22 @@ export default function Dashboard() {
       }
     });
 
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash === 'pricing') setActivePanel('panel-pricing');
+      if (hash === 'analytics') setActivePanel('panel-analytics');
+      if (hash === 'market') setActivePanel('panel-market');
+      if (hash === 'settings') setActivePanel('panel-settings');
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    handleHashChange(); // Initial check
+
     window.lucide?.createIcons();
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -110,16 +124,16 @@ export default function Dashboard() {
           <span>PricePilot</span>
         </div>
         <nav className="nav-group">
-           <button className={`nav-item ${activePanel === 'panel-pricing' ? 'active' : ''}`} onClick={() => setActivePanel('panel-pricing')}>
+           <button className={`nav-item ${activePanel === 'panel-pricing' ? 'active' : ''}`} onClick={() => { setActivePanel('panel-pricing'); window.location.hash = 'pricing'; }}>
              <i data-lucide="cpu"></i><span>API Preview</span>
            </button>
-           <button className={`nav-item ${activePanel === 'panel-analytics' ? 'active' : ''}`} onClick={() => setActivePanel('panel-analytics')}>
+           <button className={`nav-item ${activePanel === 'panel-analytics' ? 'active' : ''}`} onClick={() => { setActivePanel('panel-analytics'); window.location.hash = 'analytics'; }}>
              <i data-lucide="bar-chart-3"></i><span>Analytics</span>
            </button>
-           <button className={`nav-item ${activePanel === 'panel-market' ? 'active' : ''}`} onClick={() => setActivePanel('panel-market')}>
+           <button className={`nav-item ${activePanel === 'panel-market' ? 'active' : ''}`} onClick={() => { setActivePanel('panel-market'); window.location.hash = 'market'; }}>
              <i data-lucide="globe"></i><span>Market Data</span>
            </button>
-           <button className={`nav-item ${activePanel === 'panel-settings' ? 'active' : ''}`} onClick={() => setActivePanel('panel-settings')}>
+           <button className={`nav-item ${activePanel === 'panel-settings' ? 'active' : ''}`} onClick={() => { setActivePanel('panel-settings'); window.location.hash = 'settings'; }}>
              <i data-lucide="settings"></i><span>Access</span>
            </button>
         </nav>
