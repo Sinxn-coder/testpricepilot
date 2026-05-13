@@ -11,8 +11,15 @@ const loggerMiddleware = require("./middleware/loggerMiddleware");
 const loadManager = require("./utils/loadManager");
 const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
 const env = require("./config/env");
+const Sentry = require("@sentry/node");
 
 const app = express();
+
+// Initialize Sentry
+if (env.sentryDsn) {
+  Sentry.init({ dsn: env.sentryDsn });
+  app.use(Sentry.Handlers.requestHandler());
+}
 
 // --- Tracking Active Requests for Prioritization ---
 app.use((req, res, next) => {
@@ -87,6 +94,9 @@ app.get("/tax-rates", pricingRoutes);
 app.post("/optimize-price", pricingRoutes);
 app.post("/track-conversion", pricingRoutes);
 
+if (env.sentryDsn) {
+  app.use(Sentry.Handlers.errorHandler());
+}
 app.use(notFoundHandler);
 app.use(errorHandler);
 
