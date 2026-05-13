@@ -60,7 +60,14 @@ app.use(loggerMiddleware);
 // Serve Dynamic Config for Frontend
 app.get("/config.js", (req, res) => {
   res.type("application/javascript");
-  const firebaseConfig = env.firebaseClientConfig;
+  const firebaseConfig = {
+    apiKey: "AIzaSyA-PbcvN6FJ8rQ0UlmD4TxowvywfMGNWUI",
+    authDomain: "pricepilot-project.firebaseapp.com",
+    projectId: "pricepilot-project",
+    storageBucket: "pricepilot-project.firebasestorage.app",
+    messagingSenderId: "984013274648",
+    appId: "1:984013274648:web:ddeb93f41baff6b115cd6d",
+  };
   res.send(`
     window.API_BASE_URL = "${env.apiBaseUrl || ''}";
     window.FIREBASE_CONFIG = ${JSON.stringify(firebaseConfig)};
@@ -77,6 +84,14 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.get("/privacy", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/privacy.html"));
+});
+
+app.get("/terms", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/terms.html"));
+});
+
 app.get("/auth", (req, res) => res.sendFile(path.join(__dirname, "../public/auth.html")));
 app.get("/contact", (req, res) => res.sendFile(path.join(__dirname, "../public/contact.html")));
 app.get("/about", (req, res) => res.sendFile(path.join(__dirname, "../public/about.html")));
@@ -84,7 +99,10 @@ app.get("/plans", (req, res) => res.sendFile(path.join(__dirname, "../public/pla
 app.get("/privacy", (req, res) => res.sendFile(path.join(__dirname, "../public/privacy.html")));
 app.get("/terms", (req, res) => res.sendFile(path.join(__dirname, "../public/terms.html")));
 app.get("/preview", (req, res) => res.sendFile(path.join(__dirname, "../public/preview.html")));
-app.get("/auth.html", (req, res) => res.sendFile(path.join(__dirname, "../public/auth.html")));
+
+app.get("/auth.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/auth.html"));
+});
 
 app.get("/protected-test", firebaseAuthMiddleware, (req, res) => {
   res.status(200).json({ user: req.user, dbUser: req.dbUser });

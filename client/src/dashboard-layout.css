@@ -1,0 +1,110 @@
+:root {
+  --sidebar-w-folded: 82px;
+  --sidebar-w-expanded: 280px;
+  --bg: #0a0c12;
+  --bg-accent: #111523;
+  --sidebar: rgba(13, 17, 27, 0.96);
+  --surface: rgba(17, 20, 32, 0.96);
+  --surface-strong: #181c2e;
+  --surface-soft: rgba(24, 28, 46, 0.84);
+  --border: rgba(108, 99, 255, 0.14);
+  --border-strong: rgba(108, 99, 255, 0.24);
+  --accent: #6c63ff;
+  --accent-soft: rgba(108, 99, 255, 0.14);
+  --green: #22d3a5;
+  --yellow: #fbbf24;
+  --red: #ff7b87;
+  --text: #ebf1ff;
+  --text-muted: #97a4c2;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.18);
+  --transition: 180ms ease;
+  --font-main: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+.dashboard-root {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(108, 99, 255, 0.16), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(108, 99, 255, 0.07), transparent 28%),
+    linear-gradient(180deg, var(--bg-accent) 0%, var(--bg) 100%);
+  color: var(--text);
+  font-family: var(--font-main);
+  display: flex;
+  width: 100%;
+}
+
+.dashboard-root .sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--sidebar-w-folded);
+  min-width: var(--sidebar-w-folded);
+  background: var(--sidebar);
+  backdrop-filter: blur(16px);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 18px 0 20px;
+  z-index: 100;
+  transition: width 220ms ease, box-shadow 220ms ease;
+  overflow: hidden;
+}
+
+.dashboard-root .sidebar:hover {
+  width: var(--sidebar-w-expanded);
+}
+
+.dashboard-root .main {
+  flex: 1;
+  margin-left: var(--sidebar-w-folded);
+  padding: 0;
+}
+
+.dashboard-root .top-bar {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  background: var(--sidebar);
+  border-bottom: 1px solid var(--border);
+}
+
+.dashboard-root .content {
+  padding: 40px;
+}
+
+.dashboard-root .nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 28px;
+  color: var(--text-muted);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  gap: 14px;
+}
+
+.dashboard-root .nav-item.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.dashboard-root .stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 24px;
+  border-radius: var(--radius);
+}
+
+.dashboard-root .stat-card .value {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.dashboard-root .stat-card .value.green {
+  color: var(--green);
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AuthPage from "./AuthPage.jsx";
+import Dashboard from "./Dashboard.jsx";
 import { appHashPath, appPath, currentRoute } from "./paths.js";
 
 const icon = (name, style = {}) => <i data-lucide={name} style={style} />;
@@ -702,6 +703,10 @@ export default function App() {
 
   if (path === "/auth" || path === "/auth.html") {
     return <AuthPage />;
+  }
+
+  if (path === "/preview" || path === "/preview.html") {
+    return <Dashboard />;
   }
 
   return <HomePage />;
